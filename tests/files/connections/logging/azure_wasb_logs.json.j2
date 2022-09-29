@@ -1,0 +1,6 @@
+{
+    "conn_id": "azure_wasb_logs",
+    "conn_type": "wasb",
+    "login": "{{ 'login' | env_override('LOGGING_WASB_CONTAINER') }}",
+    "password": "{{ '' | env_override('LOGGING_WASB_KEY') }}"
+}

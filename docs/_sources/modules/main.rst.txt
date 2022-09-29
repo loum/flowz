@@ -1,0 +1,15 @@
+.. PG-Workflow DAGs
+
+.. toctree::
+   :maxdepth: 2
+
+###########
+Custom DAGs
+###########
+
+*********
+Functions
+*********
+
+.. automodule:: etler.dags
+   :members:

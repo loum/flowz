@@ -1,0 +1,151 @@
+{
+    "liquidity-curate-diagnostic": {
+        "source_csv_path": "data/staging",
+        "file_id": "Diagnostic",
+        "outpath": "data/curated",
+        "delete_on_success": true
+    },
+    "liquidity-curate-lsm-base-scenario": {
+        "source_csv_path": "data/staging",
+        "file_id": "LSM_Base_Scenario",
+        "outpath": "data/curated",
+        "delete_on_success": true
+    },
+    "liquidity-curate-lsm-gfc-build-up": {
+        "source_csv_path": "data/staging",
+        "file_id": "LSM_GFC_Build",
+        "outpath": "data/curated",
+        "delete_on_success": true
+    },
+    "liquidity-curate-lsm-gfc-peak": {
+        "source_csv_path": "data/staging",
+        "file_id": "LSM_GFC_Peak",
+        "outpath": "data/curated",
+        "delete_on_success": true
+    },
+    "liquidity-curate-lsm-gfc-recovery": {
+        "source_csv_path": "data/staging",
+        "file_id": "LSM_GFC_Recovering",
+        "outpath": "data/curated",
+        "delete_on_success": true
+    },
+    "liquidity-curate-lsm-gfc-worst-week": {
+        "source_csv_path": "data/staging",
+        "file_id": "LSM_GFC_Worst_Week",
+        "outpath": "data/curated",
+        "delete_on_success": true
+    },
+    "liquidity-curate-lsm-scenario-1": {
+        "source_csv_path": "data/staging",
+        "file_id": "LSM_Scenario_1",
+        "outpath": "data/curated",
+        "delete_on_success": true
+    },
+    "liquidity-curate-redemption-ratio": {
+        "source_csv_path": "data/staging",
+        "file_id": "Redemption_Ratio",
+        "outpath": "data/curated",
+        "delete_on_success": true
+    },
+    "liquidity-reports-diagnostic": {
+        "diagnostic_path": "data/curated/Diagnostic",
+        "cross_strategy_positions_path": "data/curated/CrossStrategyPositions",
+        "portfolio_mapping_path": "data/curated/PortfolioMapping",
+        "static_path": "data/curated/DiagnosticStatic",
+        "outpath": "data/structured"
+    },
+    "liquidity-reports-diagnostic-csp": {
+        "diagnostic_path": "data/curated/DiagnosticTrim",
+        "portfolio_mapping_path": "data/curated/PortfolioMapping",
+        "outpath": "data/curated"
+    },
+    "liquidity-reports-diagnostic-diff": {
+        "left": "data/DOMO-20220616/Liquidity _ Diagnostic.csv",
+        "right": "data/structured/Diagnostic",
+        "cols_to_drop": [
+            "_batch_id_",
+            "_batch_last_run_",
+            "other_strategy_count",
+            "liquidity_classification",
+            "weight_percentage",
+            "liquidation_scenario_value"
+        ],
+        "outpath": "data/differ/reports/Diagnostic",
+        "skip_task": true
+    },
+    "liquidity-reports-diagnostic-trim": {
+        "source_path": "data/curated/Diagnostic",
+        "outpath": "data/curated"
+    },
+    "liquidity-reports-diagnostic-highly-illiquid-identifier": {
+        "diagnostic_path": "data/structured/Diagnostic",
+        "outpath": "data/structured"
+    },
+    "liquidity-reports-diagnostic-highly-illiquid-identifier-diff": {
+        "left": "data/DOMO-20220616/Diagnostic - Highly Illiquid Identifer.csv",
+        "right": "data/structured/HighlyIlliquidIdentifier",
+        "cols_to_drop": [],
+        "outpath": "data/differ/reports/HighlyIlliquidIdentifier",
+        "skip_task": true
+    },
+    "liquidity-reports-redemption-ratio": {
+        "redemption_ratio_path": "data/curated/Redemption_Ratio",
+        "static_path": "data/curated/Redemption_RatioStatic",
+        "outpath": "data/structured"
+    },
+    "liquidity-reports-redemption-ratio-diff": {
+        "left": "data/DOMO-20220616/Liquidity _ Redemption Ratio.csv",
+        "right": "data/structured/Redemption_Ratio",
+        "cols_to_drop": [
+            "_batch_last_run_",
+            "_batch_id_",
+            "date_rank"
+        ],
+        "outpath": "data/differ/reports/Redemption_Ratio",
+        "skip_task": true
+    },
+    "liquidity-reports-reporting": {
+        "lsm_scenario_one_path": "data/curated/LSM_Scenario_1",
+        "gfc_worst_week_path": "data/curated/LSM_GFC_Worst_Week",
+        "gfc_recovery_path": "data/curated/LSM_GFC_Recovering",
+        "gfc_peak_path": "data/curated/LSM_GFC_Peak",
+        "gfc_build_up_path": "data/curated/LSM_GFC_Build",
+        "lsm_base_scenario_path": "data/curated/LSM_Base_Scenario",
+        "static_path": "data/curated/LSM_Base_ScenarioStatic",
+        "portfolio_mapping_path": "data/curated/PortfolioMapping",
+        "outpath": "data/structured"
+    },
+    "liquidity-reports-reporting-diff": {
+        "left": "data/DOMO-20220616/Liquidity _ Reporting.csv",
+        "right": "data/structured/Reporting",
+        "cols_to_drop": ["_batch_last_run_", "_batch_id_"],
+        "outpath": "data/differ/reports/Reporting",
+        "skip_task": true
+    },
+    "liquidity-stage-msci-extract": {
+        "source_path": "data/msci",
+        "stage_path": "data/staging",
+        "persist_path": "data/persist",
+        "file_formats": [
+            "JOH.*.LMX2_Reporting.Diagnostic.LiquidityMetrics_Diagnostic_ESMA.Aggregate.csv",
+            "JOH.*.LMX2_Reporting.LSM_Base_Scenario.LiquidityMetrics_Diagnostic_ESMA.Aggregate.csv",
+            "JOH.*.LMX2_Reporting.LSM_GFC_Build.LiquidityMetrics_Diagnostic_ESMA.Aggregate.csv",
+            "JOH.*.LMX2_Reporting.LSM_GFC_Peak.LiquidityMetrics_Diagnostic_ESMA.Aggregate.csv",
+            "JOH.*.LMX2_Reporting.LSM_GFC_Recovering.LiquidityMetrics_Diagnostic_ESMA.Aggregate.csv",
+            "JOH.*.LMX2_Reporting.LSM_GFC_Worst_Week.LiquidityMetrics_Diagnostic_ESMA.Aggregate.csv",
+            "JOH.*.LMX2_Reporting.LSM_Scenario_1.LiquidityMetrics_Diagnostic_ESMA.Aggregate.csv",
+            "JOH.*.LMX2_Reporting.Redemption_Ratio.LiquidityMetrics_Diagnostic_ESMA.Aggregate.csv"
+        ]
+    },
+    "liquidity-stage-msci-get": {
+        "remote_path": "prod/outgoing",
+        "local_path": "data/msci",
+        "persist_path": "data/persist",
+        "file_pattern": "JOH.*.LiquidityMetrics_Diagnostic_ESMA.zip",
+        "poke_interval": 300
+    },
+    "liquidity-stage-portfolio-mapping": {
+        "source_csv_path": "data/DOMO-static/Liquidity _ Portfolio Mapping.csv",
+        "outpath": "data/curated"
+    }
+}

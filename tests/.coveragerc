@@ -1,0 +1,5 @@
+[run]
+omit = tests/*,src/config/*
+
+[report]
+show_missing = True

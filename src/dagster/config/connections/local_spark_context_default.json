@@ -1,0 +1,12 @@
+{
+    "conn_id": "local_spark_context_default",
+    "conn_type": "fs",
+    "port": "4050",
+    "conn_extra": {
+        "spark.driver.memory": "16g",
+        "spark.local.dir": "/media/ssd/tmp",
+        "spark.logConf": true,
+        "spark.debug.maxToStringFields": 100,
+        "spark.sql.session.timeZone": "UTC"
+    }
+}

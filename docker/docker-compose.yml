@@ -1,0 +1,82 @@
+version: '3.9'
+
+services:
+    redis:
+        image: redis:6.2-alpine
+        container_name: airflow-redis
+        entrypoint: ["redis-server", "--protected-mode", "no"]
+        ports:
+            - ${REDIS_PORT}:${REDIS_PORT}
+
+    postgres:
+        image: postgres:11.13-alpine
+        container_name: airflow-postgres
+        environment:
+          - POSTGRES_HOST=postgres
+          - POSTGRES_USER=${POSTGRES_USER}
+          - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+          - POSTGRES_DB=${POSTGRES_DB}
+          - PGDATA=/var/lib/postgresql/data/pgdata/db-files
+        volumes:
+          - airflow-postgres-vol:/var/lib/postgresql/data/pgdata
+
+    init-db:
+        image: ${MAKESTER__IMAGE_TAG_ALIAS}
+        container_name: airflow-initdb
+        depends_on:
+          - postgres
+        env_file:
+          - ./files/celery-executor
+        restart: "no"
+        command: db init
+
+    scheduler:
+        image: ${MAKESTER__IMAGE_TAG_ALIAS}
+        container_name: airflow-scheduler
+        hostname: scheduler
+        depends_on:
+          - init-db
+          - redis
+        env_file:
+          - ./files/celery-executor
+        volumes:
+          - airflow-logs-vol:/var/log/airflow
+        restart: always
+        command: scheduler
+
+    webserver:
+        image: ${MAKESTER__IMAGE_TAG_ALIAS}
+        container_name: airflow-webserver
+        hostname: webserver
+        depends_on:
+          - scheduler
+        env_file:
+          - ./files/celery-executor
+        volumes:
+          - airflow-logs-vol:/var/log/airflow
+        ports:
+          - ${AIRFLOW__WEBSERVER__WEB_SERVER_PORT}:${AIRFLOW__WEBSERVER__WEB_SERVER_PORT}
+        command: webserver
+
+    worker:
+        image: ${MAKESTER__IMAGE_TAG_ALIAS}
+        container_name: airflow-worker
+        hostname: worker
+        depends_on:
+          - scheduler
+        env_file:
+          - ./files/celery-executor
+        environment:
+          - AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
+          - AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
+          - AWS_SESSION_TOKEN=$AWS_SESSION_TOKEN
+          - AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION
+        volumes:
+          - airflow-worker-vol:/opt/airflow/data
+          - airflow-logs-vol:/var/log/airflow
+        command: celery worker
+
+volumes:
+    airflow-logs-vol:
+    airflow-worker-vol:
+    airflow-postgres-vol:

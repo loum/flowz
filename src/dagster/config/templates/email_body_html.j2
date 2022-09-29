@@ -1,0 +1,35 @@
+<p>Hello,</p>
+<p>Airflow DAG <b>{{ dag_id }}</b> has detected a failed task <b>{{ task_id }}</b>.<br>
+<br>
+These were the task instance attributes:<br></p>
+<table style="width:80%;background-color:#f4f4f4">
+    <tr style="border:1px solid white">
+        <th style="white-space:nowrap;text-align:right;width:25%">dag_id</th>
+        <td>{{ dag_id }}</td>
+    </tr>
+    <tr style="border:1px solid white">
+        <th style="white-space:nowrap;text-align:right;width:25%">task_id</th>
+        <td>{{ task_id }}</td>
+    </tr>
+    <tr style="border:1px solid white">
+        <th style="white-space:nowrap;text-align:right;width:25%">execution_date</th>
+        <td>{{ execution_date }}</td>
+    </tr>
+    <tr style="border:1px solid white">
+        <th style="white-space:nowrap;text-align:right;width:25%">start_date</th>
+        <td>{{ start_date }}</td>
+    </tr>
+    <tr style="border:1px solid white">
+        <th style="white-space:nowrap;text-align:right;width:25%">end_date</th>
+        <td>{{ end_date }}</td>
+    </tr>
+    <tr style="border:1px solid white">
+        <th style="white-space:nowrap;text-align:right;width:25%">duration</th>
+        <td>{{ duration }}</td>
+    </tr>
+    <tr style="border:1px solid white">
+        <th style="white-space:nowrap;text-align:right;width:25%">log_url</th>
+        <td>{{ log_url }}</td>
+    </tr>
+</table>
+<p class="fine-print">*** Please note that this is an automatically generated email - replies will not be answered</p>
