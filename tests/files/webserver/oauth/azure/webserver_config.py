@@ -1,14 +1,15 @@
 """Customised configuration for the Airflow webserver.
 
 """
+from __future__ import annotations
+
 import os
 from airflow.www.fab_security.manager import AUTH_OAUTH
-from dagster.security import WmSecurityManager
 
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-SECURITY_MANAGER_CLASS = WmSecurityManager
+FAB_SECURITY_MANAGER_CLASS = "dagster.security.WmSecurityManager"
 
 # Flask-WTF flag for CSRF
 WTF_CSRF_ENABLED = True

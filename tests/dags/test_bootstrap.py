@@ -54,6 +54,6 @@ def test_dag_variables(bootstrap_dag_variables, dag_names):
     msg = ('DAG Variable list error: '
            'did you add the DAG variable definition to "dag_variables.json.j2"? '
            'Or, add to "dag_names_to_skip" in test to skip the check')
-    dag_names_to_skip = []
+    dag_names_to_skip = ['ADMIN_BOOTSTRAP_LOCAL']
     expected = [x for x in dag_names if x not in dag_names_to_skip]
     assert sorted([x[0] for x in dag_variables]) == sorted(expected), msg

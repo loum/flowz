@@ -1,6 +1,8 @@
 """Customised configuration for the Airflow webserver.
 
 """
+from __future__ import annotations
+
 import os
 from airflow.www.fab_security.manager import AUTH_DB
 

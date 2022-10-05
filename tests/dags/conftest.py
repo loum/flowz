@@ -5,7 +5,7 @@ import pytest
 
 
 DAG_TASK_IDS = {
-    'PG_BOOTSTRAP_LOCAL': [
+    'ADMIN_BOOTSTRAP_LOCAL': [
         'end',
         'load-connections',
         'load-task-variables',

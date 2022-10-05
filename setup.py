@@ -32,7 +32,7 @@ PROD_PACKAGES = [
 
 DEV_PACKAGES = [
     'Sphinx',
-    'apache-airflow==2.3.*',
+    'apache-airflow==2.4.*',
     'pipdeptree',
     'pylint',
     'pytest',

@@ -1,14 +1,13 @@
 """Customised configuration for the Airflow webserver.
 
 """
+from __future__ import annotations
+
 import os
 {%- if authtype == "dbauth" %}
 from airflow.www.fab_security.manager import AUTH_DB
 {%- elif authtype == "oauth" %}
 from airflow.www.fab_security.manager import AUTH_OAUTH
-  {%- if provider == "azure" %}
-from dagster.security import WmSecurityManager
-  {%- endif %}
 {%- endif %}
 
 
@@ -16,7 +15,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 {%- if authtype == "oauth" %}
   {%- if provider == "azure" %}
 
-SECURITY_MANAGER_CLASS = WmSecurityManager
+FAB_SECURITY_MANAGER_CLASS = "dagster.security.WmSecurityManager"
   {%- endif %}
 {%- endif %}
 

@@ -47,7 +47,7 @@ def msgraph_auth(tenant_id: str, client_id: str, client_secret: str) -> dict:
                           acquired_token.get('error_description'))
 
     if access_token:
-        decoded_access_token = jwt.decode(access_token, verify=False, algorithms=['RS256'])
+        decoded_access_token = jwt.decode(access_token, options={'verify_signature': False})
 
         token_expiry = datetime.datetime.fromtimestamp(int(decoded_access_token.get('exp')))
         logging.info('Token Expires at: %s', str(token_expiry))

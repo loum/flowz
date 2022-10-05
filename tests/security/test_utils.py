@@ -170,7 +170,6 @@ def mock_graph_auth(access_token) -> dict:
         yield sec_utils.msgraph_auth(tenant_id, client_id, client_secret)
 
 
-@pytest.mark.skip(reason='Since jyPWT 2.4.0 seeing "Could not deserialize ..." error')
 @pytest.mark.parametrize('access_token', [ACCESS_TOKEN])
 def test_msgraph_auth(mock_graph_auth): # pylint: disable=redefined-outer-name
     """Authenticate to Microsoft Graph.

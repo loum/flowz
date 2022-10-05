@@ -12,6 +12,7 @@ from dagster.utils.templater import build_from_template
 
 LAZY_AF_CLI = lazy.Loader('airflow.cli', globals(), 'airflow.cli')
 LAZY_AF_MODELS = lazy.Loader('airflow.models', globals(), 'airflow.models')
+LAZY_AF_MODELS_DAG = lazy.Loader('airflow.models.dag', globals(), 'airflow.models.dag')
 LAZY_AF_CONF = lazy.Loader('airflow.configuration', globals(), 'airflow.configuration')
 
 DAGS_FOLDER = LAZY_AF_CONF.get('core', 'DAGS_FOLDER')
@@ -37,7 +38,7 @@ def set_templated_webserver_config(mapping: dict, path_to_config_template: str =
     return rendered_content
 
 
-def list_dags(quiet: bool = False) -> Iterator[LAZY_AF_MODELS.dag.DAG]:
+def list_dags(quiet: bool = False) -> Iterator[LAZY_AF_MODELS_DAG.DAG]:
     """List the airflow.models.dag.DAG instances available in current context.
 
     Screen output can be suppressed by setting *quiet* to ``True``.
@@ -62,7 +63,7 @@ def list_dags(quiet: bool = False) -> Iterator[LAZY_AF_MODELS.dag.DAG]:
         yield dag
 
 
-def filter_dags(token: Match[str]) -> List[LAZY_AF_MODELS.dag.DAG]:
+def filter_dags(token: Match[str]) -> List[LAZY_AF_MODELS_DAG.DAG]:
     """Filter output of :func:`~elter.utils.utils.list_dags` against
     *token*.
 
@@ -96,6 +97,6 @@ def clear_bootstrap_dag() -> str:
     elif dags:
         dag_id = dags[0].dag_id
         logging.info('Clearing bootstrap DAG: "%s"', dag_id)
-        LAZY_AF_MODELS.dag.DAG.clear_dags(dags=[dags[0]])
+        LAZY_AF_MODELS_DAG.DAG.clear_dags(dags=[dags[0]])
 
     return dag_id

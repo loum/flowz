@@ -9,7 +9,7 @@ include makester/makefiles/compose.mk
 include makester/makefiles/python-venv.mk
 include makester/makefiles/versioning.mk
 
-GITVERSION_VERSION := 5.10.1-alpine.3.14-6.0
+GITVERSION_VERSION := 5.10.3-alpine.3.14-6.0
 GITVERSION_CONFIG := makester/sample/GitVersion.yml
 
 # Add current Python virtual environment to path.
@@ -138,8 +138,8 @@ git-tag-push: release-version
 	$(GIT) push origin $(MAKESTER__RELEASE_VERSION)
 
 export PYTHON_MAJOR_MINOR_VERSION := 3.10
-export DAGS_REPO ?= .wheelhouse/pg_workflow-$(MAKESTER__RELEASE_VERSION)-py3-none-any.whl
-export AIRFLOW_VERSION := 2.3.3
+export DAGS_REPO ?= .wheelhouse/dagster-$(MAKESTER__RELEASE_VERSION)-py3-none-any.whl
+export AIRFLOW_VERSION := 2.4.0
 AIRFLOW_BASE_IMAGE ?= loum/airflow-base:jammy-$(AIRFLOW_VERSION)
 OPENJDK_11_HEADLESS := 11.0.16+8-0ubuntu1~22.04
 MAKESTER__BUILD_COMMAND = $(DOCKER) build\
