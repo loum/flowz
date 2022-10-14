@@ -101,7 +101,7 @@ tests: fixture-tests
 
 fixture-tests :
 	PROJECT_SOURCE_DIR=src/dagster\
- AIRFLOW_PRIME_TEST_CONTEXT=$(PRIME_TEST_CONTEXT)\
+ AIRFLOW__DAGSESH__PRIME_TEST_CONTEXT=$(PRIME_TEST_CONTEXT)\
  $(PYTHON) -m pytest\
  --override-ini log_cli=true\
  --override-ini junit_family=xunit2\
@@ -139,7 +139,7 @@ git-tag-push: release-version
 
 export PYTHON_MAJOR_MINOR_VERSION := 3.10
 export DAGS_REPO ?= .wheelhouse/dagster-$(MAKESTER__RELEASE_VERSION)-py3-none-any.whl
-export AIRFLOW_VERSION := 2.4.0
+export AIRFLOW_VERSION := 2.4.1
 AIRFLOW_BASE_IMAGE ?= loum/airflow-base:jammy-$(AIRFLOW_VERSION)
 OPENJDK_11_HEADLESS := 11.0.16+8-0ubuntu1~22.04
 MAKESTER__BUILD_COMMAND = $(DOCKER) build\

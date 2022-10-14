@@ -7,7 +7,7 @@ import logging
 import pathlib
 from typing import List, Iterator, Match
 
-from dagster.utils import lazy
+from dagsesh.utils import lazy
 from dagster.utils.templater import build_from_template
 
 LAZY_AF_CLI = lazy.Loader('airflow.cli', globals(), 'airflow.cli')

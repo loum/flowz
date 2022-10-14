@@ -5,7 +5,7 @@ import pathlib
 import pytest
 
 import dagster.variable
-from dagster.utils import lazy
+from dagsesh.utils import lazy
 
 AF_UTILS = lazy.Loader('airflow.utils', globals(), 'airflow.utils')
 AF_MODELS = lazy.Loader('airflow.models', globals(), 'airflow.models')

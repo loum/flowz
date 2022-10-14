@@ -5,7 +5,7 @@ import os
 import logging
 from typing import List
 
-from dagster.utils import lazy
+from dagsesh.utils import lazy
 
 LAZY_AF_WWW_APP = lazy.Loader('airflow.www.app', globals(), 'airflow.www.app')
 LAZY_AF_CLI = lazy.Loader('airflow.cli.simple_table', globals(), 'airflow.cli.simple_table')

@@ -7,7 +7,7 @@ import logging
 from typing import Any, Dict, Iterator
 import filester
 
-from dagster.utils import lazy
+from dagsesh.utils import lazy
 from dagster.utils.templater import build_from_template
 
 LAZY_AF_UTILS = lazy.Loader('airflow.utils', globals(), 'airflow.utils')

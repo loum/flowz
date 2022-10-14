@@ -24,6 +24,7 @@ class Packaging(setuptools.Command):
         os.system('rm -vrf ./build ./dist ./*.pyc ./*.tgz ./*.egg-info')
 
 PROD_PACKAGES = [
+    'dagsesh @ git+https://github.com/loum/dagsesh.git@main#egg=dagsesh',
     'diffit @ git+https://github.com/loum/diffit.git@main#egg=diffit',
     'filester',
     'msal',
@@ -48,7 +49,7 @@ if (os.environ.get('APP_ENV') and 'local' in os.environ.get('APP_ENV')):
 
 SETUP_KWARGS = {
     'name': 'dagster',
-    'version': os.environ.get('MAKESTER__RELEASE_VERSION', '1.0.0'),
+    'version': os.environ.get('MAKESTER__RELEASE_VERSION', '0.1.0'),
     'description': 'Workflow management primer for Apache Airflow',
     'author': 'Lou Markovski',
     'author_email': 'lou.markovski@gmail.com',

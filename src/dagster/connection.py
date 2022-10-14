@@ -9,7 +9,7 @@ from typing import List
 from sqlalchemy.orm import exc
 import filester
 
-from dagster.utils import lazy
+from dagsesh.utils import lazy
 from dagster.utils.templater import build_from_template
 
 LAZY_AF_CONNECTION_COMMAND = lazy.Loader('airflow.cli.commands.connection_command',

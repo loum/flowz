@@ -3,39 +3,17 @@
 """
 import os
 import datetime
-import tempfile
-import shutil
 import uuid
-import logging
 import pathlib
 import pytest
 
 import dagster.user
-from dagster.utils import lazy
+from dagsesh.utils import lazy
 from dagster.utils.dagprimer import DagPrimer
-
-DATA_INTERVAL_START = datetime.datetime(2021, 9, 13)
-DATA_INTERVAL_END = DATA_INTERVAL_START + datetime.timedelta(days=1)
 
 LAZY_ETLER_API = lazy.Loader('dagster.api', globals(), 'dagster.api')
 LAZY_ETLER_VAR = lazy.Loader('dagster.variable', globals(), 'dagster.variable')
 
-
-@pytest.fixture
-def working_dir(request):
-    """Temporary working directory.
-    """
-    def fin():
-        """Tear down.
-        """
-        logging.info('Deleting temporary test directory: "%s"', dirpath)
-        shutil.rmtree(dirpath)
-
-    request.addfinalizer(fin)
-    dirpath = tempfile.mkdtemp()
-    logging.info('Created temporary test directory: "%s"', dirpath)
-
-    return dirpath
 
 LAZY_AF = lazy.Loader('airflow', globals(), 'airflow')
 LAZY_TI = lazy.Loader('airflow.models.taskinstance', globals(), 'airflow.models.taskinstance')
@@ -201,50 +179,3 @@ def task_variables(request, config_path) -> int:
     counter = LAZY_ETLER_VAR.set_variable(config_path)
 
     return counter
-
-
-@pytest.fixture(scope='session')
-def dagbag():
-    """Set up the Airflow DagBag common to pytest.Session.
-
-    """
-    af_models = lazy.Loader('models', globals(), 'airflow.models')
-
-    return af_models.DagBag()
-
-
-def pytest_sessionstart(session) -> None: # pylint: disable=unused-argument
-    """Set up the Airflow context with appropriate config for test.
-
-    """
-    airflow_home = tempfile.mkdtemp()
-    os.environ['AIRFLOW_HOME'] = airflow_home
-    logging.info('Temporary Airflow home (AIRFLOW_HOME): "%s"', airflow_home)
-
-    project_dir = os.environ.get('PROJECT_SOURCE_DIR')
-    if not project_dir:
-        cwd = pathlib.Path.cwd()
-        project_dir = os.path.join(cwd, cwd.resolve().name.lower().replace('-', '_'))
-    logging.info('Airflow project directory: "%s"', project_dir)
-
-    os.environ['AIRFLOW__CORE__UNIT_TEST_MODE'] = 'true'
-    os.environ['AIRFLOW__CORE__DAGS_FOLDER'] = os.path.join(project_dir, 'dags')
-    os.environ['AIRFLOW__CORE__PLUGINS_FOLDER'] = os.path.join(project_dir, 'plugins')
-    os.environ['AIRFLOW__CORE__LOAD_EXAMPLES'] = 'false'
-    os.environ['AIRFLOW__CORE__FERNET_KEY'] = 'LFKF4PSrAOG-kbxOouoLj8Du2QCnsp9qw7G21-WPsLU='
-    os.environ['AIRFLOW__DATABASE__LOAD_DEFAULT_CONNECTIONS'] = 'false'
-    db_url = f'sqlite:///{airflow_home}/airflow.db'
-    os.environ['AIRFLOW__DATABASE__SQL_ALCHEMY_CONN'] = db_url
-
-    os.environ['AIRFLOW_HOME'] = airflow_home
-    if os.environ.get('AIRFLOW_PRIME_TEST_CONTEXT') == 'true':
-        utils_db = lazy.Loader('utils_db', globals(), 'airflow.utils.db')
-        utils_db.upgradedb()
-
-
-def pytest_sessionfinish(session, exitstatus) -> None: # pylint: disable=unused-argument
-    """Tear down the Airflow context.
-
-    """
-    logging.info('Deleting working temporary test directory: "%s"', os.environ['AIRFLOW_HOME'])
-    shutil.rmtree(os.environ['AIRFLOW_HOME'])
