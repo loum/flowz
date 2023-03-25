@@ -2,9 +2,9 @@
 
 """
 from typing import Callable, List, Text
+
 import filester
-import diffit
-import diffit.files
+import diffit.datastore.spark
 import diffit.reporter
 from hooks.local_spark_context_hook import LocalSparkContextHook
 from operators.parameterised_operator import ParameterisedOperator
@@ -64,10 +64,10 @@ class DiffitOperator(ParameterisedOperator):
         spark = hook.spark()
 
         self.log.info('"%s": left source path: "%s"', self.task_name, self.left)
-        left = diffit.files.sanitise_columns(self.reader(spark, self.left))
+        left = diffit.datastore.spark.sanitise_columns(self.reader(spark, self.left))
         left.show(truncate=False)
         self.log.info('"%s": right source path: "%s"', self.task_name, self.right)
-        right = diffit.files.sanitise_columns(spark.read.parquet(self.right))
+        right = diffit.datastore.spark.sanitise_columns(spark.read.parquet(self.right))
         right.show(truncate=False)
 
         self.log.info('"%s": outpath: "%s"', self.task_name, self.outpath)

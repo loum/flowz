@@ -1,27 +1,21 @@
-version: '3.9'
-
 services:
     redis:
         image: redis:6.2-alpine
         container_name: airflow-redis
         entrypoint: ["redis-server", "--protected-mode", "no"]
-        ports:
-            - ${REDIS_PORT}:${REDIS_PORT}
+        env_file:
+          - ./files/celery-executor
 
     postgres:
         image: postgres:11.13-alpine
         container_name: airflow-postgres
-        environment:
-          - POSTGRES_HOST=postgres
-          - POSTGRES_USER=${POSTGRES_USER}
-          - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-          - POSTGRES_DB=${POSTGRES_DB}
-          - PGDATA=/var/lib/postgresql/data/pgdata/db-files
+        env_file:
+          - ./files/celery-executor
         volumes:
           - airflow-postgres-vol:/var/lib/postgresql/data/pgdata
 
     init-db:
-        image: ${MAKESTER__IMAGE_TAG_ALIAS}
+        image: $MAKESTER__IMAGE_TAG_ALIAS
         container_name: airflow-initdb
         depends_on:
           - postgres
@@ -31,11 +25,10 @@ services:
         command: db init
 
     scheduler:
-        image: ${MAKESTER__IMAGE_TAG_ALIAS}
+        image: $MAKESTER__IMAGE_TAG_ALIAS
         container_name: airflow-scheduler
         hostname: scheduler
         depends_on:
-          - init-db
           - redis
         env_file:
           - ./files/celery-executor
@@ -45,7 +38,7 @@ services:
         command: scheduler
 
     webserver:
-        image: ${MAKESTER__IMAGE_TAG_ALIAS}
+        image: $MAKESTER__IMAGE_TAG_ALIAS
         container_name: airflow-webserver
         hostname: webserver
         depends_on:
@@ -55,11 +48,11 @@ services:
         volumes:
           - airflow-logs-vol:/var/log/airflow
         ports:
-          - ${AIRFLOW__WEBSERVER__WEB_SERVER_PORT}:${AIRFLOW__WEBSERVER__WEB_SERVER_PORT}
+          - 8443:8443
         command: webserver
 
     worker:
-        image: ${MAKESTER__IMAGE_TAG_ALIAS}
+        image: $MAKESTER__IMAGE_TAG_ALIAS
         container_name: airflow-worker
         hostname: worker
         depends_on:
