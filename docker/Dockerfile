@@ -26,18 +26,18 @@ RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048\
 # https://docs.docker.com/engine/security/userns-remap/ is enabled.
 RUN chown -R root:root /etc/ssl
 
-ARG DAGS_REPO
+ARG BUILT_DISTRIBUTION_NAME
 
 USER airflow
 WORKDIR /home/airflow
 
 # For local PyPI artifact builds.
-COPY .wheelhouse/ .wheelhouse/
+COPY dist/$BUILT_DISTRIBUTION_NAME dist/
 
 RUN python -m pip install\
  --no-compile\
  --no-cache-dir\
- --no-warn-script-location $DAGS_REPO &&\
+ --no-warn-script-location dist/$BUILT_DISTRIBUTION_NAME &&\
  find .local/lib/python${PYTHON_MAJOR_MINOR_VERSION}/site-packages/ -depth\
    \(\
      \( -type d -a \( -name test -o -name tests -o -name idle_test \) \) \

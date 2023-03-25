@@ -1,5 +1,6 @@
-#!/usr/bin/env python
+"""Dagster CLI.
 
+"""
 import sys
 import argparse
 

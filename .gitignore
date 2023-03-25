@@ -1,5 +1,4 @@
 # Project files.
-docker/files/*-executor
 data
 
 # Airflow

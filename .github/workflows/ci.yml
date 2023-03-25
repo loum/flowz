@@ -1,0 +1,52 @@
+name: Dagster CI
+run-name: ${{ github.actor }} ${{ github.event_name }} event Dagster CI 🚀
+on: push
+permissions:
+  contents: write
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      - name: Check out repository code
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          fetch-depth: 0
+      - name: Project Dagster vars
+        run: make vars
+      - name: Project Dagster test suite
+        run: |
+          make init-dev
+          make tests
+      - run: echo "🍏 ${{ job.status }}"
+
+  pre-release:
+    needs: tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          fetch-depth: 0
+      - name: Check if the VERSION file has changed
+        id: changed_version_file
+        uses: tj-actions/changed-files@v35
+        with:
+          files: src/dagster/VERSION
+      - name: Read VERSION file
+        if: steps.changed_version_file.outputs.any_changed == 'true'
+        id: get_version
+        run: echo "VERSION=$(cat src/dagster/VERSION)" >> $GITHUB_OUTPUT
+      - name: Create pre-release
+        if: steps.changed_version_file.outputs.any_changed == 'true'
+        uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          title: ${{ steps.get_version.outputs.version }}
+          automatic_release_tag: ${{ steps.get_version.outputs.VERSION }}
+          prerelease: true
