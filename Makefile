@@ -11,31 +11,29 @@ include makester/makefiles/makester.mk
 #
 MAKESTER__VERSION_FILE := $(MAKESTER__PYTHON_PROJECT_ROOT)/VERSION
 
-# Override MAKESTER__SERVICE_NAME to match the Airflow DAG deploy context.
-MAKESTER__SERVICE_NAME := $(MAKESTER__REPO_NAME)/$(MAKESTER__PROJECT_NAME)
-
 # Image versioning follows the format "<airflow-version>-<airflow-dags-tag>-<image-release-number>"
 export AIRFLOW_VERSION := 2.4.3
 MAKESTER__VERSION := $(AIRFLOW_VERSION)-$(MAKESTER__RELEASE_VERSION)
 MAKESTER__RELEASE_NUMBER ?= 1
 
-MAKESTER__IMAGE_TARGET_TAG := $(MAKESTER__VERSION)
-export MAKESTER__IMAGE_TAG_ALIAS := $(MAKESTER__IMAGE_TAG_ALIAS)
+MAKESTER__IMAGE_TARGET_TAG := $(AIRFLOW_VERSION)-$(MAKESTER__RELEASE_VERSION)
+
+# MAKESTER__IMAGE_TAG_ALIAS needs an explicit assignment to ensure correct
+# MAKESTER__RELEASE_VERSION is picked up during the container image build.
+export MAKESTER__IMAGE_TAG_ALIAS := $(MAKESTER__SERVICE_NAME):$(MAKESTER__IMAGE_TARGET_TAG)
 
 # Container image build.
 export PYTHON_MAJOR_MINOR_VERSION := 3.10
-export BUILT_DISTRIBUTION_NAME ?= $(MAKESTER__PROJECT_NAME)-$(MAKESTER__RELEASE_VERSION)-py3-none-any.whl
 AIRFLOW_BASE_IMAGE ?= loum/airflow-base:jammy-$(AIRFLOW_VERSION)
-OPENJDK_11_HEADLESS := 11.0.18+10-0ubuntu1~22.04
-MAKESTER__BUILD_COMMAND = --rm --no-cache\
+OPENJDK_11_HEADLESS ?= 11.0.18+10-0ubuntu1~22.04
+BUILT_DISTRIBUTION_NAME := $(MAKESTER__PROJECT_NAME)-$(MAKESTER__RELEASE_VERSION)-py3-none-any.whl
+MAKESTER__BUILD_COMMAND := --rm --no-cache\
  --build-arg BUILT_DISTRIBUTION_NAME=$(BUILT_DISTRIBUTION_NAME)\
  --build-arg PYTHON_MAJOR_MINOR_VERSION=$(PYTHON_MAJOR_MINOR_VERSION)\
  --build-arg OPENJDK_11_HEADLESS=$(OPENJDK_11_HEADLESS)\
  --build-arg AIRFLOW_BASE_IMAGE=$(AIRFLOW_BASE_IMAGE)\
  --tag $(MAKESTER__IMAGE_TAG_ALIAS)\
  --file docker/Dockerfile .
-
-image-build: py-distribution
 
 #
 # Local Makefile targets.
@@ -78,7 +76,6 @@ _delete-airflow:
 	$(info ### Deleting AIRFLOW_HOME at "$(AIRFLOW_HOME)")
 	@$(shell which rm) -fr $(AIRFLOW_HOME)
 
-_link-webserver-config: gitversion-release
 _link-webserver-config:
 	$(info ### Creating custom webserver-config at $(AIRFLOW_HOME)/webserver_config.py)
 	@$(shell which mkdir) -p $(AIRFLOW_HOME)
@@ -150,10 +147,30 @@ docs:
 docs-live:
 	cd docs; $(PYTHON) -m http.server --bind 0.0.0.0 8999
 
-py-distribution: gitversion-release
-
 _backoff:
 	@venv/bin/makester backoff $(MAKESTER__LOCAL_IP) 8443 --detail "Airflow web UI"
+
+image-pull-into-docker:
+	$(info ### Pulling local registry image $(MAKESTER__SERVICE_NAME):$(MAKESTER__VERSION) into docker)
+	$(MAKESTER__DOCKER) pull $(MAKESTER__SERVICE_NAME):$(MAKESTER__VERSION)
+
+image-tag-in-docker: image-pull-into-docker
+	$(info ### Tagging local registry image $(MAKESTER__SERVICE_NAME):$(MAKESTER__VERSION) => $(MAKESTER__STATIC_SERVICE_NAME):$(MAKESTER__VERSION))
+	$(MAKESTER__DOCKER) tag $(MAKESTER__SERVICE_NAME):$(MAKESTER__VERSION) $(MAKESTER__STATIC_SERVICE_NAME):$(MAKESTER__VERSION)
+
+image-transfer: image-tag-in-docker
+	$(info ### Deleting pulled image $(MAKESTER__SERVICE_NAME):$(MAKESTER__VERSION))
+	$(MAKESTER__DOCKER) rmi $(MAKESTER__SERVICE_NAME):$(MAKESTER__VERSION)
+
+multi-arch-build-test: image-registry-start image-buildx-builder
+	$(MAKE) multi-arch-build
+	$(MAKE) image-transfer
+	$(MAKE) image-registry-stop
+
+multi-arch-build:
+	$(MAKE) gitversion-release
+	$(MAKE) py-distribution
+	$(MAKE) MAKESTER__DOCKER_DRIVER_OUTPUT=push MAKESTER__DOCKER_PLATFORM=linux/arm64,linux/amd64 image-buildx
 
 _compose-run:
 	@MAKESTER__SERVICE_NAME=$(MAKESTER__SERVICE_NAME) $(MAKESTER__DOCKER_COMPOSE) \
@@ -192,6 +209,9 @@ help: makester-help
   local-db-shell       Start shell to local Airflow database (set CMD=\"shell\")\n\
   local-list-dags      List all the DAGs in LOCAL context\n\
   local-run-dag        Run DAG denoted by \"DAG_TO_RUN\" on the CLI\n\
+  multi-arch-build     Multi-platform container image build for \n\
+  multi-arch-build-test
+					   Shake-out multi-platform container image build locally\n\
   pristine             Convenience target bundling clear-env, init and reset in LOCAL context\n\
   pyspark              Start the PyPI pyspark interpreter in virtual env context\n\
   reset-bootstrap      Clear the BOOTSTRAP DAG to force a re-run\n\

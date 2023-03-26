@@ -172,9 +172,9 @@ For example, the DAG name generated from the `src/dagster/dags/template.py` beco
 
 > **_NOTE:_**  See [Makester's `docker` subsystem](https://loum.github.io/makester/makefiles/docker/) for more detailed container image operations.
 
-Build the container image locally:
+Build the container image for local testing:
 ```
-make image-build
+make multi-arch-build-test
 ```
 
 Search for built container image:
