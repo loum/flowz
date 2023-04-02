@@ -1,62 +1,68 @@
-"""Bootstrap takes care of Airflow dependency priming.
+"""Bootstrap takes care of Airflow instance startup dependencies.
 
 """
+from typing import Callable, Text, cast
 import os
 import pathlib
-from airflow.operators.python_operator import PythonOperator
+
+from airflow.operators.python import PythonOperator
 import airflow
 
 import dagster.common.task
 import dagster.user
 import dagster.variable
 import dagster.connection
-from dagster.utils.dagprimer import DagPrimer
+from dagster.primer import Primer
 
 
-DAG_NAME = os.path.basename(os.path.splitext(__file__)[0]).replace('_', '-')
-DESCRIPTION = """Once-off bootstrapper DAG"""
+DAG_NAME: Text = os.path.basename(os.path.splitext(__file__)[0]).replace("_", "-")
 
 DAG_PARAMS = {
-    'tags': [DAG_NAME.upper()],
-    'schedule_interval': '@once',
-    'is_paused_upon_creation': False,
+    "tags": [DAG_NAME.upper()],
+    "schedule_interval": "@once",
+    "is_paused_upon_creation": False,
 }
-PRIMER = DagPrimer(dag_name=DAG_NAME,
-                   department='ADMIN',
-                   description=DESCRIPTION,
-                   **DAG_PARAMS)
+PRIMER = Primer(dag_name=DAG_NAME, department="ADMIN")
+PRIMER.default_args.update({"description": "Once-off bootstrapper DAG"})
+PRIMER.dag_properties.update(DAG_PARAMS)
 
-DAG = airflow.DAG(PRIMER.dag_id, default_args=PRIMER.default_args, **(PRIMER.dag_properties))
+DAG = airflow.DAG(
+    PRIMER.dag_id, default_args=PRIMER.default_args, **(PRIMER.dag_properties)
+)
 
 TASK_START = dagster.common.task.start(DAG, PRIMER.default_args)
 
 TASK_AUTH = PythonOperator(
-    task_id='set-authentication',
+    task_id="set-authentication",
     python_callable=dagster.user.set_authentication,
-    dag=DAG)
+    dag=DAG,
+)
 
-CONFIG = os.path.join(pathlib.Path(__file__).resolve().parents[1], 'config')
+CONFIG: Text = os.path.join(pathlib.Path(__file__).resolve().parents[1], "config")
 CONFIG_CONTROL = [
     {
-        'task_id': 'load-connections',
-        'callable': dagster.connection.set_connection,
-        'path': (CONFIG, 'connections')
+        "task_id": "load-connections",
+        "callable": dagster.connection.set_connection,
+        "path": os.path.join(CONFIG, "connections"),
     },
     {
-        'task_id': 'load-task-variables',
-        'callable': dagster.variable.set_variable,
-        'path': (CONFIG, 'tasks')
+        "task_id": "load-task-variables",
+        "callable": dagster.variable.set_variables,
+        "path": os.path.join(CONFIG, "tasks"),
     },
 ]
 TASK_CONFIG = []
 for config in CONFIG_CONTROL:
+    path_to_configs: Text = cast(Text, config.get("path"))
     task = PythonOperator(
-        task_id=config.get('task_id'),
-        python_callable=config.get('callable'),
-        op_args=[os.path.join(*config.get('path'))],
-        dag=DAG)
+        task_id=config.get("task_id"),
+        python_callable=cast(Callable, config.get("callable")),
+        op_args=[path_to_configs],
+        dag=DAG,
+    )
     TASK_CONFIG.append(task)
 
 TASK_END = dagster.common.task.end(DAG, PRIMER.default_args)
 
-TASK_START >> TASK_AUTH  >> TASK_CONFIG  >> TASK_END # pylint: disable=pointless-statement
+# pylint: disable=pointless-statement
+TASK_START >> TASK_AUTH >> TASK_CONFIG >> TASK_END
