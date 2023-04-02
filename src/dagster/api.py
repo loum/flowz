@@ -7,7 +7,7 @@ import os
 import pathlib
 import re
 
-from dagsesh.utils import lazy
+from dagsesh import lazy
 from dagster.templater import build_from_template
 
 LAZY_AF_CLI = lazy.Loader("airflow.cli", globals(), "airflow.cli")
@@ -15,7 +15,7 @@ LAZY_AF_MODELS = lazy.Loader("airflow.models", globals(), "airflow.models")
 LAZY_AF_MODELS_DAG = lazy.Loader("airflow.models.dag", globals(), "airflow.models.dag")
 LAZY_AF_CONF = lazy.Loader("airflow.configuration", globals(), "airflow.configuration")
 
-DAGS_FOLDER = LAZY_AF_CONF.get("core", "DAGS_FOLDER")
+DAGS_FOLDER = LAZY_AF_CONF.get("core", "DAGS_FOLDER")  # type: ignore[operator]
 
 
 def set_templated_webserver_config(
@@ -48,11 +48,11 @@ def list_dags(quiet: bool = False) -> Iterator[LAZY_AF_MODELS_DAG.DAG]:  # type:
     Screen output can be suppressed by setting *quiet* to `True`.
 
     """
-    dagbag = LAZY_AF_MODELS.DagBag(dag_folder=DAGS_FOLDER)
+    dagbag = LAZY_AF_MODELS.DagBag(dag_folder=DAGS_FOLDER)  # type: ignore[operator]
     data = sorted(dagbag.dags.values(), key=lambda d: d.dag_id)
 
     if not quiet:
-        LAZY_AF_CLI.simple_table.AirflowConsole().print_as(
+        LAZY_AF_CLI.simple_table.AirflowConsole().print_as(  # type: ignore
             data=sorted(dagbag.dags.values(), key=lambda d: d.dag_id),
             output="table",
             mapper=lambda x: {
@@ -68,7 +68,7 @@ def list_dags(quiet: bool = False) -> Iterator[LAZY_AF_MODELS_DAG.DAG]:  # type:
 
 
 def filter_dags(token: Text) -> List[LAZY_AF_MODELS_DAG.DAG]:  # type: ignore
-    """Filter output of `dagster.utils.list_dags` against `token`.
+    """Filter output of `dagster.list_dags` against `token`.
 
     Algorithm assumes a three-part DAG naming convention where each component is
     separated by an underscore (`_`).  The second component is used for the *token* match.
@@ -100,6 +100,6 @@ def clear_bootstrap_dag() -> Optional[Text]:
     elif dags:
         dag_id = dags[0].dag_id
         logging.info('Clearing bootstrap DAG: "%s"', dag_id)
-        LAZY_AF_MODELS_DAG.DAG.clear_dags(dags=[dags[0]])
+        LAZY_AF_MODELS_DAG.DAG.clear_dags(dags=[dags[0]])  # type: ignore
 
     return dag_id

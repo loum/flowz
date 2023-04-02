@@ -9,7 +9,7 @@ import os
 import pathlib
 
 from sqlalchemy.orm import exc
-from dagsesh.utils import lazy
+from dagsesh import lazy
 import filester
 
 from dagster.templater import build_from_template
@@ -26,7 +26,9 @@ LAZY_AF_UTILS = lazy.Loader("airflow.utils", globals(), "airflow.utils")
 LAZY_AF_MODELS = lazy.Loader("airflow.models", globals(), "airflow.models")
 LAZY_AF_CONF = lazy.Loader("airflow.configuration", globals(), "airflow.configuration")
 
-REMOTE_LOGGING = LAZY_AF_CONF.getboolean("logging", "REMOTE_LOGGING")
+REMOTE_LOGGING = LAZY_AF_CONF.getboolean(  # type: ignore[operator]
+    "logging", "REMOTE_LOGGING"
+)
 
 
 def set_connection(path_to_connections: Text) -> None:
@@ -49,15 +51,17 @@ def set_connection(path_to_connections: Text) -> None:
             data = json.load(json_file)
 
             conn_extra = data.pop("conn_extra", None)
-            new_conn = LAZY_AF_MODELS.Connection(**data)
+            new_conn = LAZY_AF_MODELS.Connection(**data)  # type: ignore[operator]
             if conn_extra:
                 new_conn.set_extra(json.dumps(conn_extra))
 
-            with LAZY_AF_UTILS.session.create_session() as session:
+            with LAZY_AF_UTILS.session.create_session() as session:  # type: ignore
                 state = "OK"
                 if (
                     session.query(LAZY_AF_MODELS.Connection)
-                    .filter(LAZY_AF_MODELS.Connection.conn_id == new_conn.conn_id)
+                    .filter(
+                        LAZY_AF_MODELS.Connection.conn_id == new_conn.conn_id  # type: ignore
+                    )
                     .first()
                 ):
                     state = "already exists"
@@ -75,11 +79,11 @@ def list_connections() -> List[Text]:
         List of all available connections.
 
     """
-    with LAZY_AF_UTILS.session.create_session() as session:
+    with LAZY_AF_UTILS.session.create_session() as session:  # type: ignore[operator,attr-defined]
         query = session.query(LAZY_AF_MODELS.Connection)
         conns = query.all()
 
-        LAZY_AF_CLI_SIMPLE_TABLE.AirflowConsole().print_as(
+        LAZY_AF_CLI_SIMPLE_TABLE.AirflowConsole().print_as(  # type: ignore[operator]
             data=conns,
             output="table",
             mapper=LAZY_AF_CONNECTION_COMMAND._connection_mapper,  # pylint: disable=protected-access
@@ -96,11 +100,11 @@ def delete_connection(key: Text) -> None:
 
     """
     logging.info('Attempting to delete Airflow connection with conn_id: "%s"', key)
-    with LAZY_AF_UTILS.session.create_session() as session:
+    with LAZY_AF_UTILS.session.create_session() as session:  # type: ignore[operator,attr-defined]
         try:
             to_delete = (
                 session.query(LAZY_AF_MODELS.Connection)
-                .filter(LAZY_AF_MODELS.Connection.conn_id == key)
+                .filter(LAZY_AF_MODELS.Connection.conn_id == key)  # type: ignore[attr-defined]
                 .one()
             )
         except exc.NoResultFound:
@@ -140,15 +144,17 @@ def set_templated_connection(path_to_connections: Text) -> None:
         data = json.loads(rendered_content)
 
         conn_extra = data.pop("conn_extra", None)
-        new_conn = LAZY_AF_MODELS.Connection(**data)
+        new_conn = LAZY_AF_MODELS.Connection(**data)  # type: ignore[operator]
         if conn_extra:
             new_conn.set_extra(json.dumps(conn_extra))
 
-        with LAZY_AF_UTILS.session.create_session() as session:
+        with LAZY_AF_UTILS.session.create_session() as session:  # type: ignore[attr-defined]
             state = "OK"
             if (
                 session.query(LAZY_AF_MODELS.Connection)
-                .filter(LAZY_AF_MODELS.Connection.conn_id == new_conn.conn_id)
+                .filter(
+                    LAZY_AF_MODELS.Connection.conn_id == new_conn.conn_id  # type: ignore
+                )
                 .first()
             ):
                 state = "already exists"

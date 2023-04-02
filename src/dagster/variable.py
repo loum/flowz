@@ -6,7 +6,7 @@ import json
 import logging
 import os
 
-from dagsesh.utils import lazy
+from dagsesh import lazy
 import filester
 
 from dagster.templater import build_from_template
@@ -21,7 +21,7 @@ ENV_FILE = {
     "prod": {"dry_run": "false", "env": "PROD", "alt_env": "PROD"},
 }
 RUN_CONTEXT = os.environ.get("AIRFLOW_CUSTOM_ENV", "LOCAL").lower()
-DAGS_FOLDER = LAZY_AF_CONF.get("core", "DAGS_FOLDER")
+DAGS_FOLDER = LAZY_AF_CONF.get("core", "DAGS_FOLDER")  # type: ignore[operator]
 
 
 def set_variables(path_to_variables: Text) -> int:
@@ -53,7 +53,9 @@ def set_variables(path_to_variables: Text) -> int:
                 )
             else:
                 logging.info('Inserting variable "%s"', var_name)
-                LAZY_AF_MODELS.Variable.set(var_name, json.dumps(values, indent=4))
+                LAZY_AF_MODELS.Variable.set(  # type: ignore[attr-defined]
+                    var_name, json.dumps(values, indent=4)
+                )
                 counter += 1
 
     return counter
@@ -93,7 +95,7 @@ def del_variable_key(key: Text) -> bool:
     """
     status = False
     logging.info('Deleting variable "%s"', key)
-    status = LAZY_AF_MODELS.Variable.delete(key)
+    status = LAZY_AF_MODELS.Variable.delete(key)  # type: ignore[attr-defined]
     if not status:
         logging.warning('Variable "%s" delete failed', key)
 
@@ -107,7 +109,7 @@ def list_variables() -> Generator[None, Tuple[Text, int], None]:
         A generator-type object with each Airflow Variable returned by the query.
 
     """
-    with LAZY_AF_UTILS.session.create_session() as session:
+    with LAZY_AF_UTILS.session.create_session() as session:  # type: ignore[attr-defined]
         qry = session.query(LAZY_AF_MODELS.Variable).all()
 
         data = json.JSONDecoder()
@@ -129,4 +131,6 @@ def get_variable(name: Text) -> Dict[Text, Any]:
         the JSON value as a Python `dict` else None.
 
     """
-    return LAZY_AF_MODELS.Variable.get(name, default_var=None, deserialize_json=True)
+    return LAZY_AF_MODELS.Variable.get(  # type: ignore[attr-defined]
+        name, default_var=None, deserialize_json=True
+    )

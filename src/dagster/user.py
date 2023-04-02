@@ -5,7 +5,7 @@ from typing import List, Text
 import logging
 import os
 
-from dagsesh.utils import lazy
+from dagsesh import lazy
 
 LAZY_AF_WWW_APP = lazy.Loader("airflow.www.app", globals(), "airflow.www.app")
 LAZY_AF_CLI = lazy.Loader(
@@ -26,7 +26,9 @@ def set_authentication() -> None:
 def set_admin_user(user: Text, password: Text) -> Text:
     """Add Admin user to Airflow."""
     logging.info('Adding RBAC auth user "%s"', user)
-    appbuilder = LAZY_AF_WWW_APP.cached_app().appbuilder  # pylint: disable=no-member
+    appbuilder = (
+        LAZY_AF_WWW_APP.cached_app().appbuilder  # type: ignore  # pylint: disable=no-member
+    )
     role = appbuilder.sm.find_role("Admin")
     fields = {
         "role": role,
@@ -46,7 +48,9 @@ def set_admin_user(user: Text, password: Text) -> Text:
 def delete_airflow_user(user: Text) -> None:
     """Remove user from RBAC."""
     logging.info('Deleting user "%s"', user)
-    appbuilder = LAZY_AF_WWW_APP.cached_app().appbuilder  # pylint: disable=no-member
+    appbuilder = (
+        LAZY_AF_WWW_APP.cached_app().appbuilder  # type: ignore  # pylint: disable=no-member
+    )
 
     try:
         matched_user = next(
@@ -59,7 +63,9 @@ def delete_airflow_user(user: Text) -> None:
 
 def list_airflow_users() -> List[Text]:
     """List Airflow users."""
-    appbuilder = LAZY_AF_WWW_APP.cached_app().appbuilder  # pylint: disable=no-member
+    appbuilder = (
+        LAZY_AF_WWW_APP.cached_app().appbuilder  # type: ignore  # pylint: disable=no-member
+    )
     users = appbuilder.sm.get_all_users()
 
     return [x.username for x in users]

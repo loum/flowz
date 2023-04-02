@@ -8,12 +8,11 @@ import pathlib
 
 import pytest
 
-from dagsesh.utils import lazy  # type: ignore[import]
+from dagsesh import lazy  # type: ignore[import]
 from airflow.models.taskinstance import TaskInstance
 
 LAZY_AF_UTILS = lazy.Loader("airflow.utils", globals(), "airflow.utils")
 LAZY_AF_MODELS = lazy.Loader("airflow.models", globals(), "airflow.models")
-LAZY_COMMON_UTILS = lazy.Loader("dagster.utils", globals(), "dagster.utils")
 
 CONFIG = os.path.join(
     pathlib.Path(__file__).resolve().parents[3], "src", "dagster", "config"
@@ -25,13 +24,16 @@ def test_task_variables(bootstrap_task_variables: TaskInstance) -> None:
     """Test load Airflow JSON task definitions into airflow.models.Variable DB."""
     # then I should receive SUCCESS state
     msg = "Task loading JSON task definitions into airflow.models.Variable DB run error"
-    assert bootstrap_task_variables.state == LAZY_AF_UTILS.state.State.SUCCESS, msg
+    assert (
+        bootstrap_task_variables.state
+        == LAZY_AF_UTILS.state.State.SUCCESS  # type: ignore
+    ), msg
 
     # and a list of DAG airflow.models.Variable
-    with LAZY_AF_UTILS.session.create_session() as session:
+    with LAZY_AF_UTILS.session.create_session() as session:  # type: ignore
         task_variable_count = (
-            session.query(LAZY_AF_MODELS.Variable.id)
-            .filter(~LAZY_AF_MODELS.Variable.id.like("%_%_LOCAL"))
+            session.query(LAZY_AF_MODELS.Variable.id)  # type: ignore
+            .filter(~LAZY_AF_MODELS.Variable.id.like("%_%_LOCAL"))  # type: ignore
             .count()
         )
 
@@ -51,13 +53,15 @@ def test_dag_variables(
     """Test load Airflow DAG JSON definitions into airflow.models.Variable DB."""
     # then I should receive SUCCESS state
     msg = "Task loading JSON DAG definitions into airflow.models.Variable DB run error"
-    assert bootstrap_dag_variables.state == LAZY_AF_UTILS.state.State.SUCCESS, msg
+    assert (
+        bootstrap_dag_variables.state == LAZY_AF_UTILS.state.State.SUCCESS  # type: ignore
+    ), msg
 
     # and a list of DAG airflow.models.Variable
-    with LAZY_AF_UTILS.session.create_session() as session:
+    with LAZY_AF_UTILS.session.create_session() as session:  # type: ignore
         dag_variables = (
-            session.query(LAZY_AF_MODELS.Variable.key)
-            .filter(LAZY_AF_MODELS.Variable.key.like("%_%_LOCAL"))
+            session.query(LAZY_AF_MODELS.Variable.key)  # type: ignore
+            .filter(LAZY_AF_MODELS.Variable.key.like("%_%_LOCAL"))  # type: ignore
             .all()
         )
 
