@@ -50,3 +50,18 @@ jobs:
           title: ${{ steps.get_version.outputs.version }}
           automatic_release_tag: ${{ steps.get_version.outputs.VERSION }}
           prerelease: true
+
+  docs:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          fetch-depth: 0
+      - name: Project Dagster docs build
+        run: |
+          make init-dev
+          make docs-gh-deploy
+      - run: echo "🍏 ${{ job.status }}"

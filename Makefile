@@ -1,7 +1,7 @@
 .SILENT:
 .DEFAULT_GOAL := help
 
-MAKESTER__INCLUDES := py docker compose versioning
+MAKESTER__INCLUDES := py docker compose versioning docs
 MAKESTER__REPO_NAME := loum
 
 include makester/makefiles/makester.mk
@@ -10,6 +10,9 @@ include makester/makefiles/makester.mk
 # Makester overrides.
 #
 MAKESTER__VERSION_FILE := $(MAKESTER__PYTHON_PROJECT_ROOT)/VERSION
+
+# Simulate Airflow, when running dynamically adds three directories to the sys.path.
+export PYTHONPATH := "$(MAKESTER__PROJECT_DIR)/src:$(MAKESTER__PYTHON_PROJECT_ROOT)/dags:$(MAKESTER__PYTHON_PROJECT_ROOT)/plugins:$(MAKESTER__PYTHON_PROJECT_ROOT)/config"
 
 # Image versioning follows the format "<airflow-version>-<airflow-dags-tag>-<image-release-number>"
 export AIRFLOW_VERSION := 2.4.3
@@ -134,18 +137,13 @@ fixture-tests :
  --pythonwarnings ignore\
  --cov src/dagster\
  --junitxml tests/junit.xml\
+ -p tests.dagster.dataframes\
  $(TESTS_TO_RUN)
 
 reset-bootstrap: AIRFLOW_CUSTOM_ENV := $(AIRFLOW_ENV)
 reset-bootstrap:
 	$(info ### Reset the BOOTSTRAP DAG)
 	@dagster reset bootstrap
-
-docs:
-	@sphinx-build -b html docsource docs
-
-docs-live:
-	cd docs; $(PYTHON) -m http.server --bind 0.0.0.0 8999
 
 _backoff:
 	@venv/bin/makester backoff $(MAKESTER__LOCAL_IP) 8443 --detail "Airflow web UI"
@@ -202,19 +200,17 @@ help: makester-help
   celery-stack-config  Docker compose config for Airflow stack in CeleryExecutor mode\n\
   celery-stack-down    Docker compose stop for Airflow stack in CeleryExecutor mode\n\
   celery-stack-up      Docker compose start for Airflow stack in CeleryExecutor mode\n\
-  docs                 Generate code based docs with Sphinx\n\
-  docs-live            View docs via web browser\n\
   local-airflow-reset  Destroy Airflow environment at \"AIRFLOW_HOME\" and rebuild in LOCAL context\n\
   local-airflow-start  Start Airflow in Sequential Executor mode LOCAL context (Ctrl-C to stop)\n\
   local-db-shell       Start shell to local Airflow database (set CMD=\"shell\")\n\
   local-list-dags      List all the DAGs in LOCAL context\n\
   local-run-dag        Run DAG denoted by \"DAG_TO_RUN\" on the CLI\n\
   multi-arch-build     Multi-platform container image build for \n\
-  multi-arch-build-test
+  multi-arch-build-test\n\
 					   Shake-out multi-platform container image build locally\n\
   pristine             Convenience target bundling clear-env, init and reset in LOCAL context\n\
   pyspark              Start the PyPI pyspark interpreter in virtual env context\n\
   reset-bootstrap      Clear the BOOTSTRAP DAG to force a re-run\n\
   tests                Run code test suite\n"
 
-.PHONY: help airflow docs
+.PHONY: help airflow
