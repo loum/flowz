@@ -82,7 +82,6 @@ WORKDIR /home/airflow/ssl/private
 COPY --from=builder --chown=$AIRFLOW_USER:$AIRFLOW_GROUP /etc/ssl/private/airflow-selfsigned.key .
 
 WORKDIR /home/airflow
-COPY --chown=$AIRFLOW_USER:$AIRFLOW_GROUP scripts/add-user.py .
 
 ARG PYTHON_MAJOR_MINOR_VERSION
 COPY --from=builder --chown=$AIRFLOW_USER:$AIRFLOW_GROUP\

@@ -15,7 +15,7 @@ MAKESTER__VERSION_FILE := $(MAKESTER__PYTHON_PROJECT_ROOT)/VERSION
 export PYTHONPATH := "$(MAKESTER__PROJECT_DIR)/src:$(MAKESTER__PYTHON_PROJECT_ROOT)/dags:$(MAKESTER__PYTHON_PROJECT_ROOT)/plugins:$(MAKESTER__PYTHON_PROJECT_ROOT)/config"
 
 # Image versioning follows the format "<airflow-version>-<airflow-dags-tag>-<image-release-number>"
-export AIRFLOW_VERSION := 2.4.3
+export AIRFLOW_VERSION := 2.5.3
 MAKESTER__VERSION := $(AIRFLOW_VERSION)-$(MAKESTER__RELEASE_VERSION)
 MAKESTER__RELEASE_NUMBER ?= 1
 
@@ -72,7 +72,7 @@ pristine: init-dev local-airflow-reset
 
 AIRFLOW_ENV := $(AIRFLOW_CUSTOM_ENV)
 local-airflow-reset: AIRFLOW_CUSTOM_ENV = $(AIRFLOW_ENV)
-local-airflow-reset: _delete-airflow _link-webserver-config _local-airflow-version _link-dags
+local-airflow-reset: _delete-airflow _link-webserver-config local-airflow-version _link-dags
 	$(MAKE) _local-init-db
 
 _delete-airflow:
@@ -100,7 +100,7 @@ airflow:
 	@airflow $(CMD)
 
 local-db-shell: CMD = db shell
-_local-airflow-version: CMD = version
+local-airflow-version: CMD = version
 _local-init-db: CMD = db init
 scheduler: CMD = scheduler
 webserver: CMD = webserver
@@ -116,7 +116,7 @@ local-run-dag: check-dag-to-run
  $(MAKE) airflow\
  CMD="dags backfill --subdir src/dagster/dags --reset-dagruns -s 2023-01-01 -e 2023-01-01 $(DAG_TO_RUN)"
 
-local-db-shell _local-airflow-version _local-init-db scheduler webserver local-list-dags: airflow
+local-db-shell local-airflow-version _local-init-db scheduler webserver local-list-dags: airflow
 
 TESTS_TO_RUN := $(if $(TESTS),$(TESTS),tests)
 PRIME_TEST_CONTEXT ?= true
@@ -202,6 +202,8 @@ help: makester-help
   celery-stack-up      Docker compose start for Airflow stack in CeleryExecutor mode\n\
   local-airflow-reset  Destroy Airflow environment at \"AIRFLOW_HOME\" and rebuild in LOCAL context\n\
   local-airflow-start  Start Airflow in Sequential Executor mode LOCAL context (Ctrl-C to stop)\n\
+  local-airflow-version\n\
+					   Local Airflow version\n\
   local-db-shell       Start shell to local Airflow database (set CMD=\"shell\")\n\
   local-list-dags      List all the DAGs in LOCAL context\n\
   local-run-dag        Run DAG denoted by \"DAG_TO_RUN\" on the CLI\n\
