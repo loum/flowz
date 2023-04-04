@@ -3,7 +3,7 @@
 import os
 import pathlib
 
-import dagster.connection  # type: ignore[import]
+import dagster.connection
 
 CONNECTION_PATH = os.path.join(
     pathlib.Path(__file__).resolve().parents[2],
@@ -15,10 +15,12 @@ CONNECTION_PATH = os.path.join(
 )
 
 
-def test_set_logging_connection_remote_logging_not_defined() -> None:
+def test_set_logging_connection_remote_logging_not_defined(
+    runtime_config_path: str,
+) -> None:
     """Test the logging connection: AIRFLOW__CORE__REMOTE_LOGGING not defined."""
     # Given a path to a templated connection
-    connection_path = os.path.join(CONNECTION_PATH, "logging", "sas")
+    connection_path = os.path.join(runtime_config_path, "logging", "sas")
 
     # when the system tries to install a connection for the remote logging
     dagster.connection.set_logging_connection(connection_path)

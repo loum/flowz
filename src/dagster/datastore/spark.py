@@ -4,7 +4,7 @@
 from configparser import ConfigParser
 from dataclasses import dataclass
 from enum import Enum
-from typing import ClassVar, Optional, Text
+from typing import ClassVar, Optional
 import os
 import pathlib
 
@@ -17,16 +17,16 @@ import dagster
 
 
 @dataclass
-class Mode(Text, Enum):
+class Mode(str, Enum):
     """Spark DataFrame write modes."""
 
-    APPEND: ClassVar[Text] = "append"
-    ERROR: ClassVar[Text] = "error"
-    IGNORE: ClassVar[Text] = "ignore"
-    OVERWRITE: ClassVar[Text] = "overwrite"
+    APPEND: ClassVar[str] = "append"
+    ERROR: ClassVar[str] = "error"
+    IGNORE: ClassVar[str] = "ignore"
+    OVERWRITE: ClassVar[str] = "overwrite"
 
 
-def spark_conf(app_name: Text, conf: Optional[SparkConf] = None) -> SparkConf:
+def spark_conf(app_name: str, conf: Optional[SparkConf] = None) -> SparkConf:
     """Set up the SparkContext with appropriate config for test."""
     if conf is None:
         conf = SparkConf()
@@ -93,7 +93,7 @@ def aws_spark_conf(conf: Optional[SparkConf] = None) -> SparkConf:
 
 
 def spark_session(
-    app_name: Text = dagster.__app_name__, conf: Optional[SparkConf] = None
+    app_name: str = dagster.__app_name__, conf: Optional[SparkConf] = None
 ) -> SparkSession:
     """SparkSession."""
     return SparkSession.builder.config(
@@ -102,7 +102,7 @@ def spark_session(
 
 
 def parquet_writer(
-    dataframe: DataFrame, outpath: Text, mode: Text = Mode.OVERWRITE
+    dataframe: DataFrame, outpath: str, mode: str = Mode.OVERWRITE
 ) -> None:
     """Write out Spark DataFrame *dataframe* to *outpath* directory as Spark Parquet.
 
@@ -113,7 +113,7 @@ def parquet_writer(
     dataframe.write.mode(mode).parquet(outpath)
 
 
-def parquet_reader(spark: SparkSession, source_path: Text) -> DataFrame:
+def parquet_reader(spark: SparkSession, source_path: str) -> DataFrame:
     """Read in Spark Parquet files from *source_path* directory.
 
     Returns a Spark SQL DataFrame.
@@ -124,9 +124,7 @@ def parquet_reader(spark: SparkSession, source_path: Text) -> DataFrame:
     return spark.read.parquet(source_path)
 
 
-def json_writer(
-    dataframe: DataFrame, outpath: Text, mode: Text = Mode.OVERWRITE
-) -> None:
+def json_writer(dataframe: DataFrame, outpath: str, mode: str = Mode.OVERWRITE) -> None:
     """Write out Spark DataFrame *dataframe* to *outpath* directory as JSON
 
     The write mode is defined by *mode*.
@@ -136,7 +134,7 @@ def json_writer(
 
 
 def json_reader(
-    spark: SparkSession, source_path: Text, schema: StructType, multiline: bool = False
+    spark: SparkSession, source_path: str, schema: StructType, multiline: bool = False
 ) -> DataFrame:
     """Read in JSON files from *source_path* directory.
 

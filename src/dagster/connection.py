@@ -1,7 +1,7 @@
 """Airflow connection helpers.
 
 """
-from typing import List, Optional, Text
+from typing import Optional
 
 import json
 import logging
@@ -9,7 +9,7 @@ import os
 import pathlib
 
 from sqlalchemy.orm import exc
-from dagsesh.utils import lazy
+from dagsesh import lazy
 import filester
 
 from dagster.templater import build_from_template
@@ -26,10 +26,12 @@ LAZY_AF_UTILS = lazy.Loader("airflow.utils", globals(), "airflow.utils")
 LAZY_AF_MODELS = lazy.Loader("airflow.models", globals(), "airflow.models")
 LAZY_AF_CONF = lazy.Loader("airflow.configuration", globals(), "airflow.configuration")
 
-REMOTE_LOGGING = LAZY_AF_CONF.getboolean("logging", "REMOTE_LOGGING")
+REMOTE_LOGGING = LAZY_AF_CONF.getboolean(  # type: ignore[operator]
+    "logging", "REMOTE_LOGGING"
+)
 
 
-def set_connection(path_to_connections: Text) -> None:
+def set_connection(path_to_connections: str) -> None:
     """Add configuration items to Airflow `airflow.models.Connection`.
 
     Parameters:
@@ -49,15 +51,17 @@ def set_connection(path_to_connections: Text) -> None:
             data = json.load(json_file)
 
             conn_extra = data.pop("conn_extra", None)
-            new_conn = LAZY_AF_MODELS.Connection(**data)
+            new_conn = LAZY_AF_MODELS.Connection(**data)  # type: ignore[operator]
             if conn_extra:
                 new_conn.set_extra(json.dumps(conn_extra))
 
-            with LAZY_AF_UTILS.session.create_session() as session:
+            with LAZY_AF_UTILS.session.create_session() as session:  # type: ignore
                 state = "OK"
                 if (
                     session.query(LAZY_AF_MODELS.Connection)
-                    .filter(LAZY_AF_MODELS.Connection.conn_id == new_conn.conn_id)
+                    .filter(
+                        LAZY_AF_MODELS.Connection.conn_id == new_conn.conn_id  # type: ignore
+                    )
                     .first()
                 ):
                     state = "already exists"
@@ -68,18 +72,18 @@ def set_connection(path_to_connections: Text) -> None:
                 logging.info("%s: %s", msg, state)
 
 
-def list_connections() -> List[Text]:
+def list_connections() -> list[str]:
     """Return connection information from Airflow connections table.
 
     Returns:
-        List of all available connections.
+        list of all available connections.
 
     """
-    with LAZY_AF_UTILS.session.create_session() as session:
+    with LAZY_AF_UTILS.session.create_session() as session:  # type: ignore[operator,attr-defined]
         query = session.query(LAZY_AF_MODELS.Connection)
         conns = query.all()
 
-        LAZY_AF_CLI_SIMPLE_TABLE.AirflowConsole().print_as(
+        LAZY_AF_CLI_SIMPLE_TABLE.AirflowConsole().print_as(  # type: ignore[operator]
             data=conns,
             output="table",
             mapper=LAZY_AF_CONNECTION_COMMAND._connection_mapper,  # pylint: disable=protected-access
@@ -88,7 +92,7 @@ def list_connections() -> List[Text]:
     return [x.conn_id for x in conns]
 
 
-def delete_connection(key: Text) -> None:
+def delete_connection(key: str) -> None:
     """Delete connection `key` from DB.
 
     Parameters:
@@ -96,11 +100,11 @@ def delete_connection(key: Text) -> None:
 
     """
     logging.info('Attempting to delete Airflow connection with conn_id: "%s"', key)
-    with LAZY_AF_UTILS.session.create_session() as session:
+    with LAZY_AF_UTILS.session.create_session() as session:  # type: ignore[operator,attr-defined]
         try:
             to_delete = (
                 session.query(LAZY_AF_MODELS.Connection)
-                .filter(LAZY_AF_MODELS.Connection.conn_id == key)
+                .filter(LAZY_AF_MODELS.Connection.conn_id == key)  # type: ignore[attr-defined]
                 .one()
             )
         except exc.NoResultFound:
@@ -114,7 +118,7 @@ def delete_connection(key: Text) -> None:
             )
 
 
-def set_templated_connection(path_to_connections: Text) -> None:
+def set_templated_connection(path_to_connections: str) -> None:
     """Add configuration items to Airflow `airflow.models.Connection`.
 
     Connection templates are sourced from the `path_to_connections` directory and should feature
@@ -140,15 +144,17 @@ def set_templated_connection(path_to_connections: Text) -> None:
         data = json.loads(rendered_content)
 
         conn_extra = data.pop("conn_extra", None)
-        new_conn = LAZY_AF_MODELS.Connection(**data)
+        new_conn = LAZY_AF_MODELS.Connection(**data)  # type: ignore[operator]
         if conn_extra:
             new_conn.set_extra(json.dumps(conn_extra))
 
-        with LAZY_AF_UTILS.session.create_session() as session:
+        with LAZY_AF_UTILS.session.create_session() as session:  # type: ignore[attr-defined]
             state = "OK"
             if (
                 session.query(LAZY_AF_MODELS.Connection)
-                .filter(LAZY_AF_MODELS.Connection.conn_id == new_conn.conn_id)
+                .filter(
+                    LAZY_AF_MODELS.Connection.conn_id == new_conn.conn_id  # type: ignore
+                )
                 .first()
             ):
                 state = "already exists"
@@ -159,7 +165,7 @@ def set_templated_connection(path_to_connections: Text) -> None:
             logging.info("%s: %s", msg, state)
 
 
-def set_logging_connection(path_to_connections: Optional[Text] = None) -> None:
+def set_logging_connection(path_to_connections: Optional[str] = None) -> None:
     """Logging configuration to Airflow `airflow.models.Connection`.
 
     Parameters:

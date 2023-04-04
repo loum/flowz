@@ -19,11 +19,11 @@ CONFIG = os.path.join(
 
 
 @pytest.mark.parametrize("config_path", [os.path.join(CONFIG, "tasks")])
-def test_dag_parameterised_task_id_variables(
+def test_dag_parameterised_task_id_variables(  # pylint: disable=unused-argument
     dagbag: airflow.models.dagbag.DagBag,
     dag_id_cntrl: dict_keys,
     bootstrap_task_variables: airflow.models.taskinstance.TaskInstance,
-) -> None:  # pylint: disable=unused-argument
+) -> None:
     """Check DAG Parameterised Operator tasks have a matching airflow.models.Model."""
     # Given a tuple of parameterised Airflow Operators to check
     # OPERATORS_TO_CHECK

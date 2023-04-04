@@ -1,7 +1,8 @@
 """`dagster.plugins.operators.do_nothing_operator.DoNothingOperator` unit test cases.
+
 """
-from typing import Dict, Text
-import datetime
+from datetime import datetime, timedelta
+from typing import Union, cast
 import random
 import unittest.mock
 
@@ -22,15 +23,13 @@ from dagster.plugins.operators.do_nothing_operator import (  # type: ignore[impo
 @unittest.mock.patch.object(Variable, "get")
 def test_do_nothing_operator_init(mock_variable: unittest.mock.MagicMock) -> None:
     """Initialise a DoNothingOperator object."""
-    # Given a set of config parameters
-    operator_kwargs = {
+    # Given an initialised a DoNothingOperator
+    mock_variable.side_effect = lambda *args, **kwargs: {
+        "dry": False,
         "var_01": "var_01_value",
         "var_02": "var_02_value",
     }
-
-    # when I initialise a DoNothingOperator
-    mock_variable.side_effect = lambda *args, **kwargs: {"dry": False}
-    do_nothing = DoNothingOperator(task_id="dummy", **operator_kwargs)
+    do_nothing = DoNothingOperator(task_id="dummy")
 
     # I should get a DoNothingOperator instance
     msg = "Object is not a DoNothingOperator instance"
@@ -47,7 +46,7 @@ DRY_RUNS = [
 @unittest.mock.patch.object(Variable, "get")
 def test_do_nothing_operator_dry_run(
     mock_variable: unittest.mock.MagicMock,
-    test_params: Dict[Text, bool],
+    test_params: dict[str, bool],
 ) -> None:
     """DoNothingOperator dry run."""
     # Given a DAG definition
@@ -62,22 +61,21 @@ def test_do_nothing_operator_dry_run(
     # when I initialise a DoNothingOperator in "dry" mode
     def side_effect(  # type: ignore[no-untyped-def]  # pylint: disable=unused-argument
         *args, **kwargs
-    ) -> Dict[Text, bool]:
-        return {"dry": test_params.get("dry", False)}
+    ) -> dict[str, Union[bool, str]]:
+        return {
+            "dry": test_params.get("dry", False),
+            "var_01": "var_01_value",
+            "var_02": "var_02_value",
+        }
 
     mock_variable.side_effect = side_effect
 
-    operator_kwargs = {
-        "var_01": "var_01_value",
-        "var_02": "var_02_value",
-    }
-
     task_id = "do_nothing"
-    task = DoNothingOperator(dag=dag, task_id=task_id, **operator_kwargs)
+    task = DoNothingOperator(dag=dag, task_id=task_id)
 
-    execution_date = primer.dag_properties.get("start_date")
-    execution_date += datetime.timedelta(milliseconds=random.randint(0, int(1e6)))
-    execution_date_end = execution_date + datetime.timedelta(days=1)
+    execution_date = cast(datetime, primer.dag_properties.get("start_date"))
+    execution_date += timedelta(milliseconds=random.randint(0, int(1e6)))
+    execution_date_end = execution_date + timedelta(days=1)
     dagrun = dag.create_dagrun(
         state=airflow.utils.state.DagRunState.RUNNING,
         execution_date=execution_date,
@@ -115,18 +113,15 @@ def test_do_nothing_operator_no_params(mock_variable: unittest.mock.MagicMock) -
     # when I initialise a DoNothingOperator without airflow.model.Variable coverage
     def side_effect(  # type: ignore[no-untyped-def]  # pylint: disable=unused-argument
         *args, **kwargs
-    ) -> Dict[Text, Text]:
+    ) -> dict[str, str]:
         return {"var_01": "var_01_value"}
 
     mock_variable.side_effect = side_effect
 
-    operator_kwargs = {
-        "var_01": "var_01_value",
-    }
     task_id = "do_nothing"
     expected = 'Parameter "var_02" value None but set not-nullable'
     with pytest.raises(airflow.exceptions.AirflowFailException, match=expected):
-        DoNothingOperator(dag=dag, task_id=task_id, **operator_kwargs)
+        DoNothingOperator(dag=dag, task_id=task_id)
 
 
 @unittest.mock.patch.object(Variable, "get")
@@ -145,19 +140,16 @@ def test_do_nothing_operator_skip_task(mock_variable: unittest.mock.MagicMock) -
     mock_variable.side_effect = lambda *args, **kwargs: {
         "dry": False,
         "skip_task": True,
-    }
-
-    operator_kwargs = {
         "var_01": "var_01_value",
         "var_02": "var_02_value",
     }
 
     task_id = "do_nothing"
-    task = DoNothingOperator(dag=dag, task_id=task_id, **operator_kwargs)
+    task = DoNothingOperator(dag=dag, task_id=task_id)
 
-    execution_date = primer.dag_properties.get("start_date")
-    execution_date += datetime.timedelta(milliseconds=random.randint(0, int(1e6)))
-    execution_date_end = execution_date + datetime.timedelta(days=1)
+    execution_date = cast(datetime, primer.dag_properties.get("start_date"))
+    execution_date += timedelta(milliseconds=random.randint(0, int(1e6)))
+    execution_date_end = execution_date + timedelta(days=1)
     dagrun = dag.create_dagrun(
         state=airflow.utils.state.DagRunState.RUNNING,
         execution_date=execution_date,

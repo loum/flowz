@@ -1,7 +1,7 @@
 """Local Apache Spark Context Apache Airflow hook via PySpark.
 
 """
-from typing import Dict, Optional, Text, cast
+from typing import Optional, cast
 
 from pyspark import SparkConf
 from pyspark.sql import SparkSession
@@ -31,7 +31,7 @@ class LocalSparkContextHook(BaseHook):
     """
 
     def __init__(
-        self, *args: Text, conn_id: Text = "local_spark_context_default", **kwargs: Dict
+        self, *args: str, conn_id: str = "local_spark_context_default", **kwargs: dict
     ):
         super().__init__(*args, **kwargs)
         self.conn_id = conn_id
@@ -50,7 +50,7 @@ class LocalSparkContextHook(BaseHook):
             conf.set(
                 "spark.local.dir", conn.extra_dejson.get("spark.local.dir", "/tmp")
             )
-            conf.set("spark.ui.port", cast(Text, conn.port or "4050"))
+            conf.set("spark.ui.port", cast(str, conn.port or "4050"))
             conf.set("spark.logConf", conn.extra_dejson.get("spark.logConf", True))
             conf.set(
                 "spark.debug.maxToStringFields",

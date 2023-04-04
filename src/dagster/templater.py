@@ -1,7 +1,6 @@
 """Templating capability.
 
 """
-from typing import Dict, Text
 import logging
 import os
 import shutil
@@ -11,8 +10,8 @@ import jinja2
 
 
 def build_from_template(
-    env_map: Dict, template_file_path: Text, write_output: bool = False
-) -> Text:
+    env_map: dict, template_file_path: str, write_output: bool = False
+) -> str:
     """Take `template_file_path` and template against variables defined by `env_map`.
 
     `template_file_path` needs to end with a `.j2` extension as the generated
@@ -42,7 +41,7 @@ def build_from_template(
 
     """
 
-    def env_override(value: Text, key: Text) -> Text:
+    def env_override(value: str, key: str) -> str:
         return os.getenv(key, value)
 
     target_template_file_path = os.path.splitext(template_file_path)

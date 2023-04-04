@@ -4,7 +4,7 @@ import os
 import pathlib
 import pytest
 
-from dagsesh.utils import lazy
+from dagsesh import lazy
 
 import dagster.variable  # type: ignore[import]
 
@@ -48,8 +48,8 @@ def test_pristine_load_of_task_variables(task_variables: int) -> None:
 
 @pytest.mark.parametrize("config_path", [VARIABLES_PATH])
 def test_reload_of_task_variables(
-    task_variables: int,
-) -> None:  # pylint: disable=unused-argument
+    task_variables: int,  # pylint: disable=unused-argument
+) -> None:
     """Test the reload of Airflow task Variables load."""
     # when I load in the configured Airflow task Variables
 
@@ -61,10 +61,10 @@ def test_reload_of_task_variables(
     assert not received, msg
 
     # and the Airflow task Variable count should remain unchanged
-    with AF_UTILS.session.create_session() as session:
+    with AF_UTILS.session.create_session() as session:  # type: ignore
         task_variable_count = (
-            session.query(AF_MODELS.Variable.id)
-            .filter(~AF_MODELS.Variable.id.like("%_%_LOCAL"))
+            session.query(AF_MODELS.Variable.id)  # type: ignore
+            .filter(~AF_MODELS.Variable.id.like("%_%_LOCAL"))  # type: ignore
             .count()
         )
 
@@ -84,10 +84,10 @@ def test_reload_of_task_variables_missing_entry(  # pylint: disable=unused-argum
     dagster.variable.del_variable_key(key)
 
     # then the Airflow task Variable count should reduce by one
-    with AF_UTILS.session.create_session() as session:
+    with AF_UTILS.session.create_session() as session:  # type: ignore
         task_variable_count = (
-            session.query(AF_MODELS.Variable.id)
-            .filter(~AF_MODELS.Variable.id.like("%_%_LOCAL"))
+            session.query(AF_MODELS.Variable.id)  # type: ignore
+            .filter(~AF_MODELS.Variable.id.like("%_%_LOCAL"))  # type: ignore
             .count()
         )
 
@@ -102,10 +102,10 @@ def test_reload_of_task_variables_missing_entry(  # pylint: disable=unused-argum
     assert received == 1, msg
 
     # and the original Airflow task Variable count should be restored
-    with AF_UTILS.session.create_session() as session:
+    with AF_UTILS.session.create_session() as session:  # type: ignore
         task_variable_count = (
-            session.query(AF_MODELS.Variable.id)
-            .filter(~AF_MODELS.Variable.id.like("%_%_LOCAL"))
+            session.query(AF_MODELS.Variable.id)  # type: ignore
+            .filter(~AF_MODELS.Variable.id.like("%_%_LOCAL"))  # type: ignore
             .count()
         )
 
@@ -129,8 +129,8 @@ def test_get_variables(task_variables: int) -> None:  # pylint: disable=unused-a
 
 @pytest.mark.parametrize("config_path", [VARIABLES_PATH])
 def test_get_variables_unmatched(
-    task_variables: int,
-) -> None:  # pylint: disable=unused-argument
+    task_variables: int,  # pylint: disable=unused-argument
+) -> None:
     """Test Airflow Variables get that is unmatched."""
     # when I load in the configured Airflow Variables
 

@@ -1,7 +1,7 @@
 """Test DAG level fixtures.
 
 """
-from typing import Iterable, Text
+from typing import Iterable
 from _collections_abc import dict_keys
 
 import _pytest.fixtures
@@ -36,6 +36,6 @@ def dag_id_cntrl_iterator(request: _pytest.fixtures.SubRequest) -> dict_keys:
 
 
 @pytest.fixture()
-def dag_names(dagbag: DagBag) -> Iterable[Text]:
+def dag_names(dagbag: DagBag) -> Iterable[str]:
     """Get a list of DAG names: dagbag context."""
     return list(dagbag.dags.keys())

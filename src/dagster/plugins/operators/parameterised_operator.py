@@ -1,7 +1,7 @@
 """Generic Operator driven by parameters.
 
 """
-from typing import Any, Dict, Optional, Text
+from typing import Any, Optional
 
 from airflow.exceptions import AirflowFailException, AirflowSkipException
 from airflow.models import BaseOperator, Variable
@@ -12,19 +12,19 @@ class ParameterisedOperator(BaseOperator):
     """Generic Operator driven by Airflow Variables."""
 
     def __init__(self, *args, **kwargs) -> None:  # type: ignore[no-untyped-def]
-        self.__task_name: Optional[Text] = kwargs.get("task_id")
-        self.__configs: Optional[Dict] = None
+        self.__task_name: Optional[str] = kwargs.get("task_id")
+        self.__configs: Optional[dict] = None
 
         kwargs.update({"trigger_rule": "none_failed"})
         super().__init__(*args, **kwargs)
 
     @property
-    def task_name(self) -> Optional[Text]:
+    def task_name(self) -> Optional[str]:
         """Get the name of the DAG task."""
         return self.__task_name
 
     @property
-    def configs(self) -> Optional[Dict]:
+    def configs(self) -> Optional[dict]:
         """Get the Airflow variable value for DAG task name."""
         if self.__configs is None and self.task_name is not None:
             self.__configs = Variable.get(
@@ -38,7 +38,7 @@ class ParameterisedOperator(BaseOperator):
         """Check if the DAG task is to be skipped."""
         return False if self.configs is None else self.configs.get("skip_task", False)
 
-    def get_param(self, param_name: Text, nullable: bool = True) -> Optional[Any]:
+    def get_param(self, param_name: str, nullable: bool = True) -> Any:
         """Return the parameter defined in `airflow.models.Variable`.
 
         If `nullable` is set to `False` then the an `airflow.AirflowFailException`
@@ -60,7 +60,7 @@ class ParameterisedOperator(BaseOperator):
 
         return param
 
-    def execute(self, context: airflow.utils.context.Context) -> Optional[Text]:
+    def execute(self, context: airflow.utils.context.Context) -> Optional[str]:
         """Base execute for parameterised Operators.
 
         Validates the `skip_task` setting.

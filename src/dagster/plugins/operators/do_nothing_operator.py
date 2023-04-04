@@ -1,7 +1,7 @@
 """A do-nothing EmptyOperator workflow driven by Airflow Variables.
 
 """
-from typing import Dict, Optional, Text
+from typing import Optional
 
 from operators.parameterised_operator import ParameterisedOperator  # type: ignore[import]
 import airflow.utils.context
@@ -15,26 +15,24 @@ class DoNothingOperator(ParameterisedOperator):
     ui_color = "#bee0ec"
     ui_fgcolor = "#000000"
 
-    def __init__(
-        self, var_01: Text, *args: Text, var_02: Optional[Text] = None, **kwargs: Dict
-    ) -> None:
+    def __init__(self, *args, **kwargs) -> None:  # type: ignore[no-untyped-def]
         super().__init__(*args, **kwargs)
 
-        self.__var_01: Text = var_01
-        self.__var_02: Text = var_02 or self.get_param("var_02", nullable=False)
+        self.__var_01: Optional[str] = self.get_param("var_02")
+        self.__var_02: str = self.get_param("var_02", nullable=False)
 
     @property
-    def var_01(self) -> Text:
+    def var_01(self) -> Optional[str]:
         """Dummy `var_01` getter."""
         return self.__var_01
 
     @property
-    def var_02(self) -> Text:
+    def var_02(self) -> str:
         """Dummy `var_02` getter."""
         return self.__var_02
 
     @dry_run
-    def execute(self, context: airflow.utils.context.Context) -> Text:
+    def execute(self, context: airflow.utils.context.Context) -> str:
         """Execute the task to do nothing.
 
         Provides a token return value which is simply the task's ID.
