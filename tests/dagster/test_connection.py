@@ -1,10 +1,9 @@
 """Unit test cases for :mod:`dagster.connection`.
 """
-from typing import Text
 import os
 import pathlib
 
-import dagster.connection  # type: ignore[import]
+import dagster.connection
 
 CONNECTION_PATH = os.path.join(
     pathlib.Path(__file__).resolve().parents[2],
@@ -17,7 +16,7 @@ CONNECTION_PATH = os.path.join(
 
 
 def test_set_logging_connection_remote_logging_not_defined(
-    runtime_config_path: Text,
+    runtime_config_path: str,
 ) -> None:
     """Test the logging connection: AIRFLOW__CORE__REMOTE_LOGGING not defined."""
     # Given a path to a templated connection

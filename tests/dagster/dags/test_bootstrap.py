@@ -1,7 +1,6 @@
 """Bootstrap fixture set.
 
 """
-from typing import List, Text
 import os
 import json
 import pathlib
@@ -48,7 +47,7 @@ def test_task_variables(bootstrap_task_variables: TaskInstance) -> None:
 
 @pytest.mark.parametrize("config_path", [os.path.join(CONFIG, "dags")])
 def test_dag_variables(
-    bootstrap_dag_variables: TaskInstance, dag_names: List[Text]
+    bootstrap_dag_variables: TaskInstance, dag_names: list[str]
 ) -> None:
     """Test load Airflow DAG JSON definitions into airflow.models.Variable DB."""
     # then I should receive SUCCESS state

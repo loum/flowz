@@ -9,9 +9,10 @@
 `kwargs` accepts parameters that are passed into `airflow.models.dag.DAG`.
 
 """
-from typing import Any, Dict, Text
+from typing import Any
 import os
 import datetime
+
 import pendulum
 
 
@@ -20,9 +21,9 @@ class Primer:
 
     def __init__(
         self,
-        dag_name: Text,
-        department: Text = "dept",
-        airflow_env_variable: Text = "AIRFLOW_CUSTOM_ENV",
+        dag_name: str,
+        department: str = "dept",
+        airflow_env_variable: str = "AIRFLOW_CUSTOM_ENV",
     ):
         self.__dag_name = dag_name
         self.__department = department
@@ -42,42 +43,42 @@ class Primer:
         }
 
     @property
-    def dag_name(self) -> Text:
+    def dag_name(self) -> str:
         """`dag_name` getter."""
         return self.__dag_name
 
     @property
-    def department(self) -> Text:
+    def department(self) -> str:
         """`department` getter."""
         return self.__department
 
     @property
-    def airflow_env_variable(self) -> Text:
+    def airflow_env_variable(self) -> str:
         """`airflow_env_variable` getter."""
         return self.__airflow_env_variable
 
     @property
-    def dag_id(self) -> Text:
+    def dag_id(self) -> str:
         """`dag_id` getter."""
         return f"{self.department}_{self.dag_name}_{self.get_env}".upper()
 
     @property
-    def default_args(self) -> Dict[Text, Any]:
+    def default_args(self) -> dict[str, Any]:
         """The DAG's Operator-specific default arguments."""
         return self.__default_args
 
     @property
-    def dag_properties(self) -> Dict[Any, Any]:
+    def dag_properties(self) -> dict[Any, Any]:
         """Provide sane DAG parameter defaults."""
         return self.__dag_properties
 
     @property
-    def get_env(self) -> Text:
+    def get_env(self) -> str:
         """Return current environement name."""
         return os.environ.get(self.airflow_env_variable, "local").upper()
 
     @staticmethod
-    def derive_start_date(timezone: Text = "Australia/Melbourne") -> datetime.datetime:
+    def derive_start_date(timezone: str = "Australia/Melbourne") -> datetime.datetime:
         """Define the DAG start date.
 
         Supported date formats are `%Y-%m-%d`.

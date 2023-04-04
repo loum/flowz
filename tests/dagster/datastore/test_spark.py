@@ -1,7 +1,6 @@
 """Spark datastore `dagster.datastore.spark` unit test cases.
 
 """
-from typing import Text
 import json
 import os
 
@@ -9,11 +8,11 @@ import pyspark.sql
 import pyspark.sql.types
 import pytest
 
-import dagster.datastore.spark  # type: ignore[import]
-import dagster.schema.dummy  # type: ignore[import]
+import dagster.datastore.spark
+import dagster.schema.dummy
 
 
-def test_parquet_reader(working_dir: Text, spark: pyspark.sql.SparkSession) -> None:
+def test_parquet_reader(working_dir: str, spark: pyspark.sql.SparkSession) -> None:
     """Read in a custom Parquet file."""
     # Given a SparkSession
     # spark
@@ -41,7 +40,7 @@ def test_parquet_reader(working_dir: Text, spark: pyspark.sql.SparkSession) -> N
 
 @pytest.mark.parametrize("dummy_count", [100])
 def test_parquet_write_read(
-    working_dir: Text, spark: pyspark.sql.SparkSession, dummy: pyspark.sql.DataFrame
+    working_dir: str, spark: pyspark.sql.SparkSession, dummy: pyspark.sql.DataFrame
 ) -> None:
     """Write and then read back in a custom Parquet file."""
     # Given a large, Dummy Spark DataFrame
@@ -63,7 +62,7 @@ def test_parquet_write_read(
 
 
 def test_json_reader_multiline(
-    working_dir: Text, spark: pyspark.sql.SparkSession
+    working_dir: str, spark: pyspark.sql.SparkSession
 ) -> None:
     """Read JSON data into a Spark DataFrame: multiline."""
     # Given a SparkSession
@@ -96,7 +95,7 @@ def test_json_reader_multiline(
 
 
 def test_json_reader_multiline_false(
-    working_dir: Text, spark: pyspark.sql.SparkSession
+    working_dir: str, spark: pyspark.sql.SparkSession
 ) -> None:
     """Read JSON data into a Spark DataFrame: JSON record per line."""
     # Given a SparkSession

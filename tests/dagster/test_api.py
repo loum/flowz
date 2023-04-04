@@ -1,10 +1,9 @@
 """Unit test cases for `dagster.api`.
 """
-from typing import Text
 import os
 import pathlib
 
-import dagster.api  # type: ignore[import]
+import dagster.api
 
 
 def test_set_templated_webserver_config_default_template() -> None:
@@ -35,7 +34,7 @@ def test_set_templated_webserver_config_default_template() -> None:
     assert received.split("\n") == expected, msg
 
 
-def test_set_templated_webserver_config(runtime_config_path: Text) -> None:
+def test_set_templated_webserver_config(runtime_config_path: str) -> None:
     """Test the webserver_config.py create: "dbauth" auth and public role "Admin"."""
     # Given a mapping for the "dbauth" Airflow auth flow
     mapping = {
@@ -67,7 +66,7 @@ def test_set_templated_webserver_config(runtime_config_path: Text) -> None:
 
 
 def test_set_templated_webserver_config_dbauth_with_public_role_as_public(
-    runtime_config_path: Text,
+    runtime_config_path: str,
 ) -> None:
     """Test the webserver_config.py create: "dbauth" auth and public role "Public"."""
     # Given a mapping for the "dbauth" Airflow auth flow
@@ -98,7 +97,7 @@ def test_set_templated_webserver_config_dbauth_with_public_role_as_public(
 
 
 def test_set_templated_webserver_config_dbauth_with_no_public_role(
-    runtime_config_path: Text,
+    runtime_config_path: str,
 ) -> None:
     """Test the webserver_config.py create: "dbauth" auth and no public role defined."""
     # Given a mapping for the "dbauth" Airflow auth flow
@@ -128,7 +127,7 @@ def test_set_templated_webserver_config_dbauth_with_no_public_role(
     assert received.split("\n") == expected, msg
 
 
-def test_set_templated_webserver_config_oauth_flow(runtime_config_path: Text) -> None:
+def test_set_templated_webserver_config_oauth_flow(runtime_config_path: str) -> None:
     """Test the webserver_config.py create: OAuth 2.0 flow"""
     # Given a mapping for the K8s environment
     mapping = {"authtype": "oauth", "provider": None}
@@ -154,7 +153,7 @@ def test_set_templated_webserver_config_oauth_flow(runtime_config_path: Text) ->
 
 
 def test_set_templated_webserver_config_oauth_flow_provider_google(
-    runtime_config_path: Text,
+    runtime_config_path: str,
 ) -> None:
     """Test the webserver_config.py create: OAuth 2.0 flow with Google as provider"""
     # Given a mapping for the K8s environment
@@ -182,7 +181,7 @@ def test_set_templated_webserver_config_oauth_flow_provider_google(
 
 
 def test_set_templated_webserver_config_oauth_flow_provider_azure(
-    runtime_config_path: Text,
+    runtime_config_path: str,
 ) -> None:
     """Test the webserver_config.py create: OAuth 2.0 flow with Azure as provider"""
     # Given a mapping for the K8s environment

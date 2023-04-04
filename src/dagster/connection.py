@@ -1,7 +1,7 @@
 """Airflow connection helpers.
 
 """
-from typing import List, Optional, Text
+from typing import Optional
 
 import json
 import logging
@@ -31,7 +31,7 @@ REMOTE_LOGGING = LAZY_AF_CONF.getboolean(  # type: ignore[operator]
 )
 
 
-def set_connection(path_to_connections: Text) -> None:
+def set_connection(path_to_connections: str) -> None:
     """Add configuration items to Airflow `airflow.models.Connection`.
 
     Parameters:
@@ -72,11 +72,11 @@ def set_connection(path_to_connections: Text) -> None:
                 logging.info("%s: %s", msg, state)
 
 
-def list_connections() -> List[Text]:
+def list_connections() -> list[str]:
     """Return connection information from Airflow connections table.
 
     Returns:
-        List of all available connections.
+        list of all available connections.
 
     """
     with LAZY_AF_UTILS.session.create_session() as session:  # type: ignore[operator,attr-defined]
@@ -92,7 +92,7 @@ def list_connections() -> List[Text]:
     return [x.conn_id for x in conns]
 
 
-def delete_connection(key: Text) -> None:
+def delete_connection(key: str) -> None:
     """Delete connection `key` from DB.
 
     Parameters:
@@ -118,7 +118,7 @@ def delete_connection(key: Text) -> None:
             )
 
 
-def set_templated_connection(path_to_connections: Text) -> None:
+def set_templated_connection(path_to_connections: str) -> None:
     """Add configuration items to Airflow `airflow.models.Connection`.
 
     Connection templates are sourced from the `path_to_connections` directory and should feature
@@ -165,7 +165,7 @@ def set_templated_connection(path_to_connections: Text) -> None:
             logging.info("%s: %s", msg, state)
 
 
-def set_logging_connection(path_to_connections: Optional[Text] = None) -> None:
+def set_logging_connection(path_to_connections: Optional[str] = None) -> None:
     """Logging configuration to Airflow `airflow.models.Connection`.
 
     Parameters:

@@ -1,90 +1,89 @@
 """Dagster CLI.
 
 """
-from typing import Text
-import argparse
+from dataclasses import dataclass
+from enum import Enum
 import sys
+
+import typer
 
 import dagster.api
 
 
-DESCRIPTION = """Airflow Webserver helper"""
+@dataclass
+class PublicRole(str, Enum):
+    """Airflow authentication methods."""
+
+    ADMIN = "admin"
+    PUBLIC = "public"
 
 
-def main() -> None:
-    """Script entry point."""
-    parser = argparse.ArgumentParser(description=DESCRIPTION)
+@dataclass
+class Provider(str, Enum):
+    """Authentication OAuth 2.0 providers."""
 
-    # Add sub-command support.
-    subparsers = parser.add_subparsers(dest="command", help="command")
+    GOOGLE = "google"
+    AZURE = "azure"
 
-    # 'config' subcommand.
-    config_help = "Airflow webserver config helper"
-    config_parser = subparsers.add_parser("config", help=config_help)
-    config_subparsers = config_parser.add_subparsers(dest="authtype")
 
-    dbauth_parser = config_subparsers.add_parser("dbauth")
-    public_role_help = "Auth role for Public access"
-    dbauth_parser.add_argument(
-        "-P",
-        "--public-role",
-        choices=["admin", "public"],
-        default="admin",
-        help=public_role_help,
+app = typer.Typer(
+    add_completion=False,
+    help="Dagster workflow manager CLI tool",
+)
+
+config_app = typer.Typer(
+    add_completion=False,
+    help="Airflow webserver backend authentication config helper",
+)
+app.add_typer(config_app, name="config")
+
+reset_app = typer.Typer(
+    add_completion=False,
+    help="Airflow webserver DAG reset helper",
+)
+app.add_typer(reset_app, name="reset")
+
+
+@config_app.command("dbauth")
+def config_dbauth(
+    public_role: PublicRole = typer.Option(
+        None, help="Auth role for Public access", show_default=False
     )
-
-    oauth_parser = config_subparsers.add_parser("oauth")
-    provider_help = "OAuth 2.0 provider"
-    oauth_parser.add_argument(
-        "-p", "--provider", choices=["google", "azure"], help=provider_help
-    )
-
-    dbauth_parser.set_defaults(func=dbauth_type)
-    oauth_parser.set_defaults(func=oauth_type)
-
-    # 'reset' subcommand.
-    reset_help = "Airflow webserver DAG reset helper"
-    reset_parser = subparsers.add_parser("reset", help=reset_help)
-    reset_subparsers = reset_parser.add_subparsers(dest="dag")
-
-    bootstrap_parser = reset_subparsers.add_parser("bootstrap")
-
-    bootstrap_parser.set_defaults(func=reset_bootstrap)
-
-    # Prepare the argument list.
-    args = parser.parse_args()
-    try:
-        func = args.func
-    except AttributeError:
-        parser.print_help()
-        parser.exit()
-    func(args)
-
-
-def dbauth_type(args: Text):
-    """Airflow webserver_config.py dbauth flow."""
+) -> None:
+    """Airflow DB auth config generator."""
     mapping = {
-        "authtype": args.authtype,
-        "public_role": args.public_role,
+        "authtype": "dbauth",
+        "public_role": public_role,
     }
-    auth_type(args, mapping)
+    auth_type(mapping)
 
 
-def oauth_type(args):
-    """Airflow webserver_config.py oauth flow."""
-    mapping = {"authtype": args.authtype, "provider": args.provider}
-    auth_type(args, mapping)
+@config_app.command("oauth")
+def config_oauth(
+    provider: Provider = typer.Option(
+        None, help="OAuth 2.0 provider", show_default=False
+    )
+) -> None:
+    """Airflow OAuth 2.0 provider generator."""
+    mapping = {"authtype": "oauth", "provider": provider}
+    auth_type(mapping)
 
 
-def auth_type(args, mapping):
+@reset_app.command("bootstrap")
+def bootstrap_reset() -> None:
+    """Bootstrap DAG reset."""
+    dagster.api.clear_bootstrap_dag()
+
+
+def auth_type(mapping: dict) -> None:
     """Airflow webserver_config.py generator wrapper."""
     webserver_config = dagster.api.set_templated_webserver_config(mapping)
     sys.stdout.write(webserver_config)
 
 
-def reset_bootstrap(args):
-    """Airflow bootstrapper reset."""
-    dagster.api.clear_bootstrap_dag()
+def main() -> None:
+    """Script entry point."""
+    app()
 
 
 if __name__ == "__main__":

@@ -1,7 +1,7 @@
 """Dagster Airflow API.
 
 """
-from typing import Iterator, List, Optional, Text
+from typing import Iterator, Optional
 import logging
 import os
 import pathlib
@@ -19,8 +19,8 @@ DAGS_FOLDER = LAZY_AF_CONF.get("core", "DAGS_FOLDER")  # type: ignore[operator]
 
 
 def set_templated_webserver_config(
-    mapping: dict, path_to_config_template: Optional[Text] = None
-) -> Text:
+    mapping: dict, path_to_config_template: Optional[str] = None
+) -> str:
     """Dynamically generate Airflow's `webserver_config.py` contents based on
     *mapping* settings.
 
@@ -43,7 +43,7 @@ def set_templated_webserver_config(
 
 
 def list_dags(quiet: bool = False) -> Iterator[LAZY_AF_MODELS_DAG.DAG]:  # type: ignore
-    """List the airflow.models.dag.DAG instances available in current context.
+    """list the airflow.models.dag.DAG instances available in current context.
 
     Screen output can be suppressed by setting *quiet* to `True`.
 
@@ -67,7 +67,7 @@ def list_dags(quiet: bool = False) -> Iterator[LAZY_AF_MODELS_DAG.DAG]:  # type:
         yield dag
 
 
-def filter_dags(token: Text) -> List[LAZY_AF_MODELS_DAG.DAG]:  # type: ignore
+def filter_dags(token: str) -> list[LAZY_AF_MODELS_DAG.DAG]:  # type: ignore
     """Filter output of `dagster.list_dags` against `token`.
 
     Algorithm assumes a three-part DAG naming convention where each component is
@@ -87,7 +87,7 @@ def filter_dags(token: Text) -> List[LAZY_AF_MODELS_DAG.DAG]:  # type: ignore
     return matches
 
 
-def clear_bootstrap_dag() -> Optional[Text]:
+def clear_bootstrap_dag() -> Optional[str]:
     """Special DAG filter that clears the  bootstrapper DAG.
 
     Returns the name of the bootstrapper DAG that was cleared.

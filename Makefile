@@ -82,7 +82,7 @@ _delete-airflow:
 _link-webserver-config:
 	$(info ### Creating custom webserver-config at $(AIRFLOW_HOME)/webserver_config.py)
 	@$(shell which mkdir) -p $(AIRFLOW_HOME)
-	@dagster config dbauth > $(AIRFLOW_HOME)/webserver_config.py
+	@dagster config dbauth --public-role admin > $(AIRFLOW_HOME)/webserver_config.py
 
 _link-dags:
 	@$(shell which ln) -s $(PWD)/src/dagster/dags/ $(AIRFLOW_HOME)

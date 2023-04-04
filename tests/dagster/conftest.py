@@ -1,9 +1,8 @@
 """Global fixture arrangement.
 
 """
-from typing import Text
-
-import datetime
+from datetime import timedelta
+from typing import cast
 import os
 import pathlib
 import uuid
@@ -70,7 +69,7 @@ def bootstrap_authentication(request: _pytest.fixtures.SubRequest) -> None:
 
 
 @pytest.fixture
-def bootstrap_connections(config_path: Text) -> None:
+def bootstrap_connections(config_path: str) -> None:
     """Load Airflow JSON connection definitions into airflow.models.Connection DB."""
     dag_name = "bootstrap_load_connection_fixture"
     description = "Bootstrap load-connection fixture"
@@ -88,8 +87,8 @@ def bootstrap_connections(config_path: Text) -> None:
         dag=dag,
     )
 
-    execution_date = primer.dag_properties.get("start_date")
-    execution_date_end = execution_date + datetime.timedelta(days=1)
+    execution_date = cast(timedelta, primer.dag_properties.get("start_date"))
+    execution_date_end = execution_date + timedelta(days=1)
     dagrun = dag.create_dagrun(
         state=LAZY_AF_UTILS.state.DagRunState.RUNNING,  # type: ignore
         execution_date=execution_date,
@@ -108,7 +107,7 @@ def bootstrap_connections(config_path: Text) -> None:
 
 @pytest.fixture(scope="function")
 def bootstrap_task_variables(
-    request: _pytest.fixtures.SubRequest, config_path: Text
+    request: _pytest.fixtures.SubRequest, config_path: str
 ) -> None:
     """Load Airflow JSON task definitions into airflow.models.Variable DB."""
 
@@ -136,8 +135,8 @@ def bootstrap_task_variables(
         dag=dag,
     )
 
-    execution_date = primer.dag_properties.get("start_date")
-    execution_date_end = execution_date + datetime.timedelta(days=1)
+    execution_date = cast(timedelta, primer.dag_properties.get("start_date"))
+    execution_date_end = execution_date + timedelta(days=1)
     dagrun = dag.create_dagrun(
         state=LAZY_AF_UTILS.state.DagRunState.RUNNING,  # type: ignore
         execution_date=execution_date,
@@ -156,7 +155,7 @@ def bootstrap_task_variables(
 
 @pytest.fixture
 def bootstrap_dag_variables(
-    request: _pytest.fixtures.SubRequest, config_path: Text
+    request: _pytest.fixtures.SubRequest, config_path: str
 ) -> None:
     """Load Airflow JSON DAG definitions into airflow.models.Variable DB."""
 
@@ -184,8 +183,8 @@ def bootstrap_dag_variables(
         dag=dag,
     )
 
-    execution_date = primer.dag_properties.get("start_date")
-    execution_date_end = execution_date + datetime.timedelta(days=1)
+    execution_date = cast(timedelta, primer.dag_properties.get("start_date"))
+    execution_date_end = execution_date + timedelta(days=1)
     dagrun = dag.create_dagrun(
         state=LAZY_AF_UTILS.state.DagRunState.RUNNING,  # type: ignore
         execution_date=execution_date,
@@ -203,7 +202,7 @@ def bootstrap_dag_variables(
 
 
 @pytest.fixture()
-def task_variables(request: _pytest.fixtures.SubRequest, config_path: Text) -> int:
+def task_variables(request: _pytest.fixtures.SubRequest, config_path: str) -> int:
     """Airflow Variables load and delete."""
 
     def fin() -> None:
@@ -226,7 +225,7 @@ def spark() -> SparkSession:
 
 
 @pytest.fixture()
-def runtime_config_path() -> Text:
+def runtime_config_path() -> str:
     """Path to the Airflow runtime configuration."""
     return os.path.join(
         pathlib.Path(__file__).resolve().parents[2],

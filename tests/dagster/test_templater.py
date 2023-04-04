@@ -1,14 +1,13 @@
 """Unit test cases for `dagster.templater`.
 
 """
-from typing import Text
 import os
 import filester
 
 import dagster.templater  # type: ignore[import]
 
 
-def test_build_from_template_dry(working_dir: Text) -> None:
+def test_build_from_template_dry(working_dir: str) -> None:
     """Build file from template: LOCAL environment."""
     # Given a mapping definition
     env_map = {"t": "X", "env": "LOCAL"}
@@ -44,7 +43,7 @@ def test_build_from_template_dry(working_dir: Text) -> None:
     assert received == expected, msg
 
 
-def test_build_from_template_dev(working_dir: Text) -> None:
+def test_build_from_template_dev(working_dir: str) -> None:
     """Build file from template: DEV environment."""
     # Given a mapping definition
     env_map = {"t": "d", "env": "DEV"}
@@ -76,7 +75,7 @@ def test_build_from_template_dev(working_dir: Text) -> None:
     assert received == expected, msg
 
 
-def test_build_from_template_prod(working_dir: Text) -> None:
+def test_build_from_template_prod(working_dir: str) -> None:
     """Build file from template: PROD environment."""
     # Given a mapping definition
     env_map = {"t": "p", "env": "PRD"}
@@ -107,7 +106,7 @@ def test_build_from_template_prod(working_dir: Text) -> None:
     assert received == expected, msg
 
 
-def test_build_from_missing_template(working_dir: Text) -> None:
+def test_build_from_missing_template(working_dir: str) -> None:
     """Build file from template that is not defined."""
     # Given a mapping definition
     env_map = {"t": "i", "env": "TEST"}
@@ -126,7 +125,7 @@ def test_build_from_missing_template(working_dir: Text) -> None:
     assert not os.path.exists(templated_file), msg
 
 
-def test_build_from_dag_template_dry(working_dir: Text) -> None:
+def test_build_from_dag_template_dry(working_dir: str) -> None:
     """Build DAG variable file from template: LOCAL environment."""
     # Given a mapping definition
     env_map = {"dry_run": "true", "env": "LOCAL"}
@@ -156,7 +155,7 @@ def test_build_from_dag_template_dry(working_dir: Text) -> None:
     assert received == expected, msg
 
 
-def test_build_from_dag_template_dev(working_dir: Text) -> None:
+def test_build_from_dag_template_dev(working_dir: str) -> None:
     """Build DAG variable file from template: DEV environment."""
     # Given a mapping definition
     env_map = {"dry_run": "false", "env": "DEV"}

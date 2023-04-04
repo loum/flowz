@@ -1,6 +1,5 @@
 """DAG loading unit test cases.
 """
-from typing import List, Text
 import os
 import unittest.mock
 from _collections_abc import dict_keys
@@ -18,7 +17,7 @@ def test_dagbag_set(
     dag_names = list(dagbag.dags.keys())
 
     # less the DAG names that can be skipped from the check
-    dag_names_to_skip: List[Text] = []
+    dag_names_to_skip: list[str] = []
     received = [x for x in dag_names if x not in dag_names_to_skip]
 
     msg = (

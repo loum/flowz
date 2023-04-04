@@ -1,7 +1,6 @@
 """ETL-er Airflow user.
 
 """
-from typing import List, Text
 import logging
 import os
 
@@ -23,7 +22,7 @@ def set_authentication() -> None:
     list_airflow_users()
 
 
-def set_admin_user(user: Text, password: Text) -> Text:
+def set_admin_user(user: str, password: str) -> str:
     """Add Admin user to Airflow."""
     logging.info('Adding RBAC auth user "%s"', user)
     appbuilder = (
@@ -45,7 +44,7 @@ def set_admin_user(user: Text, password: Text) -> Text:
     return user
 
 
-def delete_airflow_user(user: Text) -> None:
+def delete_airflow_user(user: str) -> None:
     """Remove user from RBAC."""
     logging.info('Deleting user "%s"', user)
     appbuilder = (
@@ -61,8 +60,8 @@ def delete_airflow_user(user: Text) -> None:
         logging.warning('Deleting user "%s" failed', user)
 
 
-def list_airflow_users() -> List[Text]:
-    """List Airflow users."""
+def list_airflow_users() -> list[str]:
+    """list Airflow users."""
     appbuilder = (
         LAZY_AF_WWW_APP.cached_app().appbuilder  # type: ignore  # pylint: disable=no-member
     )

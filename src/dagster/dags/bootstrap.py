@@ -1,7 +1,7 @@
 """Bootstrap takes care of Airflow instance startup dependencies.
 
 """
-from typing import Callable, Text, cast
+from typing import Callable, cast
 import os
 import pathlib
 
@@ -15,7 +15,7 @@ import dagster.connection
 from dagster.primer import Primer
 
 
-DAG_NAME: Text = os.path.basename(os.path.splitext(__file__)[0]).replace("_", "-")
+DAG_NAME: str = os.path.basename(os.path.splitext(__file__)[0]).replace("_", "-")
 
 DAG_PARAMS = {
     "tags": [DAG_NAME.upper()],
@@ -38,7 +38,7 @@ TASK_AUTH = PythonOperator(
     dag=DAG,
 )
 
-CONFIG: Text = os.path.join(pathlib.Path(__file__).resolve().parents[1], "config")
+CONFIG: str = os.path.join(pathlib.Path(__file__).resolve().parents[1], "config")
 CONFIG_CONTROL = [
     {
         "task_id": "load-connections",
@@ -53,7 +53,7 @@ CONFIG_CONTROL = [
 ]
 TASK_CONFIG = []
 for config in CONFIG_CONTROL:
-    path_to_configs: Text = cast(Text, config.get("path"))
+    path_to_configs: str = cast(str, config.get("path"))
     task = PythonOperator(
         task_id=config.get("task_id"),
         python_callable=cast(Callable, config.get("callable")),

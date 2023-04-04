@@ -1,7 +1,7 @@
 """Airflow Variable helpers.
 
 """
-from typing import Any, Dict, Generator, Text, Tuple
+from typing import Any, Iterator
 import json
 import logging
 import os
@@ -24,7 +24,7 @@ RUN_CONTEXT = os.environ.get("AIRFLOW_CUSTOM_ENV", "LOCAL").lower()
 DAGS_FOLDER = LAZY_AF_CONF.get("core", "DAGS_FOLDER")  # type: ignore[operator]
 
 
-def set_variables(path_to_variables: Text) -> int:
+def set_variables(path_to_variables: str) -> int:
     """Add variable items to Airflow `airflow.models.Variable`.
 
     Parameters:
@@ -34,7 +34,7 @@ def set_variables(path_to_variables: Text) -> int:
         The number of variables inserted.
 
     """
-    env_map: Dict = ENV_FILE.get(RUN_CONTEXT, {})
+    env_map: dict = ENV_FILE.get(RUN_CONTEXT, {})
 
     counter = 0
     for path_to_variable_template in filester.get_directory_files(
@@ -61,14 +61,14 @@ def set_variables(path_to_variables: Text) -> int:
     return counter
 
 
-def del_variables(path_to_variables: Text) -> None:
+def del_variables(path_to_variables: str) -> None:
     """Delete variable items from Airflow `airflow.models.Variable`.
 
     Parameters:
         path_to_variables: File path the the Airflow variable configuration.
 
     """
-    env_map: Dict = ENV_FILE.get(RUN_CONTEXT, {})
+    env_map: dict = ENV_FILE.get(RUN_CONTEXT, {})
 
     for path_to_variable_template in filester.get_directory_files(
         path_to_variables, file_filter="*.j2"
@@ -83,7 +83,7 @@ def del_variables(path_to_variables: Text) -> None:
             del_variable_key(var_name)
 
 
-def del_variable_key(key: Text) -> bool:
+def del_variable_key(key: str) -> bool:
     """Airflow Variable delete helper.
 
     Parameters:
@@ -102,8 +102,8 @@ def del_variable_key(key: Text) -> bool:
     return status == 1 or False
 
 
-def list_variables() -> Generator[None, Tuple[Text, int], None]:
-    """List the variable items from Airflow `airflow.models.Variable`.
+def list_variables() -> Iterator[tuple[str, int]]:
+    """list the variable items from Airflow `airflow.models.Variable`.
 
     Returns:
         A generator-type object with each Airflow Variable returned by the query.
@@ -121,7 +121,7 @@ def list_variables() -> Generator[None, Tuple[Text, int], None]:
             yield val
 
 
-def get_variable(name: Text) -> Dict[Text, Any]:
+def get_variable(name: str) -> dict[str, Any]:
     """Display variable by a given `name`.
 
     Parameters:
