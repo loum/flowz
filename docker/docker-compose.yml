@@ -1,35 +1,54 @@
 services:
     redis:
-        image: redis:6.2-alpine
+        image: redis:7.2-alpine
         container_name: airflow-redis
         entrypoint: ["redis-server", "--protected-mode", "no"]
         env_file:
           - ./files/celery-executor
+        healthcheck:
+          test: [ "CMD-SHELL", "redis-cli", "--raw", "incr", "ping" ]
+          interval: 2s
+          timeout: 5s
+          retries: 2
 
     postgres:
-        image: postgres:11.13-alpine
+        image: postgres:15.4-alpine
         container_name: airflow-postgres
         env_file:
           - ./files/celery-executor
         volumes:
           - airflow-postgres-vol:/var/lib/postgresql/data/pgdata
+        healthcheck:
+          test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+          interval: 2s
+          timeout: 5s
+          retries: 2
 
     init-db:
         image: $MAKESTER__IMAGE_TAG_ALIAS
         container_name: airflow-initdb
         depends_on:
-          - postgres
+          postgres:
+            condition: service_healthy
         env_file:
           - ./files/celery-executor
         restart: "no"
-        command: db init
+        command: db migrate
+        healthcheck:
+          test: ["CMD", "db check"]
+          interval: 2s
+          timeout: 5s
+          retries: 2
 
     scheduler:
         image: $MAKESTER__IMAGE_TAG_ALIAS
         container_name: airflow-scheduler
         hostname: scheduler
         depends_on:
-          - redis
+          init-db:
+            condition: service_completed_successfully
+          redis:
+            condition: service_started
         env_file:
           - ./files/celery-executor
         volumes:
@@ -42,29 +61,49 @@ services:
         container_name: airflow-webserver
         hostname: webserver
         depends_on:
-          - scheduler
+          init-db:
+            condition: service_completed_successfully
         env_file:
           - ./files/celery-executor
         volumes:
           - airflow-logs-vol:/var/log/airflow
         ports:
           - 8443:8443
+        restart: always
         command: webserver
 
     worker:
         image: $MAKESTER__IMAGE_TAG_ALIAS
         container_name: airflow-worker
         hostname: worker
+        extra_hosts:
+          host.docker.internal: host-gateway
         depends_on:
-          - scheduler
+          init-db:
+            condition: service_completed_successfully
+          redis:
+            condition: service_started
         env_file:
           - ./files/celery-executor
         volumes:
           - airflow-worker-vol:/opt/airflow/data
           - airflow-logs-vol:/var/log/airflow
+        restart: always
         command: celery worker
+
+    minio:
+      image: quay.io/minio/minio
+      container_name: airflow-s3
+      hostname: minio
+      volumes:
+        - airflow-s3-vol:/data
+      ports:
+        - 9000:9000
+        - 9001:9001
+      command: server /data --console-address ":9001"
 
 volumes:
     airflow-logs-vol:
     airflow-worker-vol:
     airflow-postgres-vol:
+    airflow-s3-vol:

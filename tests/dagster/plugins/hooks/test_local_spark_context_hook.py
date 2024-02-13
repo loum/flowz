@@ -61,4 +61,4 @@ def test_spark_session(connections: Connection) -> None:
 
     # I should be able to access the PySpark version
     msg = "SparkSession version error"
-    assert spark.version.startswith("3.3"), msg
+    assert spark.version.startswith("3.5"), msg
