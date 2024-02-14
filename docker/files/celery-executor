@@ -1,6 +1,6 @@
 AIRFLOW_HOME=/opt/airflow/airflow
 AIRFLOW_CUSTOM_ENV=dev
-AIRFLOW_CUSTOM_CONFIG=/home/airflow/.local/lib/python3.10/site-packages/dagster/config
+AIRFLOW_CUSTOM_CONFIG=/home/airflow/.local/lib/python3.11/site-packages/dagster/config
 
 
 # PostgreSQL params in Airflow Containers
@@ -26,8 +26,8 @@ AIRFLOW__CELERY__RESULT_BACKEND=db+postgresql://airflow:airflow@postgres:5432/ai
 
 # airflow.cfg [core]
 AIRFLOW__CORE__EXECUTOR=CeleryExecutor
-AIRFLOW__CORE__DAGS_FOLDER=/home/airflow/.local/lib/python3.10/site-packages/dagster/dags
-AIRFLOW__CORE__PLUGINS_FOLDER=/home/airflow/.local/lib/python3.10/site-packages/dagster/plugins
+AIRFLOW__CORE__DAGS_FOLDER=/home/airflow/.local/lib/python3.11/site-packages/dagster/dags
+AIRFLOW__CORE__PLUGINS_FOLDER=/home/airflow/.local/lib/python3.11/site-packages/dagster/plugins
 AIRFLOW__CORE__LOAD_EXAMPLES=False
 AIRFLOW__CORE__UNIT_TEST_MODE=False
 
@@ -41,6 +41,7 @@ AIRFLOW__CORE__FERNET_KEY="LFKF4PSrAOG-kbxOouoLj8Du2QCnsp9qw7G21-WPsLU="
 # airflow.cfg [database]
 AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql://airflow:airflow@postgres:5432/airflow?
 AIRFLOW__DATABASE__LOAD_DEFAULT_CONNECTIONS=False
+AIRFLOW__DATABASE__CHECK_MIGRATIONS=False
 
 # airflow.cfg [webserver]
 AIRFLOW__WEBSERVER__DAG_DEFAULT_VIEW=graph
@@ -55,6 +56,5 @@ AIRFLOW__SCHEDULER__PRINT_STATS_INTERVAL=300
 AIRFLOW__SCHEDULER__SCHEDULER_IDLE_SLEEP_TIME=5
 
 # airflow.cfg [logging]
-AIRFLOW__LOGGING__LOGGING_CONFIG_CLASS=dagster.config.logging.DEFAULT_LOGGING_CONFIG
 AIRFLOW__LOGGING__BASE_LOG_FOLDER=/var/log/airflow
 AIRFLOW__LOGGING__REMOTE_LOGGING=False

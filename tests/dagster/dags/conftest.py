@@ -14,6 +14,7 @@ DAG_TASK_IDS = {
     "ADMIN_BOOTSTRAP_LOCAL": [
         "end",
         "load-connections",
+        "load-dag-variables",
         "load-task-variables",
         "set-authentication",
         "start",

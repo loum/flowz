@@ -14,7 +14,7 @@ from dagster.plugins.operators.parameterised_operator import (  # type: ignore[i
 )
 
 CONFIG = os.path.join(
-    pathlib.Path(__file__).resolve().parents[2], "src", "dagster", "config"
+    pathlib.Path(__file__).resolve().parents[3], "src", "dagster", "config"
 )
 
 

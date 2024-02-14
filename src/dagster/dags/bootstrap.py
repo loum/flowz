@@ -1,11 +1,12 @@
 """Bootstrap takes care of Airflow instance startup dependencies.
 
 """
-from typing import Callable, cast
+
+from typing import Optional
 import os
 import pathlib
 
-from airflow.operators.python import PythonOperator
+from airflow.decorators import task
 import airflow
 
 import dagster.common.task
@@ -15,54 +16,123 @@ import dagster.connection
 from dagster.primer import Primer
 
 
-DAG_NAME: str = os.path.basename(os.path.splitext(__file__)[0]).replace("_", "-")
+def dag_name() -> str:
+    """Use the DAG module name as the default DAG name.
 
-DAG_PARAMS = {
-    "tags": [DAG_NAME.upper()],
-    "schedule_interval": "@once",
-    "is_paused_upon_creation": False,
-}
-PRIMER = Primer(dag_name=DAG_NAME, department="ADMIN")
-PRIMER.default_args.update({"description": "Once-off bootstrapper DAG"})
-PRIMER.dag_properties.update(DAG_PARAMS)
+    Returns:
+        String representation of the Airflow DAG name.
 
-DAG = airflow.DAG(
-    PRIMER.dag_id, default_args=PRIMER.default_args, **(PRIMER.dag_properties)
+    """
+
+    def inner():
+        return os.path.basename(os.path.splitext(__file__)[0]).replace("_", "-")
+
+    return inner()
+
+
+def dag_params() -> dict:
+    """Bootstrapper DAG level parameter initialisation.
+
+    Returns:
+        Python dictionary of bootrapper parameters at the DAG level.
+
+    """
+
+    def inner():
+        return {
+            "tags": [dag_name().upper()],
+            "schedule_interval": "@once",
+            "is_paused_upon_creation": False,
+        }
+
+    return inner()
+
+
+def config_path() -> str:
+    """Bootstrapper configuration path.
+
+    Returns:
+        Python string representing the fully qualified path to the custom configuration.
+
+    """
+    def inner():
+        return os.path.join(pathlib.Path(__file__).resolve().parents[1], "config")
+
+    return inner()
+
+primer = Primer(dag_name=dag_name(), department="ADMIN")
+primer.default_args.update({"description": "Once-off bootstrapper DAG"})
+primer.dag_properties.update(dag_params())
+dag = airflow.DAG(
+    primer.dag_id, default_args=primer.default_args, **(primer.dag_properties)
 )
 
-TASK_START = dagster.common.task.start(DAG, PRIMER.default_args)
 
-TASK_AUTH = PythonOperator(
-    task_id="set-authentication",
-    python_callable=dagster.user.set_authentication,
-    dag=DAG,
-)
+@task(task_id="set-authentication")
+def load_auth() -> None:
+    """Task wrapper around setting the Airflow Admin/Superuser account."""
+    return dagster.user.set_authentication()
 
-CONFIG: str = os.path.join(pathlib.Path(__file__).resolve().parents[1], "config")
-CONFIG_CONTROL = [
-    {
-        "task_id": "load-connections",
-        "callable": dagster.connection.set_connection,
-        "path": os.path.join(CONFIG, "connections"),
-    },
-    {
-        "task_id": "load-task-variables",
-        "callable": dagster.variable.set_variables,
-        "path": os.path.join(CONFIG, "tasks"),
-    },
-]
-TASK_CONFIG = []
-for config in CONFIG_CONTROL:
-    path_to_configs: str = cast(str, config.get("path"))
-    task = PythonOperator(
-        task_id=config.get("task_id"),
-        python_callable=cast(Callable, config.get("callable")),
-        op_args=[path_to_configs],
-        dag=DAG,
+
+@task(task_id="load-connections")
+def load_connections(
+    path_to_connections: str, environment_override: Optional[str] = None
+) -> None:
+    """Task wrapper to add configuration items to Airflow `airflow.models.Connection`."""
+    return dagster.connection.set_templated_connection(
+        path_to_connections=path_to_connections,
+        environment_override=environment_override,
     )
-    TASK_CONFIG.append(task)
 
-TASK_END = dagster.common.task.end(DAG, PRIMER.default_args)
 
-# pylint: disable=pointless-statement
-TASK_START >> TASK_AUTH >> TASK_CONFIG >> TASK_END
+TASK_LOAD_CONNECTION = load_connections(
+    os.path.join(config_path(), "connections"),
+    environment_override=primer.get_env,
+)
+
+
+@task(task_id="load-dag-variables")
+def task_load_dag_variables(
+    path_to_variables: str, environment_override: Optional[str] = None
+) -> int:
+    """Task wrapper to add DAG variable items to Airflow `airflow.models.Variable`."""
+    return dagster.variable.set_variables(
+        path_to_variables=path_to_variables,
+        environment_override=environment_override,
+    )
+
+
+TASK_LOAD_DAG_VARIABLES = task_load_dag_variables(
+    path_to_variables=os.path.join(config_path(), "dags"),
+    environment_override=primer.get_env,
+)
+
+
+@task(task_id="load-task-variables")
+def task_load_task_variables(
+    path_to_variables: str, environment_override: Optional[str] = None
+) -> int:
+    """Task wrapper to add task variable items to Airflow `airflow.models.Variable`."""
+    return dagster.variable.set_variables(
+        path_to_variables=path_to_variables,
+        environment_override=environment_override,
+    )
+
+
+TASK_LOAD_TASK_VARIABLES = task_load_task_variables(
+    path_to_variables=os.path.join(config_path(), "tasks"),
+    environment_override=primer.get_env,
+)
+
+
+# pylint: disable=expression-not-assigned
+(
+    dagster.common.task.start(dag, default_args=primer.default_args)
+    >> load_auth()
+    >> [
+        TASK_LOAD_CONNECTION,
+        TASK_LOAD_DAG_VARIABLES,
+        TASK_LOAD_TASK_VARIABLES,
+    ]
+    >> dagster.common.task.end(dag, default_args=primer.default_args)
+)

@@ -10,6 +10,7 @@ AIRFLOW__CORE__STORE_DAG_CODE=True
 AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION=True
 # Quieten the webserver UI warnings
 AIRFLOW__CORE__UNIT_TEST_MODE=True
+AIRFLOW__CORE__EXECUTOR=SequentialExecutor
 
 # airflow.cfg [webserver]
 AIRFLOW__WEBSERVER__DAG_DEFAULT_VIEW=graph

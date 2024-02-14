@@ -4,15 +4,17 @@
 from typing import Optional
 
 import json
-import logging
 import os
 import pathlib
 
 from sqlalchemy.orm import exc
 from dagsesh import lazy
+from logga import log
 import filester
 
 from dagster.templater import build_from_template
+
+log.propagate = True
 
 LAZY_AF_CONNECTION_COMMAND = lazy.Loader(
     "airflow.cli.commands.connection_command",
@@ -41,9 +43,9 @@ def set_connection(path_to_connections: str) -> None:
     raw_connections = filester.get_directory_files(
         path_to_connections, file_filter="*.json"
     )
-    logging.info('Checking "%s" for Airflow connections ...', path_to_connections)
+    log.info('Checking "%s" for Airflow connections ...', path_to_connections)
     for raw_connection in raw_connections:
-        logging.info('Found Airflow connection "%s"', raw_connection)
+        log.info('Found Airflow connection "%s"', raw_connection)
         with open(
             raw_connection,
             encoding="utf-8",
@@ -69,7 +71,7 @@ def set_connection(path_to_connections: str) -> None:
                     session.add(new_conn)
 
                 msg = f'Airflow connection "{data.get("conn_id")}" create status'
-                logging.info("%s: %s", msg, state)
+                log.info("%s: %s", msg, state)
 
 
 def list_connections() -> list[str]:
@@ -99,7 +101,7 @@ def delete_connection(key: str) -> None:
         key: The name of the Airflow Variable key.
 
     """
-    logging.info('Attempting to delete Airflow connection with conn_id: "%s"', key)
+    log.info('Attempting to delete Airflow connection with conn_id: "%s"', key)
     with LAZY_AF_UTILS.session.create_session() as session:  # type: ignore[operator,attr-defined]
         try:
             to_delete = (
@@ -108,61 +110,79 @@ def delete_connection(key: str) -> None:
                 .one()
             )
         except exc.NoResultFound:
-            logging.warning('Did not find a connection with conn_id: "%s"', key)
+            log.warning('Did not find a connection with conn_id: "%s"', key)
         except exc.MultipleResultsFound:
-            logging.warning('Found more than one connection with conn_id: "%s"', key)
+            log.warning('Found more than one connection with conn_id: "%s"', key)
         else:
             session.delete(to_delete)
-            logging.info(
-                'Successfully deleted Airflow connection with conn_id: "%s"', key
-            )
+            log.info('Successfully deleted Airflow connection with conn_id: "%s"', key)
 
 
-def set_templated_connection(path_to_connections: str) -> None:
+def set_templated_connection(
+    path_to_connections: str, environment_override: Optional[str] = None
+) -> None:
     """Add configuration items to Airflow `airflow.models.Connection`.
 
     Connection templates are sourced from the `path_to_connections` directory and should feature
-    a `*.j2` extension.  Each template file should feature a single
-    `airflow.models.Connection` definition in JSON format.  For example::
-
+    a `*.j2` extension. Each template file should feature a single
+    `airflow.models.Connection` definition in JSON format. For example:
+    ```
         {
             "conn_id": "azure_wasb_logs",
             "conn_type": "wasb",
             "login": "login",
             "password": "secret"
         }
+    ```
+
+    Connections that are defined in the environment path override, `environment_override`, will
+    task precedence over the defaults settings.
 
     Parameters:
         path_to_connections: File path the the Airflow connections configuration.
+        environment_override: Provide an environment value that overrides settings defined
+            under `path_to_connections`.
 
     """
-    for path_to_variable_template in filester.get_directory_files(
-        path_to_connections, file_filter="*.j2"
-    ):
-        rendered_content = build_from_template({}, path_to_variable_template, False)
+    config_paths = []
+    if environment_override is not None:
+        config_paths.append(
+            os.path.join(path_to_connections, environment_override.lower())
+        )
+    config_paths.append(path_to_connections)
 
-        data = json.loads(rendered_content)
+    for config_path in config_paths:
+        for path_to_variable_template in filester.get_directory_files(
+            config_path, file_filter="*.j2"
+        ):
+            rendered_content: Optional[str] = build_from_template(
+                {}, path_to_variable_template, write_output=False
+            )
+            if rendered_content is None:
+                continue
 
-        conn_extra = data.pop("conn_extra", None)
-        new_conn = LAZY_AF_MODELS.Connection(**data)  # type: ignore[operator]
-        if conn_extra:
-            new_conn.set_extra(json.dumps(conn_extra))
+            data = json.loads(rendered_content)
 
-        with LAZY_AF_UTILS.session.create_session() as session:  # type: ignore[attr-defined]
-            state = "OK"
-            if (
-                session.query(LAZY_AF_MODELS.Connection)
-                .filter(
-                    LAZY_AF_MODELS.Connection.conn_id == new_conn.conn_id  # type: ignore
-                )
-                .first()
-            ):
-                state = "already exists"
-            else:
-                session.add(new_conn)
+            conn_extra = data.pop("conn_extra", None)
+            new_conn = LAZY_AF_MODELS.Connection(**data)  # type: ignore[operator]
+            if conn_extra:
+                new_conn.set_extra(json.dumps(conn_extra))
 
-            msg = f'Airflow connection "{data.get("conn_id")}" create status'
-            logging.info("%s: %s", msg, state)
+            with LAZY_AF_UTILS.session.create_session() as session:  # type: ignore[attr-defined]
+                state = "OK"
+                if (
+                    session.query(LAZY_AF_MODELS.Connection)
+                    .filter(
+                        LAZY_AF_MODELS.Connection.conn_id == new_conn.conn_id  # type: ignore
+                    )
+                    .first()
+                ):
+                    state = "already exists"
+                else:
+                    session.add(new_conn)
+
+                msg = f'Airflow connection "{data.get("conn_id")}" create status'
+                log.info("%s: %s", msg, state)
 
 
 def set_logging_connection(path_to_connections: Optional[str] = None) -> None:
@@ -184,6 +204,4 @@ def set_logging_connection(path_to_connections: Optional[str] = None) -> None:
             )
         set_templated_connection(path_to_connections)
     else:
-        logging.info(
-            'Remote logging not enabled.  Check "AIRFLOW__LOGGING__REMOTE_LOGGING"'
-        )
+        log.info('Remote logging not enabled. Check "AIRFLOW__LOGGING__REMOTE_LOGGING"')
