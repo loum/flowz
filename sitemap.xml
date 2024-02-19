@@ -2,37 +2,37 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://loum.github.io/dagster/</loc>
-         <lastmod>2024-02-14</lastmod>
+         <lastmod>2024-02-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://loum.github.io/dagster/getting-started/</loc>
-         <lastmod>2024-02-14</lastmod>
+         <lastmod>2024-02-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://loum.github.io/dagster/reference/dagster/connection/</loc>
-         <lastmod>2024-02-14</lastmod>
+         <lastmod>2024-02-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://loum.github.io/dagster/reference/dagster/primer/</loc>
-         <lastmod>2024-02-14</lastmod>
+         <lastmod>2024-02-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://loum.github.io/dagster/reference/dagster/templater/</loc>
-         <lastmod>2024-02-14</lastmod>
+         <lastmod>2024-02-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://loum.github.io/dagster/reference/dagster/variable/</loc>
-         <lastmod>2024-02-14</lastmod>
+         <lastmod>2024-02-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://loum.github.io/dagster/reference/dagster/dags/bootstrap/</loc>
-         <lastmod>2024-02-14</lastmod>
+         <lastmod>2024-02-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
