@@ -1,3 +1,7 @@
+---
+hide:
+  - footer
+---
 # bootstrap.py
 
 ::: dagster.dags.bootstrap

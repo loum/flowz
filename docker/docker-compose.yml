@@ -1,106 +1,119 @@
+---
 services:
     redis:
         image: redis:7.2-alpine
         container_name: airflow-redis
         entrypoint: ["redis-server", "--protected-mode", "no"]
         env_file:
-          - ./files/celery-executor
+            - path: ./files/celery-executor
+              required: false
         healthcheck:
-          test: [ "CMD-SHELL", "redis-cli", "--raw", "incr", "ping" ]
-          interval: 2s
-          timeout: 5s
-          retries: 2
+            test: ["CMD-SHELL", "redis-cli", "--raw", "incr", "ping"]
+            interval: 2s
+            timeout: 5s
+            retries: 2
 
     postgres:
         image: postgres:15.4-alpine
         container_name: airflow-postgres
         env_file:
-          - ./files/celery-executor
+            - path: ./files/celery-executor
+              required: false
         volumes:
-          - airflow-postgres-vol:/var/lib/postgresql/data/pgdata
+            - airflow-postgres-vol:/var/lib/postgresql/data/pgdata
         healthcheck:
-          test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
-          interval: 2s
-          timeout: 5s
-          retries: 2
+            test: [
+                "CMD-SHELL",
+                "pg_isready -d $${POSTGRES_DB:-airflow} -U $${POSTGRES_USER:-airflow}"
+            ]
+            interval: 2s
+            timeout: 5s
+            retries: 2
 
     init-db:
-        image: $MAKESTER__IMAGE_TAG_ALIAS
+        image: loum/dagster:latest
         container_name: airflow-initdb
         depends_on:
-          postgres:
-            condition: service_healthy
+            postgres:
+                condition: service_healthy
         env_file:
-          - ./files/celery-executor
+            - path: ./files/celery-executor
+              required: false
         restart: "no"
         command: db migrate
         healthcheck:
-          test: ["CMD", "db check"]
-          interval: 2s
-          timeout: 5s
-          retries: 2
+            test: ["CMD", "db check"]
+            interval: 2s
+            timeout: 5s
+            retries: 2
 
     scheduler:
-        image: $MAKESTER__IMAGE_TAG_ALIAS
+        image: loum/dagster:latest
         container_name: airflow-scheduler
         hostname: scheduler
         depends_on:
-          init-db:
-            condition: service_completed_successfully
-          redis:
-            condition: service_started
+            init-db:
+                condition: service_completed_successfully
+            redis:
+                condition: service_started
         env_file:
-          - ./files/celery-executor
+            - path: ./files/celery-executor
+              required: false
         volumes:
-          - airflow-logs-vol:/var/log/airflow
+            - airflow-logs-vol:/var/log/airflow
         restart: always
         command: scheduler
 
     webserver:
-        image: $MAKESTER__IMAGE_TAG_ALIAS
+        image: loum/dagster:latest
         container_name: airflow-webserver
         hostname: webserver
         depends_on:
-          init-db:
-            condition: service_completed_successfully
+            init-db:
+                condition: service_completed_successfully
         env_file:
-          - ./files/celery-executor
+            - path: ./files/celery-executor
+              required: false
         volumes:
-          - airflow-logs-vol:/var/log/airflow
+            - airflow-logs-vol:/var/log/airflow
         ports:
-          - 8443:8443
+            - 8443:8443
         restart: always
         command: webserver
 
     worker:
-        image: $MAKESTER__IMAGE_TAG_ALIAS
+        image: loum/dagster:latest
         container_name: airflow-worker
         hostname: worker
         extra_hosts:
-          host.docker.internal: host-gateway
+            host.docker.internal: host-gateway
         depends_on:
-          init-db:
-            condition: service_completed_successfully
-          redis:
-            condition: service_started
+            init-db:
+                condition: service_completed_successfully
+            redis:
+                condition: service_started
         env_file:
-          - ./files/celery-executor
+            - path: ./files/celery-executor
+              required: false
+        environment:
+            - DAGSTER_AIRFLOW_ADMIN_USER=${DAGSTER_AIRFLOW_ADMIN_USER:-airflow}
+            - DAGSTER_AIRFLOW_ADMIN_PASSWORD=${DAGSTER_AIRFLOW_ADMIN_PASSWORD:-airflow}
         volumes:
-          - airflow-worker-vol:/opt/airflow/data
-          - airflow-logs-vol:/var/log/airflow
+            - airflow-worker-vol:/opt/airflow/data
+            - airflow-logs-vol:/var/log/airflow
         restart: always
         command: celery worker
 
     minio:
-      image: quay.io/minio/minio
-      container_name: airflow-s3
-      hostname: minio
-      volumes:
-        - airflow-s3-vol:/data
-      ports:
-        - 9000:9000
-        - 9001:9001
-      command: server /data --console-address ":9001"
+        image: quay.io/minio/minio
+        container_name: airflow-s3
+        hostname: minio
+        volumes:
+            - airflow-s3-vol:/data
+        ports:
+            - 9000:9000
+            - 9001:9001
+        command: server /data --console-address ":9001"
 
 volumes:
     airflow-logs-vol:

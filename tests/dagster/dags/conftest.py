@@ -1,16 +1,21 @@
-"""Test DAG level fixtures.
+"""DAG fixtures at the unit test level.
 
 """
-from typing import Iterable
-from _collections_abc import dict_keys
+from __future__ import annotations
+from typing import TYPE_CHECKING
 
-import _pytest.fixtures
 import pytest
 
-from airflow.models.dagbag import DagBag
+
+if TYPE_CHECKING:
+    from _pytest.fixtures import SubRequest
+    from airflow.models.dagbag import DagBag
+    from collections.abc import KeysView, Iterable
 
 
+# --8<-- [start:dag_task_ids]
 DAG_TASK_IDS = {
+# --8<-- [start:admin_bootstrap_local]
     "ADMIN_BOOTSTRAP_LOCAL": [
         "end",
         "load-connections",
@@ -19,19 +24,21 @@ DAG_TASK_IDS = {
         "set-authentication",
         "start",
     ],
+# --8<-- [end:admin_bootstrap_local]
 }
+# --8<-- [end:dag_task_ids]
 
 
 @pytest.fixture()
 def dag_id_cntrl(  # pylint: disable=unused-argument
-    request: _pytest.fixtures.SubRequest,
-) -> dict_keys:
+    request: SubRequest
+) -> KeysView:
     """Return each DAG ID from the "DAG_TASK_IDS" control list."""
-    return DAG_TASK_IDS.keys()
+    return list(DAG_TASK_IDS.keys())
 
 
 @pytest.fixture(params=list(DAG_TASK_IDS.items()))
-def dag_id_cntrl_iterator(request: _pytest.fixtures.SubRequest) -> dict_keys:
+def dag_id_cntrl_iterator(request: SubRequest) -> KeysView:
     """Iterate over each DAG ID from the "DAG_TASK_IDS" control list."""
     return request.param
 

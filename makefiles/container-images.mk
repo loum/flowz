@@ -15,12 +15,12 @@ image-transfer: image-tag-in-docker
 	$(info ### Deleting pulled image $(MAKESTER__SERVICE_NAME):$(MAKESTER__VERSION))
 	$(MAKESTER__DOCKER) rmi $(MAKESTER__SERVICE_NAME):$(MAKESTER__VERSION)
 
-multi-arch-build-test: image-registry-start image-buildx-builder
-	$(MAKE) multi-arch-build
+multi-arch-buildx-test: image-registry-start image-buildx-builder
+	$(MAKE) multi-arch-buildx
 	$(MAKE) image-transfer
 	$(MAKE) image-registry-stop
 
-multi-arch-build:
+multi-arch-buildx:
 	$(MAKE) py-distribution
 	$(MAKE) image-buildx-builder
 	$(MAKESTER__DOCKER) buildx ls
@@ -28,11 +28,11 @@ multi-arch-build:
 
 local-image-buildx: py-distribution image-buildx
 
-amd-arch-build: PLATFORM := linux/amd64
-arm-arch-build: PLATFORM := linux/arm64
-amd-arch-build arm-arch-build: _arch-build
+amd-arch-buildx: PLATFORM := linux/amd64
+arm-arch-buildx: PLATFORM := linux/arm64
+amd-arch-buildx arm-arch-buildx: _arch-buildx
 
-_arch-build:
+_arch-buildx:
 	$(MAKE) ecr-login
 	$(MAKE) py-distribution
 	$(MAKE) image-buildx-builder
@@ -65,12 +65,18 @@ image-cache-del:
 	$(info ### Deleting "$(MAKESTER__SERVICE_NAME)" from MicroK8s image cache ...)
 	$(MAKESTER__MICROK8S) ctr images delete $(MAKESTER__IMAGE_TAG_ALIAS)
 
+_image-rm:
+	$(MAKESTER__DOCKER) rmi $(MAKESTER__SERVICE_NAME):latest
+
+image-rm: _image-rm
+
 container-images-help:
 	@echo "(makefiles/container-images.mk)\n\
   image-cache-add      Inject \"$(MAKESTER__IMAGE_TAG_ALIAS)\" into the MicroK8s image cache\n\
   image-cache-del      Delete \"$(MAKESTER__IMAGE_TAG_ALIAS)\" from the MicroK8s image cache\n\
   local-image-buildx   Container image build for local platform\n\
-  multi-arch-build     Multi-platform container image build for \"$(MAKESTER__IMAGE_TAG_ALIAS)\"\n\
-  multi-arch-build-test    Shake-out multi-platform container image build locally\n"
+  multi-arch-buildx    Multi-platform container image build for \"$(MAKESTER__IMAGE_TAG_ALIAS)\"\n\
+  multi-arch-buildx-test\n\
+                       Shake-out multi-platform container image build locally\n"
 
 .PHONY: container-images-help
