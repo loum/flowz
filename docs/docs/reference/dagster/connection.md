@@ -1,3 +1,7 @@
+---
+hide:
+  - footer
+---
 # connection.py
 
 ::: dagster.connection

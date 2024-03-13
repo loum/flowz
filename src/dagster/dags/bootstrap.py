@@ -3,13 +3,12 @@
 """
 
 from typing import Optional
-import os
-import pathlib
+from pathlib import Path, PurePath
 
 from airflow.decorators import task
 import airflow
 
-import dagster.common.task
+import dagster.task
 import dagster.user
 import dagster.variable
 import dagster.connection
@@ -25,7 +24,7 @@ def dag_name() -> str:
     """
 
     def inner():
-        return os.path.basename(os.path.splitext(__file__)[0]).replace("_", "-")
+        return PurePath(__file__).stem.replace("_", "-")
 
     return inner()
 
@@ -56,9 +55,10 @@ def config_path() -> str:
 
     """
     def inner():
-        return os.path.join(pathlib.Path(__file__).resolve().parents[1], "config")
+        return PurePath(Path(__file__).resolve().parents[1]).joinpath("config")
 
     return inner()
+
 
 primer = Primer(dag_name=dag_name(), department="ADMIN")
 primer.default_args.update({"description": "Once-off bootstrapper DAG"})
@@ -86,7 +86,7 @@ def load_connections(
 
 
 TASK_LOAD_CONNECTION = load_connections(
-    os.path.join(config_path(), "connections"),
+    PurePath(config_path()).joinpath("connections"),
     environment_override=primer.get_env,
 )
 
@@ -103,7 +103,7 @@ def task_load_dag_variables(
 
 
 TASK_LOAD_DAG_VARIABLES = task_load_dag_variables(
-    path_to_variables=os.path.join(config_path(), "dags"),
+    path_to_variables=PurePath(config_path()).joinpath("dags"),
     environment_override=primer.get_env,
 )
 
@@ -120,19 +120,19 @@ def task_load_task_variables(
 
 
 TASK_LOAD_TASK_VARIABLES = task_load_task_variables(
-    path_to_variables=os.path.join(config_path(), "tasks"),
+    path_to_variables=PurePath(config_path()).joinpath("tasks"),
     environment_override=primer.get_env,
 )
 
 
 # pylint: disable=expression-not-assigned
 (
-    dagster.common.task.start(dag, default_args=primer.default_args)
+    dagster.task.start(dag, default_args=primer.default_args)
     >> load_auth()
     >> [
         TASK_LOAD_CONNECTION,
         TASK_LOAD_DAG_VARIABLES,
         TASK_LOAD_TASK_VARIABLES,
     ]
-    >> dagster.common.task.end(dag, default_args=primer.default_args)
+    >> dagster.task.end(dag, default_args=primer.default_args)
 )

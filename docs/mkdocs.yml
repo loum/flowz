@@ -1,50 +1,74 @@
+---
 site_name: Dagster
 site_url: https://loum.github.io/dagster/
 
 nav:
-  - Home: index.md
-  - Getting started: getting-started.md
-  - Reference:
-    - dagster:
-      - primer.py: reference/dagster/primer.md
-      - templater.py: reference/dagster/templater.md
-      - connection.py: reference/dagster/connection.md
-      - variable.py: reference/dagster/variable.md
-      - dags:
-        - bootstrap.py: reference/dagster/dags/bootstrap.md
+    - Home: index.md
+    - Getting started: getting-started.md
+    - Installation modes:
+        - Sequential Executor:
+            - Setup the development environment: installation-modes/sequentialexecutor/development-environment.md
+            - DAG starter template: installation-modes/sequentialexecutor/dag-template.md
+            - Integrating DAGs into the test harness: installation-modes/sequentialexecutor/test-harness.md
+            - Airflow instance runtime: installation-modes/sequentialexecutor/instance-runtime.md
+            - DAG conventions: installation-modes/sequentialexecutor/dagster-conventions.md
+        - Celery Executor:
+            - Architecture: installation-modes/celeryexecutor/architecture.md
+            - Container image:
+                - Build: installation-modes/celeryexecutor/build.md
+                - Airflow instance runtime: installation-modes/celeryexecutor/instance-runtime.md
+    - Operations:
+        - Bootstrap:
+            - Airflow admin authentication: operations/bootstrap/auth.md
+    - Reference:
+        - dagster:
+            - user.py: reference/dagster/user.md
+            - primer.py: reference/dagster/primer.md
+            - templater.py: reference/dagster/templater.md
+            - connection.py: reference/dagster/connection.md
+            - variable.py: reference/dagster/variable.md
+            - dags:
+                - bootstrap.py: reference/dagster/dags/bootstrap.md
 
 plugins:
-  - search
-  - mkdocstrings
+    - search
+    - mkdocstrings
 
 markdown_extensions:
-  - admonition
-  - attr_list
-  - codehilite
-  - pymdownx.highlight:
-      anchor_linenums: true
-  - pymdownx.inlinehilite
-  - pymdownx.snippets
-  - pymdownx.superfences
+    - admonition
+    - attr_list
+    - codehilite
+    - pymdownx.highlight:
+        anchor_linenums: true
+    - pymdownx.inlinehilite
+    - pymdownx.snippets:
+        base_path:
+            - !relative $config_dir
+            - !relative $config_dir/..
+    - pymdownx.blocks.tab:
+        alternate_style: true
+    - pymdownx.superfences
 
 theme:
-  name: material
-  palette:
-    # Palette toggle for light mode
-    - scheme: default
-      toggle:
-        icon: material/brightness-7
-        name: Switch to dark mode
+    name: material
+    palette:
+        # Palette toggle for light mode
+        - scheme: default
+          toggle:
+              icon: material/brightness-7
+              name: Switch to dark mode
 
-    # Palette toggle for dark mode
-    - scheme: slate
-      toggle:
-        icon: material/brightness-4
-        name: Switch to light mode
-  features:
-    - navigation.tabs
-    - header.autohide
-    - content.code.copy
+        # Palette toggle for dark mode
+        - scheme: slate
+          toggle:
+              icon: material/brightness-4
+              name: Switch to light mode
+    features:
+        - navigation.footer
+        - navigation.tabs
+        - navigation.top
+        - header.autohide
+        - content.code.copy
 
 watch:
-  - ../src/dagster
+    - ../src/dagster

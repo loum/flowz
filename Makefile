@@ -18,6 +18,8 @@ MAKESTER__VERSION_FILE := $(MAKESTER__PYTHON_PROJECT_ROOT)/VERSION
 # Simulate Airflow, when running dynamically adds three directories to the sys.path.
 export PYTHONPATH := "$(MAKESTER__PROJECT_DIR)/src:$(MAKESTER__PYTHON_PROJECT_ROOT)/dags:$(MAKESTER__PYTHON_PROJECT_ROOT)/plugins:$(MAKESTER__PYTHON_PROJECT_ROOT)/config"
 
+# Container image build.
+#
 # Image versioning follows the format "<airflow-version>-<airflow-dags-tag>-<image-release-number>"
 #
 export AIRFLOW_VERSION := 2.8.1
@@ -29,10 +31,7 @@ MAKESTER__IMAGE_TARGET_TAG := $(AIRFLOW_VERSION)-$(MAKESTER__RELEASE_VERSION)
 # MAKESTER__IMAGE_TAG_ALIAS needs an explicit assignment to ensure correct
 # MAKESTER__RELEASE_VERSION is picked up during the container image build.
 #
-export MAKESTER__IMAGE_TAG_ALIAS := $(MAKESTER__SERVICE_NAME):$(MAKESTER__IMAGE_TARGET_TAG)
-
-# Container image build.
-#
+MAKESTER__IMAGE_TAG_ALIAS := $(MAKESTER__SERVICE_NAME):$(MAKESTER__IMAGE_TARGET_TAG)
 export PYTHON_MAJOR_MINOR_VERSION := 3.11
 AIRFLOW_BASE_IMAGE ?= loum/airflow-base:jammy-$(AIRFLOW_VERSION)
 BUILT_DISTRIBUTION_NAME := $(MAKESTER__PROJECT_NAME)-$(MAKESTER__RELEASE_VERSION)-py3-none-any.whl
@@ -41,6 +40,7 @@ MAKESTER__BUILD_COMMAND := --rm --no-cache\
  --build-arg PYTHON_MAJOR_MINOR_VERSION=$(PYTHON_MAJOR_MINOR_VERSION)\
  --build-arg AIRFLOW_BASE_IMAGE=$(AIRFLOW_BASE_IMAGE)\
  --tag $(MAKESTER__IMAGE_TAG_ALIAS)\
+ --tag $(MAKESTER__SERVICE_NAME):latest\
  --file docker/Dockerfile .
 
 #

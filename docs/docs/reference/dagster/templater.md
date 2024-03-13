@@ -1,3 +1,7 @@
+---
+hide:
+  - footer
+---
 # templater.py
 
 ::: dagster.templater
