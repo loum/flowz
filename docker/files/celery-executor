@@ -5,7 +5,7 @@ AIRFLOW_CUSTOM_CONFIG=/home/airflow/.local/lib/python3.11/site-packages/dagster/
 
 # PostgreSQL params in Airflow Containers
 POSTGRES_USER=airflow
-POSTGRES_PASSWORD=airflow
+POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-airflow}
 POSTGRES_HOST=postgres
 POSTGRES_PORT=5432
 POSTGRES_DB=airflow
