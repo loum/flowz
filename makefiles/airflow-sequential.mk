@@ -9,9 +9,11 @@ AIRFLOW_HOME := $(PWD)/airflow
 AIRFLOW_CUSTOM_ENV ?= local
 AIRFLOW_ENV := $(AIRFLOW_CUSTOM_ENV)
 
+ifeq (, $(filter-out local-airflow-start _webserver _scheduler,$(MAKECMDGOALS)))
 include resources/files/environment/local
 VARS:=$(shell sed -ne 's/ *\#.*$$//; /./ s/=.*$$// p' $(PWD)/resources/files/environment/local)
 $(foreach v,$(VARS),$(eval $(shell echo export $(v)="$($(v))")))
+endif
 
 # Silence SQLAlchemy 2.0 compatibility warnings.
 export SQLALCHEMY_SILENCE_UBER_WARNING ?= 1

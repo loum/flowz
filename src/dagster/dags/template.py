@@ -1,27 +1,25 @@
 """The simplest DAG template.
 
 """
-import os
+from pathlib import PurePath
+
 import airflow
 
-import dagster.common.task
+import dagster.task
 from dagster.primer import Primer
 
 
-DAG_NAME = os.path.basename(os.path.splitext(__file__)[0]).replace("_", "-")
-DESCRIPTION = "Simple book-end DAG template to get you started"
+primer = Primer(dag_name=PurePath(__file__).stem.replace("_", "-"), department="ADMIN")
+primer.dag_properties.update({"description": "Simple book-end DAG template to get you started"})
 
-PRIMER = Primer(dag_name=DAG_NAME, department="ADMIN")
-PRIMER.dag_properties.update({"description": DESCRIPTION})
-
-DAG = airflow.DAG(
-    PRIMER.dag_id, default_args=PRIMER.default_args, **(PRIMER.dag_properties)
+dag = airflow.DAG(
+    primer.dag_id, default_args=primer.default_args, **(primer.dag_properties)
 )
 
-TASK_START = dagster.common.task.start(DAG, PRIMER.default_args)
+task_start = dagster.task.start(dag, default_args=primer.default_args)
 #
 # Add your content here.
 #
-TASK_END = dagster.common.task.end(DAG, PRIMER.default_args)
+task_end = dagster.task.end(dag, default_args=primer.default_args)
 
-TASK_START >> TASK_END  # pylint: disable=pointless-statement
+task_start >> task_end  # pylint: disable=pointless-statement

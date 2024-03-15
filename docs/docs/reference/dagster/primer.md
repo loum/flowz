@@ -1,3 +1,7 @@
+---
+hide:
+  - footer
+---
 # primer.py
 
 ::: dagster.primer

@@ -2,9 +2,9 @@
 hide:
   - footer
 ---
-# variable.py
+# user.py
 
-::: dagster.variable
+::: dagster.user
     handler: python
     options:
       show_root_heading: false

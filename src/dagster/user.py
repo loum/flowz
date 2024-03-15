@@ -1,4 +1,4 @@
-"""ETL-er Airflow user.
+"""Apache Airflow user account management.
 
 """
 import os
@@ -18,8 +18,8 @@ LAZY_AF_CLI = lazy.Loader(
 
 def set_authentication() -> None:
     """Set the Airflow Admin/Superuser account."""
-    airflow_user = os.environ.get("AF_USER", "airflow")
-    airflow_passwd = os.environ.get("AF_PASSWORD", "airflow")
+    airflow_user = os.environ.get("DAGSTER_AIRFLOW_ADMIN_USER", "airflow")
+    airflow_passwd = os.environ.get("DAGSTER_AIRFLOW_ADMIN_PASSWORD", "airflow")
 
     delete_airflow_user(airflow_user)
     set_admin_user(airflow_user, airflow_passwd)
@@ -66,7 +66,7 @@ def delete_airflow_user(user: str) -> None:
 
 
 def list_airflow_users() -> list[str]:
-    """list Airflow users."""
+    """List Airflow users."""
     users = []
     with LAZY_AF_APP_BUILDER.get_application_builder() as appbuilder:  # type: ignore
         users.extend(appbuilder.sm.get_all_users())
