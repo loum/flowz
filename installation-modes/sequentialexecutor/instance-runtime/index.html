@@ -8,26 +8,28 @@
       
       
       
-        <link rel="canonical" href="https://loum.github.io/dagster/">
+        <link rel="canonical" href="https://loum.github.io/dagster/installation-modes/sequentialexecutor/instance-runtime/">
       
       
+        <link rel="prev" href="../test-harness/">
       
-        <link rel="next" href="getting-started/">
+      
+        <link rel="next" href="../dagster-conventions/">
       
       
-      <link rel="icon" href="assets/images/favicon.png">
+      <link rel="icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.13">
     
     
       
-        <title>Dagster</title>
+        <title>Airflow instance runtime - Dagster</title>
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.7e359304.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.7e359304.min.css">
       
         
-        <link rel="stylesheet" href="assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -46,9 +48,9 @@
       
     
     
-      <link rel="stylesheet" href="assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
     
-    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -74,7 +76,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#dagster-workflow-management-primer" class="md-skip">
+        <a href="#airflow-instance-runtime" class="md-skip">
           Skip to content
         </a>
       
@@ -88,7 +90,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="." title="Dagster" class="md-header__button md-logo" aria-label="Dagster" data-md-component="logo">
+    <a href="../../.." title="Dagster" class="md-header__button md-logo" aria-label="Dagster" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -108,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Home
+              Airflow instance runtime
             
           </span>
         </div>
@@ -201,11 +203,9 @@
         
   
   
-    
   
-  
-    <li class="md-tabs__item md-tabs__item--active">
-      <a href="." class="md-tabs__link">
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
         
   
     
@@ -222,7 +222,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="getting-started/" class="md-tabs__link">
+      <a href="../../../getting-started/" class="md-tabs__link">
         
   
     
@@ -237,17 +237,21 @@
         
   
   
+    
+  
   
     
     
       
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="installation-modes/sequentialexecutor/development-environment/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../development-environment/" class="md-tabs__link">
           
   
   Installation modes
@@ -274,7 +278,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="operations/bootstrap/auth/" class="md-tabs__link">
+        <a href="../../../operations/bootstrap/auth/" class="md-tabs__link">
           
   
   Operations
@@ -301,7 +305,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="reference/dagster/user/" class="md-tabs__link">
+        <a href="../../../reference/dagster/user/" class="md-tabs__link">
           
   
   Reference
@@ -337,7 +341,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="." title="Dagster" class="md-nav__button md-logo" aria-label="Dagster" data-md-component="logo">
+    <a href="../../.." title="Dagster" class="md-nav__button md-logo" aria-label="Dagster" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -352,30 +356,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Home
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="." class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -384,68 +368,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#wait-what-is-a-dag" class="md-nav__link">
-    <span class="md-ellipsis">
-      Wait, what is a DAG?
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#where-do-i-start" class="md-nav__link">
-    <span class="md-ellipsis">
-      Where do I start?
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Where do I start?">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#creating-dags" class="md-nav__link">
-    <span class="md-ellipsis">
-      Creating DAGs
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#getting-ready-for-production-building-the-container-image" class="md-nav__link">
-    <span class="md-ellipsis">
-      Getting ready for production: building the container image
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -457,7 +379,7 @@
   
   
     <li class="md-nav__item">
-      <a href="getting-started/" class="md-nav__link">
+      <a href="../../../getting-started/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -474,23 +396,28 @@
       
   
   
+    
   
   
+  
     
     
     
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
             
   
   <span class="md-ellipsis">
@@ -501,7 +428,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             Installation modes
@@ -512,6 +439,8 @@
                 
   
   
+    
+  
   
   
     
@@ -521,11 +450,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" checked>
         
           
           <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
@@ -539,7 +468,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3_1">
             <span class="md-nav__icon md-icon"></span>
             Sequential Executor
@@ -553,7 +482,7 @@
   
   
     <li class="md-nav__item">
-      <a href="installation-modes/sequentialexecutor/development-environment/" class="md-nav__link">
+      <a href="../development-environment/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -574,7 +503,7 @@
   
   
     <li class="md-nav__item">
-      <a href="installation-modes/sequentialexecutor/dag-template/" class="md-nav__link">
+      <a href="../dag-template/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -595,7 +524,7 @@
   
   
     <li class="md-nav__item">
-      <a href="installation-modes/sequentialexecutor/test-harness/" class="md-nav__link">
+      <a href="../test-harness/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -613,10 +542,19 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="installation-modes/sequentialexecutor/instance-runtime/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -625,6 +563,7 @@
   
 
       </a>
+      
     </li>
   
 
@@ -637,7 +576,7 @@
   
   
     <li class="md-nav__item">
-      <a href="installation-modes/sequentialexecutor/dagster-conventions/" class="md-nav__link">
+      <a href="../dagster-conventions/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -704,7 +643,7 @@
   
   
     <li class="md-nav__item">
-      <a href="installation-modes/celeryexecutor/architecture/" class="md-nav__link">
+      <a href="../../celeryexecutor/architecture/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -763,7 +702,7 @@
   
   
     <li class="md-nav__item">
-      <a href="installation-modes/celeryexecutor/build/" class="md-nav__link">
+      <a href="../../celeryexecutor/build/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -784,7 +723,7 @@
   
   
     <li class="md-nav__item">
-      <a href="installation-modes/celeryexecutor/instance-runtime/" class="md-nav__link">
+      <a href="../../celeryexecutor/instance-runtime/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -904,7 +843,7 @@
   
   
     <li class="md-nav__item">
-      <a href="operations/bootstrap/auth/" class="md-nav__link">
+      <a href="../../../operations/bootstrap/auth/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1016,7 +955,7 @@
   
   
     <li class="md-nav__item">
-      <a href="reference/dagster/user/" class="md-nav__link">
+      <a href="../../../reference/dagster/user/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1037,7 +976,7 @@
   
   
     <li class="md-nav__item">
-      <a href="reference/dagster/primer/" class="md-nav__link">
+      <a href="../../../reference/dagster/primer/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1058,7 +997,7 @@
   
   
     <li class="md-nav__item">
-      <a href="reference/dagster/templater/" class="md-nav__link">
+      <a href="../../../reference/dagster/templater/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1079,7 +1018,7 @@
   
   
     <li class="md-nav__item">
-      <a href="reference/dagster/connection/" class="md-nav__link">
+      <a href="../../../reference/dagster/connection/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1100,7 +1039,7 @@
   
   
     <li class="md-nav__item">
-      <a href="reference/dagster/variable/" class="md-nav__link">
+      <a href="../../../reference/dagster/variable/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1159,7 +1098,7 @@
   
   
     <li class="md-nav__item">
-      <a href="reference/dagster/dags/bootstrap/" class="md-nav__link">
+      <a href="../../../reference/dagster/dags/bootstrap/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1216,56 +1155,6 @@
     
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#wait-what-is-a-dag" class="md-nav__link">
-    <span class="md-ellipsis">
-      Wait, what is a DAG?
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#where-do-i-start" class="md-nav__link">
-    <span class="md-ellipsis">
-      Where do I start?
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Where do I start?">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#creating-dags" class="md-nav__link">
-    <span class="md-ellipsis">
-      Creating DAGs
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#getting-ready-for-production-building-the-container-image" class="md-nav__link">
-    <span class="md-ellipsis">
-      Getting ready for production: building the container image
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -1279,23 +1168,44 @@
                   
 
 
-<h1 id="dagster-workflow-management-primer">Dagster workflow management primer</h1>
-<p>Dagster is a code repository templater that provides a development environment for integrating your DAGs into the <a href="https://airflow.apache.org/">Apache Airflow</a> workflow management system with minimal fuss. Dagster also provides default tooling for the full software development lifecycle and deployment into a containerised environment.</p>
-<h2 id="wait-what-is-a-dag">Wait, what is a DAG?</h2>
-<p>As per the <a href="https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/dags.html" target="blank">Apache Airflow DAG documentation</a>:</p>
-<blockquote>
-<p>A DAG (Directed Acyclic Graph) is the core concept of Airflow, collecting <a href="https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/tasks.html" target="blank">Tasks</a> together, organized with dependencies and relationships to say how they should run.</p>
-</blockquote>
-<p>Programmatically, a DAG is nothing more than a <a href="https://docs.python.org/3/tutorial/modules.html" target="blank">Python module</a>. As such, consider your workflows as a Python logic whereby software development principles can be applied. Mainly code linting, formatting and tests. Dagster provides a default set of tooling for the SDLC. These are interchangeable to suit your team and projects requirements.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Dagster does not intend to tell you <strong><em>how</em></strong> you should do things. It's here to help you work common tasks.</p>
-</div>
-<h2 id="where-do-i-start">Where do I start?</h2>
-<h3 id="creating-dags">Creating DAGs</h3>
-<p>As Dagster is an Apache Airflow DAG code repository templater, begin by forking a copy into your preferred code repository in the first instance. Next, follow the instructions under the Dagster <a href="getting-started/">getting started</a> section.</p>
-<h3 id="getting-ready-for-production-building-the-container-image">Getting ready for production: building the container image</h3>
-<p>Dagster provides the tooling to support a cloud-native deployment model. Follow the: guide under <a href="installation-modes/celeryexecutor/build/">container image management</a> to containerise your workflows so that they are ready for deployment.</p>
+<h1 id="airflow-instance-runtime">Airflow instance runtime</h1>
+<p>Launch the Airflow webserver UI in <a href="https://airflow.apache.org/docs/apache-airflow/stable/executor/sequential.html">SequentialExector</a> mode to visualise and interact with dashboard (<code>Ctrl-C</code> to stop):</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>make<span class="w"> </span>local-airflow-start
+</code></pre></div>
+You can access your local Airflow webserver console via <a href="http://localhost:8888">http://localhost:8888</a>.</p>
+<p>The new sample DAG is rendered under the Apache Airflow dashboard's graph view as follows:
+<img alt="Apache Airflow dashboard graph view" src="../../../assets/images/airflow_instance.png" /></p>
+<p>Dagster pre-defines a set of <a href="https://airflow.apache.org/docs/apache-airflow/stable/configurations-ref.html" target="blank">Apache Airflow configuration</a> items for a customised view. These are defined in the <code>resources/files/environment/local</code> file and can be edited to suit your preferences:</p>
+<div class="highlight"><span class="filename">Apache Airflow customised configuration settings.</span><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># airflow.cfg [core]</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nv">AIRFLOW__CORE__DAGS_FOLDER</span><span class="o">=</span><span class="si">${</span><span class="nv">AIRFLOW_HOME</span><span class="si">}</span>/dags
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nv">AIRFLOW__CORE__PLUGINS_FOLDER</span><span class="o">=</span><span class="si">${</span><span class="nv">AIRFLOW_HOME</span><span class="si">}</span>/plugins
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="nv">AIRFLOW__CORE__LOAD_EXAMPLES</span><span class="o">=</span>False
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="c1"># Enable DAG Serialization</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="nv">AIRFLOW__CORE__STORE_SERIALIZED_DAGS</span><span class="o">=</span>True
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="nv">AIRFLOW__CORE__MIN_SERIALIZED_DAG_UPDATE_INTERVAL</span><span class="o">=</span><span class="m">30</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="nv">AIRFLOW__CORE__STORE_DAG_CODE</span><span class="o">=</span>True
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="c1"># Enable DAGs at startup</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="nv">AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION</span><span class="o">=</span>True
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="c1"># Quieten the webserver UI warnings</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="nv">AIRFLOW__CORE__UNIT_TEST_MODE</span><span class="o">=</span>True
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="nv">AIRFLOW__CORE__EXECUTOR</span><span class="o">=</span>SequentialExecutor
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="c1"># airflow.cfg [webserver]</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="nv">AIRFLOW__WEBSERVER__DAG_DEFAULT_VIEW</span><span class="o">=</span>graph
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="nv">AIRFLOW__WEBSERVER__WEB_SERVER_PORT</span><span class="o">=</span><span class="m">8888</span>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="nv">AIRFLOW__WEBSERVER__WORKERS</span><span class="o">=</span><span class="m">1</span>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="c1"># airflow.cfg [logging]</span>
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="nv">AIRFLOW__LOGGING__LOGGING_CONFIG_CLASS</span><span class="o">=</span>dagster.config.logging.DEFAULT_LOGGING_CONFIG
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="nv">AIRFLOW__LOGGING__BASE_LOG_FOLDER</span><span class="o">=</span><span class="si">${</span><span class="nv">AIRFLOW_HOME</span><span class="si">}</span>/logs
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="nv">AIRFLOW__LOGGING__LOGGING_LEVEL</span><span class="o">=</span>INFO
+<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a><span class="nv">AIRFLOW__LOGGING__LOG_FILENAME_TEMPLATE</span><span class="o">=</span><span class="nv">dag_id</span><span class="o">={{</span><span class="w"> </span>ti.dag_id<span class="w"> </span><span class="o">}}</span>/run_id<span class="o">={{</span><span class="w"> </span>ti.run_id<span class="w"> </span><span class="o">}}</span>/task_id<span class="o">={{</span><span class="w"> </span>ti.task_id<span class="w"> </span><span class="o">}}</span>/<span class="o">{</span>%<span class="w"> </span><span class="k">if</span><span class="w"> </span>ti.map_index<span class="w"> </span>&gt;<span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="w"> </span>%<span class="o">}</span><span class="nv">map_index</span><span class="o">={{</span><span class="w"> </span>ti.map_index<span class="w"> </span><span class="o">}}</span>/<span class="o">{</span>%<span class="w"> </span>endif<span class="w"> </span>%<span class="o">}</span><span class="nv">attempt</span><span class="o">={{</span><span class="w"> </span>try_number<span class="w"> </span><span class="o">}}</span>.log
+<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a>
+<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a><span class="c1"># airflow.cfg [database]</span>
+<a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a><span class="nv">AIRFLOW__DATABASE__SQL_ALCHEMY_CONN</span><span class="o">=</span>sqlite:///<span class="si">${</span><span class="nv">AIRFLOW_HOME</span><span class="si">}</span>/airflow.db
+<a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a><span class="c1"># Don&#39;t load default connections</span>
+<a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a><span class="nv">AIRFLOW__DATABASE__LOAD_DEFAULT_CONNECTIONS</span><span class="o">=</span>False
+</code></pre></div>
 
 
 
@@ -1330,15 +1240,31 @@
       
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
+          
+          <a href="../test-harness/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Integrating DAGs into the test harness">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Integrating DAGs into the test harness
+              </div>
+            </div>
+          </a>
+        
         
           
-          <a href="getting-started/" class="md-footer__link md-footer__link--next" aria-label="Next: Getting started">
+          <a href="../dagster-conventions/" class="md-footer__link md-footer__link--next" aria-label="Next: DAG conventions">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Getting started
+                DAG conventions
               </div>
             </div>
             <div class="md-footer__button md-icon">
@@ -1372,10 +1298,10 @@
     </div>
     
     
-    <script id="__config" type="application/json">{"base": ".", "features": ["navigation.footer", "navigation.tabs", "navigation.top", "header.autohide", "content.code.copy"], "search": "assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.footer", "navigation.tabs", "navigation.top", "header.autohide", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="assets/javascripts/bundle.c8d2eff1.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.c8d2eff1.min.js"></script>
       
     
   </body>
