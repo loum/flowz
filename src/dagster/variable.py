@@ -1,7 +1,9 @@
 """Dagster Airflow variable helpers.
 
 """
-from typing import Any, Iterator, Optional
+
+from pathlib import PurePath
+from typing import Any, Iterator
 import json
 import os
 
@@ -31,7 +33,7 @@ DAGS_FOLDER = LAZY_AF_CONF.get("core", "DAGS_FOLDER")  # type: ignore[operator]
 
 
 def set_variables(
-    path_to_variables: str, environment_override: Optional[str] = None
+    path_to_variables: str, environment_override: str | None = None
 ) -> int:
     """Add variable items to Airflow `airflow.models.Variable`.
 
@@ -53,15 +55,15 @@ def set_variables(
     config_paths = []
     if environment_override is not None:
         config_paths.append(
-            os.path.join(path_to_variables, environment_override.lower())
+            PurePath(path_to_variables).joinpath(PurePath(environment_override.lower()))
         )
-    config_paths.append(path_to_variables)
+    config_paths.append(PurePath(path_to_variables))
 
     for config_path in config_paths:
         for path_to_variable_template in filester.get_directory_files(
-            config_path, file_filter="*.j2"
+            str(config_path), file_filter="*.j2"
         ):
-            rendered_content: Optional[str] = build_from_template(
+            rendered_content: str | None = build_from_template(
                 env_map, path_to_variable_template, write_output=False
             )
             if rendered_content is None:
@@ -96,7 +98,7 @@ def del_variables(path_to_variables: str) -> None:
     for path_to_variable_template in filester.get_directory_files(
         path_to_variables, file_filter="*.j2"
     ):
-        rendered_content: Optional[str] = build_from_template(
+        rendered_content: str | None = build_from_template(
             env_map, path_to_variable_template, write_output=False
         )
         if rendered_content is None:

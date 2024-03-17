@@ -1,12 +1,13 @@
 """SparkSession as a data source.
 
 """
+
 from configparser import ConfigParser
 from dataclasses import dataclass
 from enum import Enum
-from typing import ClassVar, Optional
+from pathlib import Path
+from typing import ClassVar
 import os
-import pathlib
 
 from logga import log
 from pyspark import SparkConf
@@ -26,7 +27,7 @@ class Mode(str, Enum):
     OVERWRITE: ClassVar[str] = "overwrite"
 
 
-def spark_conf(app_name: str, conf: Optional[SparkConf] = None) -> SparkConf:
+def spark_conf(app_name: str, conf: SparkConf | None = None) -> SparkConf:
     """Set up the SparkContext with appropriate config for test."""
     if conf is None:
         conf = SparkConf()
@@ -42,7 +43,7 @@ def spark_conf(app_name: str, conf: Optional[SparkConf] = None) -> SparkConf:
     return conf
 
 
-def aws_spark_conf(conf: Optional[SparkConf] = None) -> SparkConf:
+def aws_spark_conf(conf: SparkConf | None = None) -> SparkConf:
     """AWS authentication config.
 
     Parameters:
@@ -58,8 +59,8 @@ def aws_spark_conf(conf: Optional[SparkConf] = None) -> SparkConf:
     conf.set("spark.jars.packages", "org.apache.hadoop:hadoop-aws:3.3.4")
     conf.set("spark.hadoop.fs.s3a.endpoint", "s3.ap-southeast-2.amazonaws.com")
     conf.set("spark.hadoop.fs.s3a.aws.experimental.input.fadvise", "random")
-    aws_path = os.path.join(pathlib.Path.home(), ".aws", "credentials")
-    if os.path.exists(aws_path):
+    aws_path = Path.home().joinpath(".aws", "credentials")
+    if aws_path.exists():
         conf.set(
             "spark.hadoop.fs.s3a.aws.credentials.provider",
             "org.apache.hadoop.fs.s3a.TemporaryAWSCredentialsProvider",
@@ -93,7 +94,7 @@ def aws_spark_conf(conf: Optional[SparkConf] = None) -> SparkConf:
 
 
 def spark_session(
-    app_name: str = dagster.__app_name__, conf: Optional[SparkConf] = None
+    app_name: str = dagster.__app_name__, conf: SparkConf | None = None
 ) -> SparkSession:
     """SparkSession."""
     return SparkSession.builder.config(

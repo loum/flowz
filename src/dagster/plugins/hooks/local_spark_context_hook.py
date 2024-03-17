@@ -1,7 +1,8 @@
 """Local Apache Spark Context Apache Airflow hook via PySpark.
 
 """
-from typing import Optional, cast
+
+from typing import cast
 
 from pyspark import SparkConf
 from pyspark.sql import SparkSession
@@ -31,11 +32,14 @@ class LocalSparkContextHook(BaseHook):
     """
 
     def __init__(
-        self, *args: str, conn_id: str = "local_spark_context_default", **kwargs: dict
+        self,
+        *args: str,
+        conn_id: str = "local_spark_context_default",
+        **kwargs: str | None
     ):
         super().__init__(*args, **kwargs)
         self.conn_id = conn_id
-        self.conn: Optional[SparkSession] = None
+        self.conn: SparkSession | None = None
 
     def get_conn(self) -> SparkSession:
         """Get a SparkContext to a local PySpark instance."""

@@ -1,9 +1,9 @@
 """Dagster Airflow API.
 
 """
-from typing import Iterator, Optional
-import os
-import pathlib
+
+from pathlib import Path, PurePath
+from typing import Iterator
 import re
 
 from dagsesh import lazy
@@ -19,8 +19,8 @@ DAGS_FOLDER = LAZY_AF_CONF.get("core", "DAGS_FOLDER")  # type: ignore[operator]
 
 
 def set_templated_webserver_config(
-    mapping: dict, path_to_config_template: Optional[str] = None
-) -> Optional[str]:
+    mapping: dict, path_to_config_template: str | None = None
+) -> str | None:
     """Dynamically generate Airflow's `webserver_config.py` contents based on
     `mapping` settings.
 
@@ -29,16 +29,19 @@ def set_templated_webserver_config(
 
     """
     if not path_to_config_template:
-        path_to_config_template = os.path.join(
-            pathlib.Path(__file__).resolve().parents[0],
-            "config",
-            "templates",
-            "webserver",
+        path_to_config_template = str(
+            PurePath(Path(__file__).resolve().parents[0]).joinpath(
+                "config",
+                "templates",
+                "webserver",
+            )
         )
 
-    template_file = os.path.join(path_to_config_template, "webserver_config.py.j2")
-    rendered_content: Optional[str] = build_from_template(
-        mapping, template_file, write_output=False
+    template_file = PurePath(Path(path_to_config_template)).joinpath(
+        "webserver_config.py.j2"
+    )
+    rendered_content: str | None = build_from_template(
+        mapping, str(template_file), write_output=False
     )
 
     return rendered_content
@@ -65,8 +68,7 @@ def list_dags(quiet: bool = False) -> Iterator[LAZY_AF_MODELS_DAG.DAG]:  # type:
             },
         )
 
-    for dag in data:
-        yield dag
+    yield from data
 
 
 def filter_dags(token: str) -> list[LAZY_AF_MODELS_DAG.DAG]:  # type: ignore
@@ -89,7 +91,7 @@ def filter_dags(token: str) -> list[LAZY_AF_MODELS_DAG.DAG]:  # type: ignore
     return matches
 
 
-def clear_bootstrap_dag() -> Optional[str]:
+def clear_bootstrap_dag() -> str | None:
     """Special DAG filter that clears the  bootstrapper DAG.
 
     Returns the name of the bootstrapper DAG that was cleared.

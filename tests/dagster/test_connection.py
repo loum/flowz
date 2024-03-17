@@ -1,26 +1,22 @@
 """Unit test cases for :mod:`dagster.connection`.
+
 """
-import os
-import pathlib
+
+from __future__ import annotations
+from typing import TYPE_CHECKING
 
 import dagster.connection
 
-CONNECTION_PATH = os.path.join(
-    pathlib.Path(__file__).resolve().parents[2],
-    "src",
-    "dagster",
-    "config",
-    "templates",
-    "connections",
-)
+if TYPE_CHECKING:
+    from pathlib import PurePath
 
 
 def test_set_logging_connection_remote_logging_not_defined(
-    runtime_config_path: str,
+    runtime_config_path: PurePath,
 ) -> None:
     """Test the logging connection: AIRFLOW__CORE__REMOTE_LOGGING not defined."""
     # Given a path to a templated connection
-    connection_path = os.path.join(runtime_config_path, "logging", "sas")
+    connection_path = str(runtime_config_path.joinpath("logging", "sas"))
 
     # when the system tries to install a connection for the remote logging
     dagster.connection.set_logging_connection(connection_path)
@@ -29,5 +25,6 @@ def test_set_logging_connection_remote_logging_not_defined(
 
     # then no airflow.models.Connection should be created
     received = dagster.connection.list_connections()
-    msg = "Unset AIRFLOW__CORE__REMOTE_LOGGING should not create connections"
-    assert received == [], msg
+    assert (
+        received == []
+    ), "Unset AIRFLOW__CORE__REMOTE_LOGGING should not create connections"

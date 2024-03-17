@@ -1,10 +1,10 @@
 """Global fixture arrangement.
 
 """
+
 from datetime import timedelta
+from pathlib import Path, PurePath
 from typing import cast
-import os
-import pathlib
 import uuid
 
 from pyspark import SparkConf
@@ -32,7 +32,7 @@ LAZY_PYTHON_OPERATOR = lazy.Loader(
 )
 LAZY_AF_UTILS = lazy.Loader("airflow.utils", globals(), "airflow.utils")
 
-CONFIG = os.path.join(pathlib.Path(__file__).resolve().parents[1], "config")
+CONFIG = PurePath(Path(__file__).resolve().parents[1]).joinpath("config")
 
 
 @pytest.fixture
@@ -83,7 +83,7 @@ def bootstrap_connections(config_path: str) -> None:
     task = LAZY_PYTHON_OPERATOR.PythonOperator(  # type: ignore
         task_id=task_id,
         python_callable=LAZY_ETLER_API.set_connection,
-        op_args=[config_path or os.path.join(CONFIG, "connections")],
+        op_args=[config_path or str(CONFIG.joinpath("connections"))],
         dag=dag,
     )
 
@@ -114,7 +114,7 @@ def bootstrap_task_variables(
     def fin() -> None:
         """Tear down."""
         LAZY_ETLER_VAR.del_variables(  # type: ignore
-            config_path or os.path.join(CONFIG, "tasks")
+            config_path or str(CONFIG.joinpath("tasks"))
         )
 
     request.addfinalizer(fin)
@@ -131,7 +131,7 @@ def bootstrap_task_variables(
     task = LAZY_PYTHON_OPERATOR.PythonOperator(  # type: ignore
         task_id=task_id,
         python_callable=LAZY_ETLER_VAR.set_variables,
-        op_args=[config_path or os.path.join(CONFIG, "tasks")],
+        op_args=[config_path or str(CONFIG.joinpath("tasks"))],
         dag=dag,
     )
 
@@ -162,7 +162,7 @@ def bootstrap_dag_variables(
     def fin() -> None:
         """Tear down."""
         LAZY_ETLER_VAR.del_variables(  # type: ignore
-            config_path or os.path.join(CONFIG, "dags")
+            config_path or str(CONFIG.joinpath("dags"))
         )
 
     request.addfinalizer(fin)
@@ -179,7 +179,7 @@ def bootstrap_dag_variables(
     task = LAZY_PYTHON_OPERATOR.PythonOperator(  # type: ignore
         task_id=task_id,
         python_callable=LAZY_ETLER_VAR.set_variables,
-        op_args=[config_path or os.path.join(CONFIG, "dags")],
+        op_args=[config_path or str(CONFIG.joinpath("dags"))],
         dag=dag,
     )
 
@@ -225,10 +225,9 @@ def spark() -> SparkSession:
 
 
 @pytest.fixture()
-def runtime_config_path() -> str:
+def runtime_config_path() -> PurePath:
     """Path to the Airflow runtime configuration."""
-    return os.path.join(
-        pathlib.Path(__file__).resolve().parents[2],
+    return PurePath(Path(__file__).resolve().parents[2]).joinpath(
         "src",
         "dagster",
         "config",

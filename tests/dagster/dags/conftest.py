@@ -1,6 +1,7 @@
 """DAG fixtures at the unit test level.
 
 """
+
 from __future__ import annotations
 from typing import TYPE_CHECKING
 
@@ -15,7 +16,7 @@ if TYPE_CHECKING:
 
 # --8<-- [start:dag_task_ids]
 DAG_TASK_IDS = {
-# --8<-- [start:admin_bootstrap_local]
+    # --8<-- [start:admin_bootstrap_local]
     "ADMIN_BOOTSTRAP_LOCAL": [
         "end",
         "load-connections",
@@ -24,15 +25,13 @@ DAG_TASK_IDS = {
         "set-authentication",
         "start",
     ],
-# --8<-- [end:admin_bootstrap_local]
+    # --8<-- [end:admin_bootstrap_local]
 }
 # --8<-- [end:dag_task_ids]
 
 
 @pytest.fixture()
-def dag_id_cntrl(  # pylint: disable=unused-argument
-    request: SubRequest
-) -> KeysView:
+def dag_id_cntrl(request: SubRequest) -> list[str]:  # pylint: disable=unused-argument
     """Return each DAG ID from the "DAG_TASK_IDS" control list."""
     return list(DAG_TASK_IDS.keys())
 

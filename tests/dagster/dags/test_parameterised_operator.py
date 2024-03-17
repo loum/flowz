@@ -1,28 +1,32 @@
 """Parameterised Operator checks against required airflow.models.Variable.
-"""
-import os
-import pathlib
 
-from _collections_abc import dict_keys
+"""
+
+from __future__ import annotations
+from pathlib import Path, PurePath
+from typing import TYPE_CHECKING
 import pytest
 
 import airflow.utils
-import airflow.models
 
 from dagster.plugins.operators.parameterised_operator import (  # type: ignore[import]
     ParameterisedOperator,
 )
 
-CONFIG = os.path.join(
-    pathlib.Path(__file__).resolve().parents[3], "src", "dagster", "config"
+if TYPE_CHECKING:
+    from airflow.models import DagBag, TaskInstance
+    from collections.abc import KeysView
+
+CONFIG = PurePath(Path(__file__).resolve().parents[3]).joinpath(
+    "src", "dagster", "config"
 )
 
 
-@pytest.mark.parametrize("config_path", [os.path.join(CONFIG, "tasks")])
+@pytest.mark.parametrize("config_path", [str(CONFIG.joinpath("tasks"))])
 def test_dag_parameterised_task_id_variables(  # pylint: disable=unused-argument
-    dagbag: airflow.models.dagbag.DagBag,
-    dag_id_cntrl: dict_keys,
-    bootstrap_task_variables: airflow.models.taskinstance.TaskInstance,
+    dagbag: DagBag,
+    dag_id_cntrl: KeysView,
+    bootstrap_task_variables: TaskInstance,
 ) -> None:
     """Check DAG Parameterised Operator tasks have a matching airflow.models.Model."""
     # Given a tuple of parameterised Airflow Operators to check

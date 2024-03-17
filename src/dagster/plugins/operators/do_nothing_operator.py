@@ -1,7 +1,6 @@
 """A do-nothing EmptyOperator workflow driven by Airflow Variables.
 
 """
-from typing import Optional
 
 from operators.parameterised_operator import ParameterisedOperator  # type: ignore[import]
 import airflow.utils.context
@@ -18,11 +17,11 @@ class DoNothingOperator(ParameterisedOperator):
     def __init__(self, *args, **kwargs) -> None:  # type: ignore[no-untyped-def]
         super().__init__(*args, **kwargs)
 
-        self.__var_01: Optional[str] = self.get_param("var_02")
+        self.__var_01: str | None = self.get_param("var_02")
         self.__var_02: str = self.get_param("var_02", nullable=False)
 
     @property
-    def var_01(self) -> Optional[str]:
+    def var_01(self) -> str | None:
         """Dummy `var_01` getter."""
         return self.__var_01
 

@@ -1,6 +1,7 @@
 """Dagster CLI.
 
 """
+
 from dataclasses import dataclass
 from enum import Enum
 import sys
@@ -78,7 +79,8 @@ def bootstrap_reset() -> None:
 def auth_type(mapping: dict) -> None:
     """Airflow webserver_config.py generator wrapper."""
     webserver_config = dagster.api.set_templated_webserver_config(mapping)
-    sys.stdout.write(webserver_config)
+    if webserver_config is not None:
+        sys.stdout.write(webserver_config)
 
 
 def main() -> None:

@@ -1,6 +1,7 @@
 """DAG loading unit test cases.
 
 """
+
 from __future__ import annotations
 from inspect import currentframe
 from typing import TYPE_CHECKING
@@ -10,6 +11,7 @@ import unittest.mock
 if TYPE_CHECKING:
     from airflow.models import DagBag
     from collections.abc import KeysView, Iterable
+    from types import FrameType
 
 
 # --8<-- [start:test_dagbag_set]
@@ -26,14 +28,19 @@ def test_dagbag_set(
     dag_names_to_skip: list[str] = []
     received = [x for x in dag_names if x not in dag_names_to_skip]
 
+    frame: FrameType | None = currentframe()
+    assert frame is not None
+    test_to_skip: str = frame.f_code.co_name
     msg = (
         'DagBag to "DAG_TASK_IDS" control list mis-match: '
         "check the DAG names defined by DAG_TASK_IDS in fixtures. "
-        f'Or, add to "dag_names_to_skip" in the {currentframe().f_code.co_name}() '
+        f'Or, add to "dag_names_to_skip" in the {test_to_skip}() '
         "test to skip the check."
     )
     expected = [x for x in dag_id_cntrl if x not in dag_names_to_skip]
     assert sorted(received) == sorted(expected), msg
+
+
 # --8<-- [end:test_dagbag_set]
 
 

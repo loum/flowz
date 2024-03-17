@@ -169,9 +169,9 @@ if os.environ.get("CONFIG_PROCESSOR_MANAGER_LOGGER") == "True":
 
     # Manually create log directory for processor_manager handler as RotatingFileHandler
     # will only create file but not the directory.
-    processor_manager_handler_config: Dict[
-        str, Any
-    ] = DEFAULT_DAG_PARSING_LOGGING_CONFIG["handlers"]["processor_manager"]
+    processor_manager_handler_config: Dict[str, Any] = (
+        DEFAULT_DAG_PARSING_LOGGING_CONFIG["handlers"]["processor_manager"]
+    )
     directory: str = os.path.dirname(processor_manager_handler_config["filename"])
     Path(directory).mkdir(parents=True, exist_ok=True, mode=0o755)
 

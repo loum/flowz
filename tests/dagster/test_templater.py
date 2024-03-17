@@ -1,13 +1,18 @@
 """Unit test cases for `dagster.templater`.
 
 """
-import os
+
+from pathlib import Path, PurePath
 import filester
 
 import dagster.templater  # type: ignore[import]
 
+TEMPLATE_FILE_PATH = PurePath(Path(__file__).resolve().parents[1]).joinpath(
+    "files", "templates"
+)
 
-def test_build_from_template_dry(working_dir: str) -> None:
+
+def test_build_from_template_local(tmp_path: Path) -> None:
     """Build file from template: LOCAL environment."""
     # Given a mapping definition
     env_map = {"t": "X", "env": "LOCAL"}
@@ -15,16 +20,16 @@ def test_build_from_template_dry(working_dir: str) -> None:
     # and a template file
     templated_file = "task_variables.json"
     template_file = f"{templated_file}.j2"
-    template_file_path = os.path.join("tests", "files", "templates", template_file)
-    filester.copy_file(template_file_path, os.path.join(working_dir, template_file))
+    template_file_path = TEMPLATE_FILE_PATH.joinpath(template_file)
+    filester.copy_file(str(template_file_path), str(tmp_path.joinpath(template_file)))
 
-    # when render the template
+    # when I render the template
     dagster.templater.build_from_template(
-        env_map, os.path.join(working_dir, template_file), True
+        env_map, str(tmp_path.joinpath(template_file)), True
     )
 
     # then the output should match
-    with open(os.path.join(working_dir, templated_file), encoding="utf-8") as _fh:
+    with open(str(tmp_path.joinpath(templated_file)), encoding="utf-8") as _fh:
         received = _fh.read()
 
     expected = """{
@@ -39,11 +44,10 @@ def test_build_from_template_dry(working_dir: str) -> None:
         }
     }
 }"""
-    msg = "Template render for LOCAL error"
-    assert received == expected, msg
+    assert received == expected, "Template render for LOCAL error"
 
 
-def test_build_from_template_dev(working_dir: str) -> None:
+def test_build_from_template_dev(tmp_path: Path) -> None:
     """Build file from template: DEV environment."""
     # Given a mapping definition
     env_map = {"t": "d", "env": "DEV"}
@@ -51,12 +55,13 @@ def test_build_from_template_dev(working_dir: str) -> None:
     # and a template file
     templated_file = "task_variables.json"
     template_file = f"{templated_file}.j2"
-    template_file_path = os.path.join("tests", "files", "templates", template_file)
-    filester.copy_file(template_file_path, os.path.join(working_dir, template_file))
+    template_file_path = TEMPLATE_FILE_PATH.joinpath(template_file)
+    filester.copy_file(str(template_file_path), str(tmp_path.joinpath(template_file)))
 
     # when render the template
-    abs_template_file = os.path.join(working_dir, template_file)
-    received = dagster.templater.build_from_template(env_map, abs_template_file, False)
+    received = dagster.templater.build_from_template(
+        env_map, str(tmp_path.joinpath(template_file)), False
+    )
 
     # then the output should match
     expected = """{
@@ -71,11 +76,10 @@ def test_build_from_template_dev(working_dir: str) -> None:
         }
     }
 }"""
-    msg = "Template render for DEV error"
-    assert received == expected, msg
+    assert received == expected, "Template render for DEV error"
 
 
-def test_build_from_template_prod(working_dir: str) -> None:
+def test_build_from_template_prod(tmp_path: Path) -> None:
     """Build file from template: PROD environment."""
     # Given a mapping definition
     env_map = {"t": "p", "env": "PRD"}
@@ -83,12 +87,13 @@ def test_build_from_template_prod(working_dir: str) -> None:
     # and a template file
     templated_file = "task_variables.json"
     template_file = f"{templated_file}.j2"
-    template_file_path = os.path.join("tests", "files", "templates", template_file)
-    filester.copy_file(template_file_path, os.path.join(working_dir, template_file))
+    template_file_path = TEMPLATE_FILE_PATH.joinpath(template_file)
+    filester.copy_file(str(template_file_path), str(tmp_path.joinpath(template_file)))
 
     # when render the template
-    abs_template_file = os.path.join(working_dir, template_file)
-    received = dagster.templater.build_from_template(env_map, abs_template_file, False)
+    received = dagster.templater.build_from_template(
+        env_map, str(tmp_path.joinpath(template_file)), False
+    )
 
     expected = """{
     "simple-task": {
@@ -102,11 +107,10 @@ def test_build_from_template_prod(working_dir: str) -> None:
         }
     }
 }"""
-    msg = "Template render for PRD error"
-    assert received == expected, msg
+    assert received == expected, "Template render for PRD error"
 
 
-def test_build_from_missing_template(working_dir: str) -> None:
+def test_build_from_missing_template(tmp_path: Path) -> None:
     """Build file from template that is not defined."""
     # Given a mapping definition
     env_map = {"t": "i", "env": "TEST"}
@@ -117,15 +121,16 @@ def test_build_from_missing_template(working_dir: str) -> None:
 
     # when the system renders the template
     dagster.templater.build_from_template(
-        env_map, os.path.join(working_dir, template_file), True
+        env_map, str(tmp_path.joinpath(template_file)), True
     )
 
     # then no rendered output file should exist
-    msg = "Template render for DEV error"
-    assert not os.path.exists(templated_file), msg
+    assert not tmp_path.joinpath(
+        templated_file
+    ).exists(), "Template render for DEV error"
 
 
-def test_build_from_dag_template_dry(working_dir: str) -> None:
+def test_build_from_dag_template_local(tmp_path: Path) -> None:
     """Build DAG variable file from template: LOCAL environment."""
     # Given a mapping definition
     env_map = {"dry_run": "true", "env": "LOCAL"}
@@ -133,16 +138,16 @@ def test_build_from_dag_template_dry(working_dir: str) -> None:
     # and a template file
     templated_file = "dag_variables.json"
     template_file = f"{templated_file}.j2"
-    template_file_path = os.path.join("tests", "files", "templates", template_file)
-    filester.copy_file(template_file_path, os.path.join(working_dir, template_file))
+    template_file_path = TEMPLATE_FILE_PATH.joinpath(template_file)
+    filester.copy_file(str(template_file_path), str(tmp_path.joinpath(template_file)))
 
     # when render the template
     dagster.templater.build_from_template(
-        env_map, os.path.join(working_dir, template_file), True
+        env_map, str(tmp_path.joinpath(template_file)), True
     )
 
     # then the output should match
-    with open(os.path.join(working_dir, templated_file), encoding="utf-8") as _fh:
+    with open(tmp_path.joinpath(templated_file), encoding="utf-8") as _fh:
         received = _fh.read()
 
     expected = """{
@@ -151,11 +156,10 @@ def test_build_from_dag_template_dry(working_dir: str) -> None:
         "max_active_tasks": 4
     }  
 }"""
-    msg = "DAG Template render for LOCAL error"
-    assert received == expected, msg
+    assert received == expected, "DAG Template render for LOCAL error"
 
 
-def test_build_from_dag_template_dev(working_dir: str) -> None:
+def test_build_from_dag_template_dev(tmp_path: Path) -> None:
     """Build DAG variable file from template: DEV environment."""
     # Given a mapping definition
     env_map = {"dry_run": "false", "env": "DEV"}
@@ -163,16 +167,16 @@ def test_build_from_dag_template_dev(working_dir: str) -> None:
     # and a template file
     templated_file = "dag_variables.json"
     template_file = f"{templated_file}.j2"
-    template_file_path = os.path.join("tests", "files", "templates", template_file)
-    filester.copy_file(template_file_path, os.path.join(working_dir, template_file))
+    template_file_path = TEMPLATE_FILE_PATH.joinpath(template_file)
+    filester.copy_file(str(template_file_path), str(tmp_path.joinpath(template_file)))
 
     # when render the template
     dagster.templater.build_from_template(
-        env_map, os.path.join(working_dir, template_file), True
+        env_map, str(tmp_path.joinpath(template_file)), True
     )
 
     # then the output should match
-    with open(os.path.join(working_dir, templated_file), encoding="utf-8") as _fh:
+    with open(tmp_path.joinpath(templated_file), encoding="utf-8") as _fh:
         received = _fh.read()
 
     expected = """{
@@ -181,5 +185,4 @@ def test_build_from_dag_template_dev(working_dir: str) -> None:
         "max_active_tasks": 4
     }  
 }"""
-    msg = "DAG Template render for LOCAL error"
-    assert received == expected, msg
+    assert received == expected, "DAG Template render for LOCAL error"
