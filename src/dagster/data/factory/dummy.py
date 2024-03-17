@@ -1,7 +1,8 @@
 """Dummy data factory.
 
 """
-from typing import Any, Optional
+
+from typing import Any
 from pyspark.sql.types import Row
 
 import dagster.schema.dummy
@@ -15,7 +16,7 @@ class Data:
         self.row_count: int = row_count
         self.skew: bool = skew
 
-    def rows(self) -> list[tuple[Optional[Any], ...]]:
+    def rows(self) -> list[tuple[Any | None, ...]]:
         """Create a dynamic set of DataFrame rows.
 
         Row count based on `row_count`.

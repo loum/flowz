@@ -1,6 +1,7 @@
 """Dummy schema `dagster.schema.dummy`.
 
 """
+
 from pyspark.sql.types import (
     IntegerType,
     StringType,

@@ -1,7 +1,8 @@
 """Unit test cases for :mod:`dagster.variable`.
+
 """
-import os
-import pathlib
+
+from pathlib import Path, PurePath
 import pytest
 
 from dagsesh import lazy
@@ -10,8 +11,8 @@ import dagster.variable  # type: ignore[import]
 
 AF_UTILS = lazy.Loader("airflow.utils", globals(), "airflow.utils")
 AF_MODELS = lazy.Loader("airflow.models", globals(), "airflow.models")
-VARIABLES_PATH = os.path.join(
-    pathlib.Path(__file__).resolve().parents[1], "files", "config", "tasks"
+VARIABLES_PATH = PurePath(Path(__file__).resolve().parents[1]).joinpath(
+    "files", "config", "tasks"
 )
 TASK_VARIABLE_COUNT = 10
 
@@ -28,12 +29,12 @@ def test_delete_task_variables(  # pylint: disable=unused-argument
     received = dagster.variable.del_variable_key(key)
 
     # then I should receive a False status
-    msg = "Attempt to delete a unknown key should return False"
-    assert not received, msg
+    assert not received, "Attempt to delete a unknown key should return False"
 
     # and I should receive the original count of Airflow Variables
-    msg = "Variable list should not be empty (Airflow tasks)"
-    assert task_variables == TASK_VARIABLE_COUNT, msg
+    assert (
+        task_variables == TASK_VARIABLE_COUNT
+    ), "Variable list should not be empty (Airflow tasks)"
 
 
 @pytest.mark.parametrize("config_path", [VARIABLES_PATH])
@@ -42,8 +43,9 @@ def test_pristine_load_of_task_variables(task_variables: int) -> None:
     # when I load in the configured Airflow task Variables
 
     # then I should receive a list of Airflow Variables
-    msg = "Variable list should not be empty (Airflow tasks)"
-    assert task_variables == TASK_VARIABLE_COUNT, msg
+    assert (
+        task_variables == TASK_VARIABLE_COUNT
+    ), "Variable list should not be empty (Airflow tasks)"
 
 
 @pytest.mark.parametrize("config_path", [VARIABLES_PATH])
@@ -54,11 +56,10 @@ def test_reload_of_task_variables(
     # when I load in the configured Airflow task Variables
 
     # and then reload the configured Airflow task Variables
-    received = dagster.variable.set_variables(VARIABLES_PATH)
+    received = dagster.variable.set_variables(str(VARIABLES_PATH))
 
     # then the load count should be 0
-    msg = "Airflow task reload count should be 0"
-    assert not received, msg
+    assert not received, "Airflow task reload count should be 0"
 
     # and the Airflow task Variable count should remain unchanged
     with AF_UTILS.session.create_session() as session:  # type: ignore
@@ -68,8 +69,9 @@ def test_reload_of_task_variables(
             .count()
         )
 
-    msg = "Variable list should not be empty (Airflow tasks)"
-    assert task_variable_count == TASK_VARIABLE_COUNT, msg
+    assert (
+        task_variable_count == TASK_VARIABLE_COUNT
+    ), "Variable list should not be empty (Airflow tasks)"
 
 
 @pytest.mark.parametrize("config_path", [VARIABLES_PATH])
@@ -91,15 +93,15 @@ def test_reload_of_task_variables_missing_entry(  # pylint: disable=unused-argum
             .count()
         )
 
-    msg = "Variable list should not be empty (Airflow tasks)"
-    assert task_variable_count == TASK_VARIABLE_COUNT - 1, msg
+    assert (
+        task_variable_count == TASK_VARIABLE_COUNT - 1
+    ), "Variable list should not be empty (Airflow tasks)"
 
     # and then when reload the configured Airflow task Variables
-    received = dagster.variable.set_variables(VARIABLES_PATH)
+    received = dagster.variable.set_variables(str(VARIABLES_PATH))
 
     # then the load count should be 1
-    msg = "Airflow task reload count should be 0"
-    assert received == 1, msg
+    assert received == 1, "Airflow task reload count should be 0"
 
     # and the original Airflow task Variable count should be restored
     with AF_UTILS.session.create_session() as session:  # type: ignore
@@ -109,8 +111,9 @@ def test_reload_of_task_variables_missing_entry(  # pylint: disable=unused-argum
             .count()
         )
 
-    msg = "Restored Variable list should be restored (Airflow tasks)"
-    assert task_variable_count == TASK_VARIABLE_COUNT, msg
+    assert (
+        task_variable_count == TASK_VARIABLE_COUNT
+    ), "Restored Variable list should be restored (Airflow tasks)"
 
 
 @pytest.mark.parametrize("config_path", [VARIABLES_PATH])
@@ -123,8 +126,7 @@ def test_get_variables(task_variables: int) -> None:  # pylint: disable=unused-a
 
     # then I should receive a match
     received = dagster.variable.get_variable(key)
-    msg = "Known variable expected to match from Airflow Variables DB"
-    assert received, msg
+    assert received, "Known variable expected to match from Airflow Variables DB"
 
 
 @pytest.mark.parametrize("config_path", [VARIABLES_PATH])
@@ -139,5 +141,6 @@ def test_get_variables_unmatched(
 
     # then I should not receive a match
     received = dagster.variable.get_variable(key)
-    msg = "Unknown variable should not match against Airflow Variables DB"
-    assert not received, msg
+    assert (
+        not received
+    ), "Unknown variable should not match against Airflow Variables DB"

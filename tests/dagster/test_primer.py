@@ -1,5 +1,7 @@
 """Unit test cases for `dagster.Primer`.
+
 """
+
 import datetime
 
 from dagster.primer import Primer  # type: ignore[import]

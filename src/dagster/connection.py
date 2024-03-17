@@ -1,15 +1,13 @@
 """Airflow connection helpers.
 
 """
-from typing import Optional
 
+from pathlib import Path, PurePath
 import json
-import os
-import pathlib
 
-from sqlalchemy.orm import exc
 from dagsesh import lazy
 from logga import log
+from sqlalchemy.orm import exc
 import filester
 
 from dagster.templater import build_from_template
@@ -119,7 +117,7 @@ def delete_connection(key: str) -> None:
 
 
 def set_templated_connection(
-    path_to_connections: str, environment_override: Optional[str] = None
+    path_to_connections: str, environment_override: str | None = None
 ) -> None:
     """Add configuration items to Airflow `airflow.models.Connection`.
 
@@ -147,15 +145,19 @@ def set_templated_connection(
     config_paths = []
     if environment_override is not None:
         config_paths.append(
-            os.path.join(path_to_connections, environment_override.lower())
+            str(
+                PurePath(Path(path_to_connections)).joinpath(
+                    environment_override.lower()
+                )
+            )
         )
     config_paths.append(path_to_connections)
 
     for config_path in config_paths:
         for path_to_variable_template in filester.get_directory_files(
-            config_path, file_filter="*.j2"
+            str(config_path), file_filter="*.j2"
         ):
-            rendered_content: Optional[str] = build_from_template(
+            rendered_content: str | None = build_from_template(
                 {}, path_to_variable_template, write_output=False
             )
             if rendered_content is None:
@@ -185,7 +187,7 @@ def set_templated_connection(
                 log.info("%s: %s", msg, state)
 
 
-def set_logging_connection(path_to_connections: Optional[str] = None) -> None:
+def set_logging_connection(path_to_connections: str | None = None) -> None:
     """Logging configuration to Airflow `airflow.models.Connection`.
 
     Parameters:
@@ -194,13 +196,14 @@ def set_logging_connection(path_to_connections: Optional[str] = None) -> None:
     """
     if REMOTE_LOGGING:
         if not path_to_connections:
-            path_to_connections = os.path.join(
-                pathlib.Path(__file__).resolve().parents[0],
-                "config",
-                "templates",
-                "connections",
-                "logging",
-                "sas",
+            path_to_connections = str(
+                PurePath(Path(__file__).resolve().parents[0]).joinpath(
+                    "config",
+                    "templates",
+                    "connections",
+                    "logging",
+                    "sas",
+                )
             )
         set_templated_connection(path_to_connections)
     else:

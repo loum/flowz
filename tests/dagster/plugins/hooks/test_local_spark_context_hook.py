@@ -1,10 +1,10 @@
 """`hooks.local_spark_context_hook.LocalSparkContextHook` unit test cases.
 
 """
+
 import unittest.mock
 
 from pyspark.sql import SparkSession
-
 from airflow.models import Connection
 
 from dagster.plugins.hooks.local_spark_context_hook import (  # type: ignore[import]

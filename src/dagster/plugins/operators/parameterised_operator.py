@@ -1,7 +1,8 @@
 """Generic Operator driven by parameters.
 
 """
-from typing import Any, Optional
+
+from typing import Any
 
 from airflow.exceptions import AirflowFailException, AirflowSkipException
 from airflow.models import BaseOperator, Variable
@@ -12,19 +13,19 @@ class ParameterisedOperator(BaseOperator):
     """Generic Operator driven by Airflow Variables."""
 
     def __init__(self, *args, **kwargs) -> None:  # type: ignore[no-untyped-def]
-        self.__task_name: Optional[str] = kwargs.get("task_id")
-        self.__configs: Optional[dict] = None
+        self.__task_name: str | None = kwargs.get("task_id")
+        self.__configs: dict | None = None
 
         kwargs.update({"trigger_rule": "none_failed"})
         super().__init__(*args, **kwargs)
 
     @property
-    def task_name(self) -> Optional[str]:
+    def task_name(self) -> str | None:
         """Get the name of the DAG task."""
         return self.__task_name
 
     @property
-    def configs(self) -> Optional[dict]:
+    def configs(self) -> dict | None:
         """Get the Airflow variable value for DAG task name."""
         if self.__configs is None and self.task_name is not None:
             self.__configs = Variable.get(
@@ -60,7 +61,7 @@ class ParameterisedOperator(BaseOperator):
 
         return param
 
-    def execute(self, context: airflow.utils.context.Context) -> Optional[str]:
+    def execute(self, context: airflow.utils.context.Context) -> str | None:
         """Base execute for parameterised Operators.
 
         Validates the `skip_task` setting.

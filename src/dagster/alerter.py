@@ -1,8 +1,9 @@
 """Custom Airflow alerting.
 
 """
+
+from pathlib import Path, PurePath
 import os
-import pathlib
 
 from airflow.utils.email import send_email
 import airflow.utils.context
@@ -26,12 +27,11 @@ def notify_email(context: airflow.utils.context.Context) -> None:
             "duration": _ti.duration,
             "log_url": _ti.log_url,
         }
-        email_template_file = os.path.join(
-            pathlib.Path(__file__).resolve().parents[0],
+        email_template_file = PurePath(Path(__file__).resolve().parents[0]).joinpath(
             "config",
             "templates",
             "email_html.j2",
         )
-        body = dagster.templater.build_from_template(ti_map, email_template_file)
+        body = dagster.templater.build_from_template(ti_map, str(email_template_file))
 
         send_email(os.environ.get("AIRFLOW_SUPPORT_EMAIL", ""), title, body)

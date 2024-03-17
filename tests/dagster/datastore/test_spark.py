@@ -1,8 +1,9 @@
 """Spark datastore `dagster.datastore.spark` unit test cases.
 
 """
+
+from pathlib import Path, PurePath
 import json
-import os
 
 import pyspark.sql
 import pyspark.sql.types
@@ -27,7 +28,7 @@ def test_parquet_reader(working_dir: str, spark: pyspark.sql.SparkSession) -> No
     ]
     columns = ["firstname", "middlename", "lastname", "dob", "gender", "salary"]
     _df = spark.createDataFrame(data, columns)
-    parquet_path = os.path.join(working_dir, "parquet.out")
+    parquet_path = str(PurePath(Path(working_dir)).joinpath("parquet.out"))
     _df.write.parquet(parquet_path)
 
     # when I read into a Spark SQL DataFrame
@@ -73,7 +74,7 @@ def test_json_reader_multiline(
         {"dummy_col01": 1, "dummy_col02": "dummy_col02_val01"},
         {"dummy_col01": 1, "dummy_col02": "dummy_col02_val01"},
     ]
-    json_path = os.path.join(working_dir, "dummy.json")
+    json_path = str(PurePath(Path(working_dir)).joinpath("dummy.json"))
     with open(json_path, mode="w", encoding="utf-8") as _fh:
         json.dump(data, _fh)
 
@@ -106,7 +107,7 @@ def test_json_reader_multiline_false(
         {"dummy_col01": 1, "dummy_col02": "dummy_col02_val01"},
         {"dummy_col01": 1, "dummy_col02": "dummy_col02_val01"},
     ]
-    json_path = os.path.join(working_dir, "dummy.json")
+    json_path = str(PurePath(Path(working_dir)).joinpath("dummy.json"))
     with open(json_path, mode="w", encoding="utf-8") as _fh:
         json.dump(data, _fh)
 

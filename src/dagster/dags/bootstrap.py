@@ -2,7 +2,6 @@
 
 """
 
-from typing import Optional
 from pathlib import Path, PurePath
 
 from airflow.decorators import task
@@ -23,8 +22,8 @@ def dag_name() -> str:
 
     """
 
-    def inner():
-        return PurePath(__file__).stem.replace("_", "-")
+    def inner() -> str:
+        return str(PurePath(__file__).stem.replace("_", "-"))
 
     return inner()
 
@@ -37,7 +36,7 @@ def dag_params() -> dict:
 
     """
 
-    def inner():
+    def inner() -> dict:
         return {
             "tags": [dag_name().upper()],
             "schedule_interval": "@once",
@@ -54,8 +53,9 @@ def config_path() -> str:
         Python string representing the fully qualified path to the custom configuration.
 
     """
-    def inner():
-        return PurePath(Path(__file__).resolve().parents[1]).joinpath("config")
+
+    def inner() -> str:
+        return str(PurePath(Path(__file__).resolve().parents[1]).joinpath("config"))
 
     return inner()
 
@@ -76,7 +76,7 @@ def load_auth() -> None:
 
 @task(task_id="load-connections")
 def load_connections(
-    path_to_connections: str, environment_override: Optional[str] = None
+    path_to_connections: str, environment_override: str | None = None
 ) -> None:
     """Task wrapper to add configuration items to Airflow `airflow.models.Connection`."""
     return dagster.connection.set_templated_connection(
@@ -86,14 +86,14 @@ def load_connections(
 
 
 TASK_LOAD_CONNECTION = load_connections(
-    PurePath(config_path()).joinpath("connections"),
+    str(PurePath(config_path()).joinpath("connections")),
     environment_override=primer.get_env,
 )
 
 
 @task(task_id="load-dag-variables")
 def task_load_dag_variables(
-    path_to_variables: str, environment_override: Optional[str] = None
+    path_to_variables: str, environment_override: str | None = None
 ) -> int:
     """Task wrapper to add DAG variable items to Airflow `airflow.models.Variable`."""
     return dagster.variable.set_variables(
@@ -103,14 +103,14 @@ def task_load_dag_variables(
 
 
 TASK_LOAD_DAG_VARIABLES = task_load_dag_variables(
-    path_to_variables=PurePath(config_path()).joinpath("dags"),
+    path_to_variables=str(PurePath(config_path()).joinpath("dags")),
     environment_override=primer.get_env,
 )
 
 
 @task(task_id="load-task-variables")
 def task_load_task_variables(
-    path_to_variables: str, environment_override: Optional[str] = None
+    path_to_variables: str, environment_override: str | None = None
 ) -> int:
     """Task wrapper to add task variable items to Airflow `airflow.models.Variable`."""
     return dagster.variable.set_variables(
@@ -120,7 +120,7 @@ def task_load_task_variables(
 
 
 TASK_LOAD_TASK_VARIABLES = task_load_task_variables(
-    path_to_variables=PurePath(config_path()).joinpath("tasks"),
+    path_to_variables=str(PurePath(config_path()).joinpath("tasks")),
     environment_override=primer.get_env,
 )
 

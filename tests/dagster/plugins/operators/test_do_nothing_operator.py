@@ -1,6 +1,7 @@
 """`dagster.plugins.operators.do_nothing_operator.DoNothingOperator` unit test cases.
 
 """
+
 from datetime import datetime, timedelta
 from typing import Union, cast
 import random
