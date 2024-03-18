@@ -93,3 +93,6 @@ metastore_db
 
 # macOS
 .DS_Store
+
+# Ctags
+tags
