@@ -1,7 +1,7 @@
 .SILENT:
 .DEFAULT_GOAL := help
 
-MAKESTER__INCLUDES := py docker compose versioning docs
+MAKESTER__INCLUDES := py versioning docker compose microk8s docs
 MAKESTER__REPO_NAME := loum
 
 include makester/makefiles/makester.mk

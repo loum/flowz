@@ -17,6 +17,12 @@ nav:
             - Container image:
                 - Build: installation-modes/celeryexecutor/build.md
                 - Airflow instance runtime: installation-modes/celeryexecutor/instance-runtime.md
+    - Cloud native:
+        - cloud-native/index.md
+        - cloud-native/k8s-shakeout.md
+        - Declarative GitOps:
+            - cloud-native/declarative-gitops/index.md
+            - cloud-native/declarative-gitops/sealed-secrets.md
     - Operations:
         - Bootstrap:
             - Airflow admin authentication: operations/bootstrap/auth.md
