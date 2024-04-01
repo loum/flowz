@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: /usr/local/bin/kompose convert --file docker/docker-compose.yml --out /home/lupco/dev/dagster/.makester/k8s/manifests
+    kompose.version: 1.32.0 (765fde254)
+  labels:
+    io.kompose.service: redis
+  name: redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: redis
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: /usr/local/bin/kompose convert --file docker/docker-compose.yml --out /home/lupco/dev/dagster/.makester/k8s/manifests
+        kompose.version: 1.32.0 (765fde254)
+      labels:
+        io.kompose.network/docker-default: "true"
+        io.kompose.service: redis
+    spec:
+      containers:
+        - command:
+            - redis-server
+            - --protected-mode
+            - "no"
+          env:
+            - name: AIRFLOW__CELERY__BROKER_URL
+              value: '"redis://redis:6379/1"'
+            - name: AIRFLOW__CELERY__RESULT_BACKEND
+              value: db+postgresql://airflow:airflow@postgres:5432/airflow?
+            - name: REDIS_DBNUM
+              value: "1"
+            - name: REDIS_HOST
+              value: redis
+            - name: REDIS_PASSWORD
+              value: redispass
+            - name: REDIS_PORT
+              value: "6379"
+            - name: REDIS_PROTO
+              value: '"redis://"'
+          image: redis:7.2-alpine
+          livenessProbe:
+            exec:
+              command:
+                - redis-cli
+                - --raw
+                - incr
+                - ping
+            failureThreshold: 2
+            periodSeconds: 2
+            timeoutSeconds: 5
+          name: airflow-redis
+          ports:
+            - containerPort: 6379
+              hostPort: 6379
+              protocol: TCP
+      restartPolicy: Always

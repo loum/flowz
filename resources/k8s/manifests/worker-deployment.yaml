@@ -1,0 +1,102 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: /usr/local/bin/kompose convert --file docker/docker-compose.yml --out /home/lupco/dev/dagster/.makester/k8s/manifests
+    kompose.version: 1.32.0 (765fde254)
+  labels:
+    io.kompose.service: worker
+  name: worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: worker
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: /usr/local/bin/kompose convert --file docker/docker-compose.yml --out /home/lupco/dev/dagster/.makester/k8s/manifests
+        kompose.version: 1.32.0 (765fde254)
+      labels:
+        io.kompose.network/docker-default: "true"
+        io.kompose.service: worker
+    spec:
+      containers:
+        - args:
+            - celery
+            - worker
+          env:
+            - name: AIRFLOW_CUSTOM_CONFIG
+              value: /home/airflow/.local/lib/python3.11/site-packages/dagster/config
+            - name: AIRFLOW_CUSTOM_ENV
+              value: dev
+            - name: AIRFLOW_HOME
+              value: /opt/airflow/airflow
+            - name: AIRFLOW__CORE__DAGS_FOLDER
+              value: /home/airflow/.local/lib/python3.11/site-packages/dagster/dags
+            - name: AIRFLOW__CORE__EXECUTOR
+              value: CeleryExecutor
+            - name: AIRFLOW__CORE__FERNET_KEY
+              value: '"LFKF4PSrAOG-kbxOouoLj8Du2QCnsp9qw7G21-WPsLU="'
+            - name: AIRFLOW__CORE__LOAD_EXAMPLES
+              value: "False"
+            - name: AIRFLOW__CORE__MIN_SERIALIZED_DAG_UPDATE_INTERVAL
+              value: "30"
+            - name: AIRFLOW__CORE__PLUGINS_FOLDER
+              value: /home/airflow/.local/lib/python3.11/site-packages/dagster/plugins
+            - name: AIRFLOW__CORE__STORE_SERIALIZED_DAGS
+              value: "True"
+            - name: AIRFLOW__CORE__UNIT_TEST_MODE
+              value: "False"
+            - name: AIRFLOW__DATABASE__CHECK_MIGRATIONS
+              value: "False"
+            - name: AIRFLOW__DATABASE__LOAD_DEFAULT_CONNECTIONS
+              value: "False"
+            - name: AIRFLOW__DATABASE__SQL_ALCHEMY_CONN
+              value: postgresql://airflow:airflow@postgres:5432/airflow?
+            - name: AIRFLOW__LOGGING__BASE_LOG_FOLDER
+              value: /var/log/airflow
+            - name: AIRFLOW__LOGGING__REMOTE_LOGGING
+              value: "False"
+            - name: AIRFLOW__SCHEDULER__PRINT_STATS_INTERVAL
+              value: "300"
+            - name: AIRFLOW__SCHEDULER__SCHEDULER_IDLE_SLEEP_TIME
+              value: "5"
+            - name: AIRFLOW__WEBSERVER__DAG_DEFAULT_VIEW
+              value: graph
+            - name: AIRFLOW__WEBSERVER__WEB_SERVER_PORT
+              value: "8443"
+            - name: AIRFLOW__WEBSERVER__WEB_SERVER_SSL_CERT
+              value: /etc/ssl/certs/airflow-selfsigned.crt
+            - name: AIRFLOW__WEBSERVER__WEB_SERVER_SSL_KEY
+              value: /home/airflow/ssl/private/airflow-selfsigned.key
+            - name: AIRFLOW__WEBSERVER__WORKERS
+              value: "1"
+            - name: AIRFLOW__WEBSERVER__WORKER_REFRESH_BATCH_SIZE
+              value: "1"
+            - name: DAGSTER_AIRFLOW_ADMIN_PASSWORD
+              value: airflow
+            - name: DAGSTER_AIRFLOW_ADMIN_USER
+              value: airflow
+          image: loum/dagster:latest
+          name: airflow-worker
+          ports:
+            - containerPort: 8793
+              hostPort: 8793
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /opt/airflow/data
+              name: airflow-worker-vol
+            - mountPath: /var/log/airflow
+              name: airflow-logs-vol
+      hostname: worker
+      restartPolicy: Always
+      volumes:
+        - name: airflow-worker-vol
+          persistentVolumeClaim:
+            claimName: airflow-worker-vol
+        - name: airflow-logs-vol
+          persistentVolumeClaim:
+            claimName: airflow-logs-vol

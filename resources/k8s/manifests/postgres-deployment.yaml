@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: /usr/local/bin/kompose convert --file docker/docker-compose.yml --out /home/lupco/dev/dagster/.makester/k8s/manifests
+    kompose.version: 1.32.0 (765fde254)
+  labels:
+    io.kompose.service: postgres
+  name: postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: postgres
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: /usr/local/bin/kompose convert --file docker/docker-compose.yml --out /home/lupco/dev/dagster/.makester/k8s/manifests
+        kompose.version: 1.32.0 (765fde254)
+      labels:
+        io.kompose.network/docker-default: "true"
+        io.kompose.service: postgres
+    spec:
+      containers:
+        - env:
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata/db-files
+            - name: POSTGRES_DB
+              value: airflow
+            - name: POSTGRES_EXTRAS
+            - name: POSTGRES_HOST
+              value: postgres
+            - name: POSTGRES_PASSWORD
+              value: airflow
+            - name: POSTGRES_PORT
+              value: "5432"
+            - name: POSTGRES_USER
+              value: airflow
+          image: postgres:15.4-alpine
+          livenessProbe:
+            exec:
+              command:
+                - pg_isready -d ${POSTGRES_DB:-airflow} -U ${POSTGRES_USER:-airflow}
+            failureThreshold: 2
+            periodSeconds: 2
+            timeoutSeconds: 5
+          name: airflow-postgres
+          ports:
+            - containerPort: 5432
+              hostPort: 5432
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data/pgdata
+              name: airflow-postgres-vol
+      restartPolicy: Always
+      volumes:
+        - name: airflow-postgres-vol
+          persistentVolumeClaim:
+            claimName: airflow-postgres-vol
