@@ -63,10 +63,12 @@ spec:
         - name: AIRFLOW__WEBSERVER__WORKER_REFRESH_BATCH_SIZE
           value: "1"
       image: loum/dagster:latest
-      livenessProbe:
+      readinessProbe:
         exec:
-          command: ["airflow"]
-          args: ["db", "check"]
+          command:
+            - airflow
+            - db
+            - check
         failureThreshold: 2
         periodSeconds: 2
         timeoutSeconds: 5

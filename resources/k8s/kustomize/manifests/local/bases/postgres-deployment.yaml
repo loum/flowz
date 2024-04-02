@@ -39,10 +39,14 @@ spec:
             - name: POSTGRES_USER
               value: airflow
           image: postgres:15.4-alpine
-          livenessProbe:
+          readinessProbe:
             exec:
-              command: ["pg_isready"]
-              args: ["-d", "$(POSTGRES_DB)", "-U", "$(POSTGRES_USER)"]
+              command:
+                - pg_isready
+                - -d
+                - $(POSTGRES_DB)
+                - -U
+                - $(POSTGRES_USER)
             failureThreshold: 2
             periodSeconds: 2
             timeoutSeconds: 5
