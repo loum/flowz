@@ -22,4 +22,4 @@ As Dagster is an Apache Airflow DAG code repository templater, begin by forking 
 Dagster provides the tooling to support a cloud-native deployment model. Follow the: guide under [container image management](installation-modes/celeryexecutor/build.md) to containerise your workflows so that they are ready for deployment.
 
 ### Dagster as a cloud native Apache Airflow service
-Already have your container image ready to go and interested in deployment into Kubernetes? Follow the [Dagster cloud native deployment model](cloud-native) guide.
+Already have your container image ready to go and interested in deployment into Kubernetes? Follow the [Dagster cloud native deployment model](cloud-native/index.md) guide.

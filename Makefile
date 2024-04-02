@@ -1,13 +1,14 @@
 .SILENT:
 .DEFAULT_GOAL := help
 
-MAKESTER__INCLUDES := py versioning docker compose microk8s docs
+MAKESTER__INCLUDES := py versioning docker compose microk8s argocd docs kompose
 MAKESTER__REPO_NAME := loum
 
 include makester/makefiles/makester.mk
 include makefiles/airflow-celery.mk
 include makefiles/airflow-sequential.mk
 include makefiles/container-images.mk
+include makefiles/manifests.mk
 
 #
 # Makester overrides.
@@ -101,9 +102,14 @@ export DRIVER_MEMORY := $(DRIVER_MEMORY)
 pyspark:
 	@PYSPARK_PYTHON=$(MAKESTER__PYTHON) pyspark --driver-memory=$(DRIVER_MEMORY)
 
+local-serve-repo:
+	$(info ### Serving Git repo as "git://$(MAKESTER__LOCAL_IP)/$(shell $(shell which basename) $(PWD))")
+	$(GIT) daemon --base-path=$(shell $(shell which dirname) $(PWD)) --export-all --reuseaddr --informative-errors --verbose
+
 help: makester-help
 	@echo "(Makefile)\n\
   airflow              Run any \"airflow\" by setting CMD (defaults to \"CMD=--help\")\n\
+  local-serve-repo     Serve parent directory via \"git daemon\"\n\
   pristine             Convenience target bundling clear-env, init and reset in LOCAL context\n\
   pyspark              Start the PyPI pyspark interpreter in virtual env context\n\
   tests                Run code test suite\n\
@@ -111,5 +117,6 @@ help: makester-help
 	$(MAKE) airflow-celery-help
 	$(MAKE) airflow-sequential-help
 	$(MAKE) container-images-help
+	$(MAKE) manifests-help
 
 .PHONY: help airflow

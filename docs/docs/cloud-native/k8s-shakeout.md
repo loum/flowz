@@ -18,6 +18,10 @@ in the output:
 ### Login to the MicroK8s Kubernetes dashboard with following token:
 eyJhbGciOiJ...
 ```
+The MicroK8s Kubernetes dashboard credentials can be generated at any time with the following command:
+``` sh title="MicroK8s Kubernetes dashboard credentials."
+make microk8s-dashboard-creds
+```
 
 1. Start the local Argo CD service.
 ``` sh
