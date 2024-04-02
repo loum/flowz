@@ -65,8 +65,8 @@ spec:
       image: loum/dagster:latest
       livenessProbe:
         exec:
-          command:
-            - /home/airflow/.local/bin/airflow db check
+          command: ["airflow"]
+          args: ["db", "check"]
         failureThreshold: 2
         periodSeconds: 2
         timeoutSeconds: 5

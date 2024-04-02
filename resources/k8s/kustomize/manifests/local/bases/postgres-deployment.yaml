@@ -41,8 +41,8 @@ spec:
           image: postgres:15.4-alpine
           livenessProbe:
             exec:
-              command:
-                - pg_isready -d ${POSTGRES_DB:-airflow} -U ${POSTGRES_USER:-airflow}
+              command: ["pg_isready"]
+              args: ["-d", "$(POSTGRES_DB)", "-U", "$(POSTGRES_USER)"]
             failureThreshold: 2
             periodSeconds: 2
             timeoutSeconds: 5
