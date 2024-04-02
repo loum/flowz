@@ -5,6 +5,7 @@ metadata:
     io.kompose.service: airflow-postgres-vol
   name: airflow-postgres-vol
 spec:
+  storageClassName: manual
   accessModes:
     - ReadWriteOnce
   resources:
