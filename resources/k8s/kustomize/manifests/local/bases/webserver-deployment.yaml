@@ -83,10 +83,10 @@ spec:
               protocol: TCP
           volumeMounts:
             - mountPath: /var/log/airflow
-              name: airflow-logs-vol
+              name: airflow-vol
       hostname: webserver
       restartPolicy: Always
       volumes:
-        - name: airflow-logs-vol
+        - name: airflow-vol
           persistentVolumeClaim:
             claimName: dagster-provisioner
