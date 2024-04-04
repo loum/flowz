@@ -82,10 +82,6 @@ spec:
               value: airflow
           image: loum/dagster:latest
           name: airflow-worker
-          ports:
-            - containerPort: 8793
-              hostPort: 8793
-              protocol: TCP
           volumeMounts:
             - mountPath: /opt/airflow/data
               name: airflow-worker-vol
