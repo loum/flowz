@@ -23,6 +23,10 @@ spec:
         io.kompose.network/docker-default: "true"
         io.kompose.service: scheduler
     spec:
+      securityContext:
+        fsGroup: 0
+        runAsUser: 50000
+        runAsGroup: 0
       containers:
         - args:
             - scheduler
