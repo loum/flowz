@@ -86,13 +86,10 @@ spec:
             - mountPath: /opt/airflow/data
               name: airflow-worker-vol
             - mountPath: /var/log/airflow
-              name: airflow-logs-vol
+              name: airflow-worker-vol
       hostname: worker
       restartPolicy: Always
       volumes:
         - name: airflow-worker-vol
-          persistentVolumeClaim:
-            claimName: dagster-provisioner
-        - name: airflow-logs-vol
           persistentVolumeClaim:
             claimName: dagster-provisioner
