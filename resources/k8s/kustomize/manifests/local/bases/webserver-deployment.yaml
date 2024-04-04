@@ -89,4 +89,4 @@ spec:
       volumes:
         - name: airflow-logs-vol
           persistentVolumeClaim:
-            claimName: airflow-logs-vol
+            claimName: dagster-provisioner

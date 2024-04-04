@@ -5,10 +5,7 @@ kind: Kustomization
 namespace: dagster-local
 
 resources:
-    - bases/airflow-logs-vol-persistentvolumeclaim.yaml
-    - bases/airflow-postgres-vol-persistentvolumeclaim.yaml
-    - bases/airflow-s3-vol-persistentvolumeclaim.yaml
-    - bases/airflow-worker-vol-persistentvolumeclaim.yaml
+    - bases/dagster-vol-persistentvolumeclaim.yaml
     - bases/init-db-pod.yaml
     - bases/minio-deployment.yaml
     - bases/minio-service.yaml

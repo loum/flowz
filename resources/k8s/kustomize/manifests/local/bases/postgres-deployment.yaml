@@ -62,4 +62,4 @@ spec:
       volumes:
         - name: airflow-postgres-vol
           persistentVolumeClaim:
-            claimName: airflow-postgres-vol
+            claimName: dagster-provisioner
