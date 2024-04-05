@@ -81,12 +81,5 @@ spec:
               value: "1"
           image: loum/dagster:latest
           name: airflow-scheduler
-          volumeMounts:
-            - mountPath: /var/log/airflow
-              name: airflow-vol
       hostname: scheduler
       restartPolicy: Always
-      volumes:
-        - name: airflow-vol
-          persistentVolumeClaim:
-            claimName: dagster-provisioner
