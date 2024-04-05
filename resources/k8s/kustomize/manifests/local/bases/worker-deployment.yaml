@@ -9,6 +9,7 @@ metadata:
   name: worker
 spec:
   replicas: 1
+  revisionHistoryLimit: 0
   selector:
     matchLabels:
       io.kompose.service: worker
@@ -92,4 +93,4 @@ spec:
       volumes:
         - name: airflow-vol
           persistentVolumeClaim:
-            claimName: dagster-provisioner
+            claimName: dagster-pv-claim

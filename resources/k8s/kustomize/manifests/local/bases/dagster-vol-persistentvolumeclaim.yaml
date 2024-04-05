@@ -1,10 +1,9 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  annotations:
-    volume.beta.kubernetes.io/storage-class: var-tmp-hostpath
-  name: dagster-provisioner
+  name: dagster-pv-claim
 spec:
+  storageClassName: local-storage
   accessModes:
     - ReadWriteOnce
   resources:

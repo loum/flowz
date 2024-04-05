@@ -9,6 +9,7 @@ metadata:
   name: postgres
 spec:
   replicas: 1
+  revisionHistoryLimit: 0
   selector:
     matchLabels:
       io.kompose.service: postgres
@@ -50,16 +51,16 @@ spec:
             failureThreshold: 2
             periodSeconds: 2
             timeoutSeconds: 5
-          name: airflow-postgres
+          name: dagster-postgres
           ports:
             - containerPort: 5432
               hostPort: 5432
               protocol: TCP
           volumeMounts:
             - mountPath: /var/lib/postgresql/data/pgdata
-              name: airflow-postgres-vol
+              name: dagster-postgres-vol
       restartPolicy: Always
       volumes:
-        - name: airflow-postgres-vol
+        - name: dagster-postgres-vol
           persistentVolumeClaim:
-            claimName: dagster-provisioner
+            claimName: dagster-pv-claim

@@ -9,6 +9,7 @@ metadata:
   name: scheduler
 spec:
   replicas: 1
+  revisionHistoryLimit: 0
   selector:
     matchLabels:
       io.kompose.service: scheduler
@@ -81,5 +82,12 @@ spec:
               value: "1"
           image: loum/dagster:latest
           name: airflow-scheduler
+          volumeMounts:
+            - mountPath: /var/log/airflow
+              name: dagster-logs-vol
       hostname: scheduler
       restartPolicy: Always
+      volumes:
+        - name: dagster-logs-vol
+          persistentVolumeClaim:
+            claimName: dagster-pv-claim

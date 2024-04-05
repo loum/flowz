@@ -7,8 +7,6 @@ namespace: dagster-local
 resources:
     - bases/dagster-vol-persistentvolumeclaim.yaml
     - bases/init-db-pod.yaml
-    - bases/minio-deployment.yaml
-    - bases/minio-service.yaml
     - bases/postgres-deployment.yaml
     - bases/postgres-service.yaml
     - bases/redis-deployment.yaml
