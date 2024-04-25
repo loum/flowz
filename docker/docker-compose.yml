@@ -5,12 +5,12 @@ x-airflow-common: &airflow-common
     AIRFLOW_HOME: ${DAGSTER_AIRFLOW_HOME:-/opt/airflow/airflow}
     AIRFLOW_CUSTOM_ENV: ${DAGSTER_AIRFLOW_CUSTOM_ENV:-dev}
     AIRFLOW_CUSTOM_CONFIG:
-        ${DAGSTER_CUSTOM_CONFIG:-/home/airflow/.local/lib/python3.11/site-packages/dagster/config}
+        ${DAGSTER_CUSTOM_CONFIG:-/home/airflow/.local/lib/python3.12/site-packages/dagster/config}
     AIRFLOW__CORE__EXECUTOR: CeleryExecutor
     AIRFLOW__CORE__DAGS_FOLDER:
-        ${AIRFLOW__CORE__DAGS_FOLDER:-/home/airflow/.local/lib/python3.11/site-packages/dagster/dags}
+        ${AIRFLOW__CORE__DAGS_FOLDER:-/home/airflow/.local/lib/python3.12/site-packages/dagster/dags}
     AIRFLOW__CORE__PLUGINS_FOLDER:
-        ${AIRFLOW__CORE__PLUGINS_FOLDER:-/home/airflow/.local/lib/python3.11/site-packages/dagster/plugins}
+        ${AIRFLOW__CORE__PLUGINS_FOLDER:-/home/airflow/.local/lib/python3.12/site-packages/dagster/plugins}
     AIRFLOW__CORE__LOAD_EXAMPLES: ${AIRFLOW__CORE__LOAD_EXAMPLES:-False}
     AIRFLOW__CORE__UNIT_TEST_MODE: ${AIRFLOW__CORE__UNIT_TEST_MODE:-False}
     AIRFLOW__CORE__STORE_SERIALIZED_DAGS: ${AIRFLOW__CORE__STORE_SERIALIZED_DAGS:-True}

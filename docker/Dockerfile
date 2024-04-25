@@ -14,7 +14,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends\
  git\
  gcc\
  unzip\
- "python$PYTHON_MAJOR_MINOR_VERSION-dev" &&\
+ python3-dev &&\
  apt-get autoremove -yqq --purge &&\
  rm -rf /var/lib/apt/lists/* &&\
  rm -rf /var/log/*

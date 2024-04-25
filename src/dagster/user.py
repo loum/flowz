@@ -8,9 +8,9 @@ from dagsesh import lazy
 from logga import log
 
 LAZY_AF_APP_BUILDER = lazy.Loader(
-    "airflow.auth.managers.fab.cli_commands.utils",
+    "airflow.providers.fab.auth_manager.cli_commands.utils",
     globals(),
-    "airflow.auth.managers.fab.cli_commands.utils",
+    "airflow.providers.fab.auth_manager.cli_commands.utils",
 )
 LAZY_AF_CLI = lazy.Loader(
     "airflow.cli.simple_table", globals(), "airflow.cli.simple_table"
