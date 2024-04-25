@@ -58,6 +58,9 @@ build
 # Local virtual environment
 [v23]env
 
+# Pyenv
+.python-version
+
 # py.test
 .cache
 .pytest_cache
