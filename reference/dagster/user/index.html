@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.21">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.29">
     
     
       
@@ -26,7 +26,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.66ac8b77.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.76a95c52.min.css">
       
         
         <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
@@ -173,7 +173,7 @@
       
     </form>
     <div class="md-search__output">
-      <div class="md-search__scrollwrap" data-md-scrollfix>
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
         <div class="md-search-result" data-md-component="search-result">
           <div class="md-search-result__meta">
             Initializing search
@@ -1308,14 +1308,13 @@
 
 
 <a id="dagster.user"></a>
-  <div class="doc doc-contents first">
-  
+    <div class="doc doc-contents first">
+
       <p>Apache Airflow user account management.</p>
 
-  
+
 
   <div class="doc doc-children">
-
 
 
 
@@ -1328,20 +1327,19 @@
 <div class="doc doc-object doc-function">
 
 
-
 <h2 id="dagster.user.delete_airflow_user" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">delete_airflow_user</span><span class="p">(</span><span class="n">user</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">delete_airflow_user</span><span class="p">(</span><span class="n">user</span><span class="p">)</span></code>
 
 </h2>
 
 
-  <div class="doc doc-contents ">
-  
+    <div class="doc doc-contents ">
+
       <p>Remove user from RBAC.</p>
 
-          <details class="quote">
-            <summary>Source code in <code>dagster/user.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-53">53</a></span>
+            <details class="quote">
+              <summary>Source code in <code>dagster/user.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-53">53</a></span>
 <span class="normal"><a href="#__codelineno-0-54">54</a></span>
 <span class="normal"><a href="#__codelineno-0-55">55</a></span>
 <span class="normal"><a href="#__codelineno-0-56">56</a></span>
@@ -1369,29 +1367,27 @@
 <a id="__codelineno-0-65" name="__codelineno-0-65"></a>                <span class="s1">&#39;Deleting user &quot;</span><span class="si">%s</span><span class="s1">&quot; failed (ignore for pristine bootstrap)&#39;</span><span class="p">,</span> <span class="n">user</span>
 <a id="__codelineno-0-66" name="__codelineno-0-66"></a>            <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
-          </details>
-  </div>
+            </details>
+    </div>
 
 </div>
-
 
 <div class="doc doc-object doc-function">
 
 
-
 <h2 id="dagster.user.list_airflow_users" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">list_airflow_users</span><span class="p">()</span></code>
+            <code class="highlight language-python"><span class="n">list_airflow_users</span><span class="p">()</span></code>
 
 </h2>
 
 
-  <div class="doc doc-contents ">
-  
+    <div class="doc doc-contents ">
+
       <p>List Airflow users.</p>
 
-          <details class="quote">
-            <summary>Source code in <code>dagster/user.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-69">69</a></span>
+            <details class="quote">
+              <summary>Source code in <code>dagster/user.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-69">69</a></span>
 <span class="normal"><a href="#__codelineno-0-70">70</a></span>
 <span class="normal"><a href="#__codelineno-0-71">71</a></span>
 <span class="normal"><a href="#__codelineno-0-72">72</a></span>
@@ -1405,29 +1401,27 @@
 <a id="__codelineno-0-74" name="__codelineno-0-74"></a>
 <a id="__codelineno-0-75" name="__codelineno-0-75"></a>    <span class="k">return</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">username</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">users</span><span class="p">]</span>
 </code></pre></div></td></tr></table></div>
-          </details>
-  </div>
+            </details>
+    </div>
 
 </div>
-
 
 <div class="doc doc-object doc-function">
 
 
-
 <h2 id="dagster.user.set_admin_user" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">set_admin_user</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">set_admin_user</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span></code>
 
 </h2>
 
 
-  <div class="doc doc-contents ">
-  
+    <div class="doc doc-contents ">
+
       <p>Add Admin user to Airflow.</p>
 
-          <details class="quote">
-            <summary>Source code in <code>dagster/user.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-30">30</a></span>
+            <details class="quote">
+              <summary>Source code in <code>dagster/user.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-30">30</a></span>
 <span class="normal"><a href="#__codelineno-0-31">31</a></span>
 <span class="normal"><a href="#__codelineno-0-32">32</a></span>
 <span class="normal"><a href="#__codelineno-0-33">33</a></span>
@@ -1469,29 +1463,27 @@
 <a id="__codelineno-0-49" name="__codelineno-0-49"></a>
 <a id="__codelineno-0-50" name="__codelineno-0-50"></a>    <span class="k">return</span> <span class="n">user</span>
 </code></pre></div></td></tr></table></div>
-          </details>
-  </div>
+            </details>
+    </div>
 
 </div>
-
 
 <div class="doc doc-object doc-function">
 
 
-
 <h2 id="dagster.user.set_authentication" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">set_authentication</span><span class="p">()</span></code>
+            <code class="highlight language-python"><span class="n">set_authentication</span><span class="p">()</span></code>
 
 </h2>
 
 
-  <div class="doc doc-contents ">
-  
+    <div class="doc doc-contents ">
+
       <p>Set the Airflow Admin/Superuser account.</p>
 
-          <details class="quote">
-            <summary>Source code in <code>dagster/user.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-20">20</a></span>
+            <details class="quote">
+              <summary>Source code in <code>dagster/user.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-20">20</a></span>
 <span class="normal"><a href="#__codelineno-0-21">21</a></span>
 <span class="normal"><a href="#__codelineno-0-22">22</a></span>
 <span class="normal"><a href="#__codelineno-0-23">23</a></span>
@@ -1507,8 +1499,8 @@
 <a id="__codelineno-0-26" name="__codelineno-0-26"></a>    <span class="n">set_admin_user</span><span class="p">(</span><span class="n">airflow_user</span><span class="p">,</span> <span class="n">airflow_passwd</span><span class="p">)</span>
 <a id="__codelineno-0-27" name="__codelineno-0-27"></a>    <span class="n">list_airflow_users</span><span class="p">()</span>
 </code></pre></div></td></tr></table></div>
-          </details>
-  </div>
+            </details>
+    </div>
 
 </div>
 
@@ -1516,7 +1508,7 @@
 
   </div>
 
-  </div>
+    </div>
 
 </div>
 
@@ -1621,7 +1613,7 @@
     <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.footer", "navigation.tabs", "navigation.top", "header.autohide", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.a7c05c9e.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
       
     
   </body>

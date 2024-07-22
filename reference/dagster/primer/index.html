@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.21">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.29">
     
     
       
@@ -26,7 +26,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.66ac8b77.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.76a95c52.min.css">
       
         
         <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
@@ -173,7 +173,7 @@
       
     </form>
     <div class="md-search__output">
-      <div class="md-search__scrollwrap" data-md-scrollfix>
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
         <div class="md-search-result" data-md-component="search-result">
           <div class="md-search-result__meta">
             Initializing search
@@ -1410,8 +1410,8 @@
 
 
 <a id="dagster.primer"></a>
-  <div class="doc doc-contents first">
-  
+    <div class="doc doc-contents first">
+
       <p>Primer provides consistent context for your program's workflows.</p>
 <ul>
 <li><code>dag_name</code> and <code>department</code> form the <code>dag_id</code> that presents in the Airflow dashboard.</li>
@@ -1422,7 +1422,7 @@
 </ul>
 <p><code>kwargs</code> accepts parameters that are passed into <code>airflow.models.dag.DAG</code>.</p>
 
-  
+
 
   <div class="doc doc-children">
 
@@ -1438,20 +1438,20 @@
 
 
 <h2 id="dagster.primer.Primer" class="doc doc-heading">
-          <code>Primer</code>
+            <code>Primer</code>
 
 
 </h2>
 
 
-  <div class="doc doc-contents ">
+    <div class="doc doc-contents ">
 
-  
+
       <p>Common components that can get your DAGs running with minimal fuss.</p>
 
-            <details class="quote">
-              <summary>Source code in <code>dagster/primer.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-20"> 20</a></span>
+              <details class="quote">
+                <summary>Source code in <code>dagster/primer.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-20"> 20</a></span>
 <span class="normal"><a href="#__codelineno-0-21"> 21</a></span>
 <span class="normal"><a href="#__codelineno-0-22"> 22</a></span>
 <span class="normal"><a href="#__codelineno-0-23"> 23</a></span>
@@ -1623,9 +1623,9 @@
 <a id="__codelineno-0-104" name="__codelineno-0-104"></a>
 <a id="__codelineno-0-105" name="__codelineno-0-105"></a>        <span class="k">return</span> <span class="n">_dt</span>
 </code></pre></div></td></tr></table></div>
-            </details>
+              </details>
 
-  
+
 
   <div class="doc doc-children">
 
@@ -1640,8 +1640,8 @@
 
 
 <h3 id="dagster.primer.Primer.airflow_env_variable" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">airflow_env_variable</span><span class="p">:</span> <span class="nb">str</span></code>
-  
+            <code class="highlight language-python"><span class="n">airflow_env_variable</span><span class="p">:</span> <span class="nb">str</span></code>
+
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-property"><code>property</code></small>
   </span>
@@ -1649,10 +1649,10 @@
 </h3>
 
 
-  <div class="doc doc-contents ">
-  
+    <div class="doc doc-contents ">
+
       <p><code>airflow_env_variable</code> getter.</p>
-  </div>
+    </div>
 
 </div>
 
@@ -1661,8 +1661,8 @@
 
 
 <h3 id="dagster.primer.Primer.dag_id" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">dag_id</span><span class="p">:</span> <span class="nb">str</span></code>
-  
+            <code class="highlight language-python"><span class="n">dag_id</span><span class="p">:</span> <span class="nb">str</span></code>
+
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-property"><code>property</code></small>
   </span>
@@ -1670,10 +1670,10 @@
 </h3>
 
 
-  <div class="doc doc-contents ">
-  
+    <div class="doc doc-contents ">
+
       <p><code>dag_id</code> getter.</p>
-  </div>
+    </div>
 
 </div>
 
@@ -1682,8 +1682,8 @@
 
 
 <h3 id="dagster.primer.Primer.dag_name" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">dag_name</span><span class="p">:</span> <span class="nb">str</span></code>
-  
+            <code class="highlight language-python"><span class="n">dag_name</span><span class="p">:</span> <span class="nb">str</span></code>
+
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-property"><code>property</code></small>
   </span>
@@ -1691,10 +1691,10 @@
 </h3>
 
 
-  <div class="doc doc-contents ">
-  
+    <div class="doc doc-contents ">
+
       <p><code>dag_name</code> getter.</p>
-  </div>
+    </div>
 
 </div>
 
@@ -1703,8 +1703,8 @@
 
 
 <h3 id="dagster.primer.Primer.dag_properties" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">dag_properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span></code>
-  
+            <code class="highlight language-python"><span class="n">dag_properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span></code>
+
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-property"><code>property</code></small>
   </span>
@@ -1712,10 +1712,10 @@
 </h3>
 
 
-  <div class="doc doc-contents ">
-  
+    <div class="doc doc-contents ">
+
       <p>Provide sane DAG parameter defaults.</p>
-  </div>
+    </div>
 
 </div>
 
@@ -1724,8 +1724,8 @@
 
 
 <h3 id="dagster.primer.Primer.default_args" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">default_args</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span></code>
-  
+            <code class="highlight language-python"><span class="n">default_args</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span></code>
+
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-property"><code>property</code></small>
   </span>
@@ -1733,10 +1733,10 @@
 </h3>
 
 
-  <div class="doc doc-contents ">
-  
+    <div class="doc doc-contents ">
+
       <p>The DAG's Operator-specific default arguments.</p>
-  </div>
+    </div>
 
 </div>
 
@@ -1745,8 +1745,8 @@
 
 
 <h3 id="dagster.primer.Primer.department" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">department</span><span class="p">:</span> <span class="nb">str</span></code>
-  
+            <code class="highlight language-python"><span class="n">department</span><span class="p">:</span> <span class="nb">str</span></code>
+
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-property"><code>property</code></small>
   </span>
@@ -1754,10 +1754,10 @@
 </h3>
 
 
-  <div class="doc doc-contents ">
-  
+    <div class="doc doc-contents ">
+
       <p><code>department</code> getter.</p>
-  </div>
+    </div>
 
 </div>
 
@@ -1766,8 +1766,8 @@
 
 
 <h3 id="dagster.primer.Primer.get_env" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">get_env</span><span class="p">:</span> <span class="nb">str</span></code>
-  
+            <code class="highlight language-python"><span class="n">get_env</span><span class="p">:</span> <span class="nb">str</span></code>
+
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-property"><code>property</code></small>
   </span>
@@ -1775,23 +1775,21 @@
 </h3>
 
 
-  <div class="doc doc-contents ">
-  
+    <div class="doc doc-contents ">
+
       <p>Return current environement name.</p>
-  </div>
+    </div>
 
 </div>
-
 
 
 
 <div class="doc doc-object doc-function">
 
 
-
 <h3 id="dagster.primer.Primer.derive_start_date" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">derive_start_date</span><span class="p">(</span><span class="n">timezone</span><span class="o">=</span><span class="s1">&#39;Australia/Melbourne&#39;</span><span class="p">)</span></code>
-  
+            <code class="highlight language-python"><span class="n">derive_start_date</span><span class="p">(</span><span class="n">timezone</span><span class="o">=</span><span class="s1">&#39;Australia/Melbourne&#39;</span><span class="p">)</span></code>
+
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-staticmethod"><code>staticmethod</code></small>
   </span>
@@ -1799,70 +1797,68 @@
 </h3>
 
 
-  <div class="doc doc-contents ">
-  
+    <div class="doc doc-contents ">
+
       <p>Define the DAG start date.</p>
 <p>Supported date formats are <code>%Y-%m-%d</code>.</p>
 <p>If no date is identified in the <code>CONFIG</code> then date defaults
 to the first day of the current year.</p>
 
 
-
-  <p><span class="doc-section-title">Parameters:</span></p>
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-        <th>Default</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr class="doc-section-item">
-          <td><code>timezone</code></td>
-          <td>
-                <code>str</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>Timezone context.</p>
-            </div>
-          </td>
-          <td>
-                <code>&#39;Australia/Melbourne&#39;</code>
-          </td>
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
         </tr>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td><code>timezone</code></td>
+            <td>
+                  <code>str</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Timezone context.</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;Australia/Melbourne&#39;</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
 
-
-  <p><span class="doc-section-title">Returns:</span></p>
-  <table>
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr class="doc-section-item">
-          <td>
-                <code><span title="datetime.datetime">datetime</span></code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p><code>datetime</code> object representing the DAG start date.</p>
-            </div>
-          </td>
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
         </tr>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="datetime.datetime">datetime</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p><code>datetime</code> object representing the DAG start date.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
-          <details class="quote">
-            <summary>Source code in <code>dagster/primer.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-81"> 81</a></span>
+            <details class="quote">
+              <summary>Source code in <code>dagster/primer.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-81"> 81</a></span>
 <span class="normal"><a href="#__codelineno-0-82"> 82</a></span>
 <span class="normal"><a href="#__codelineno-0-83"> 83</a></span>
 <span class="normal"><a href="#__codelineno-0-84"> 84</a></span>
@@ -1912,8 +1908,8 @@ to the first day of the current year.</p>
 <a id="__codelineno-0-104" name="__codelineno-0-104"></a>
 <a id="__codelineno-0-105" name="__codelineno-0-105"></a>    <span class="k">return</span> <span class="n">_dt</span>
 </code></pre></div></td></tr></table></div>
-          </details>
-  </div>
+            </details>
+    </div>
 
 </div>
 
@@ -1921,8 +1917,7 @@ to the first day of the current year.</p>
 
   </div>
 
-  </div>
-
+    </div>
 
 </div>
 
@@ -1931,7 +1926,7 @@ to the first day of the current year.</p>
 
   </div>
 
-  </div>
+    </div>
 
 </div>
 
@@ -2036,7 +2031,7 @@ to the first day of the current year.</p>
     <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.footer", "navigation.tabs", "navigation.top", "header.autohide", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.a7c05c9e.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
       
     
   </body>
