@@ -22,7 +22,7 @@ export PYTHONPATH := "$(MAKESTER__PROJECT_DIR)/src:$(MAKESTER__PYTHON_PROJECT_RO
 #
 # Image versioning follows the format "<airflow-version>-<airflow-dags-tag>-<image-release-number>"
 #
-export AIRFLOW_VERSION := 2.9.1
+export AIRFLOW_VERSION := 2.9.2
 MAKESTER__VERSION := $(AIRFLOW_VERSION)-$(MAKESTER__RELEASE_VERSION)
 MAKESTER__RELEASE_NUMBER ?= 1
 
