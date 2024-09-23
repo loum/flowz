@@ -40,7 +40,7 @@ docker compose --file docker/docker-compose.yml down
 
 ## Docker files
 
-Dagster Apache Airflow in CeleryExecutor mode is delivered as a containerised service. Use Docker `compose` to standup the services.
+Flowz Apache Airflow in CeleryExecutor mode is delivered as a containerised service. Use Docker `compose` to standup the services.
 
 ### Configuration
 
@@ -62,12 +62,12 @@ The environment variables are fed into the `docker-compose.yml`:
 --8<-- "docker/docker-compose.yml"
 ```
 
-## Dagster default container image
+## Flowz default container image
 
-Use the following `shell` snippet if you are only interested in sampling the [default Dagster container image](https://hub.docker.com/r/loum/dagster){target="blank"}:
+Use the following `shell` snippet if you are only interested in sampling the [default Flowz container image](https://hub.docker.com/r/loum/flowz){target="blank"}:
 
 ``` sh
-curl -s https://raw.githubusercontent.com/loum/dagster/main/docker/docker-compose.yml |\
+curl -s https://raw.githubusercontent.com/loum/flowz/main/docker/docker-compose.yml |\
  docker compose -f - up
 ```
 

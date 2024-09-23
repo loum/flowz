@@ -10,7 +10,7 @@ You can access your local Airflow webserver console via [http://localhost:8888](
 The new sample DAG is rendered under the Apache Airflow dashboard's graph view as follows:
 ![Apache Airflow dashboard graph view](../../assets/images/airflow_instance.png)
 
-Dagster pre-defines a set of [Apache Airflow configuration](https://airflow.apache.org/docs/apache-airflow/stable/configurations-ref.html){target="blank"} items for a customised view. These are defined in the `resources/files/environment/local` file and can be edited to suit your preferences:
+Flowz pre-defines a set of [Apache Airflow configuration](https://airflow.apache.org/docs/apache-airflow/stable/configurations-ref.html){target="blank"} items for a customised view. These are defined in the `resources/files/environment/local` file and can be edited to suit your preferences:
 
 ``` sh title="Apache Airflow customised configuration settings."
 --8<-- "resources/files/environment/local"

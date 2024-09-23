@@ -1,5 +1,5 @@
-name: Dagster CI
-run-name: ${{ github.actor }} ${{ github.event_name }} event Dagster CI 🚀
+name: Flowz CI
+run-name: ${{ github.actor }} ${{ github.event_name }} event Flowz CI 🚀
 on: push
 permissions:
   contents: write
@@ -16,9 +16,9 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 0
-      - name: Project Dagster vars
+      - name: Project Flowz vars
         run: make vars
-      - name: Project Dagster test suite
+      - name: Project Flowz test suite
         run: |
           make init-dev
           make tests
@@ -37,11 +37,11 @@ jobs:
         id: changed_version_file
         uses: tj-actions/changed-files@v35
         with:
-          files: src/dagster/VERSION
+          files: src/flowz/VERSION
       - name: Read VERSION file
         if: steps.changed_version_file.outputs.any_changed == 'true'
         id: get_version
-        run: echo "VERSION=$(cat src/dagster/VERSION)" >> $GITHUB_OUTPUT
+        run: echo "VERSION=$(cat src/flowz/VERSION)" >> $GITHUB_OUTPUT
       - name: Create pre-release
         if: steps.changed_version_file.outputs.any_changed == 'true'
         uses: "marvinpinto/action-automatic-releases@latest"
@@ -60,7 +60,7 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 0
-      - name: Project Dagster docs build
+      - name: Project Flowz docs build
         run: |
           make init-dev
           make docs-gh-deploy

@@ -1,17 +1,17 @@
-# Dagster: Workflow Management Primer
+# Flowz: Workflow Management Primer
 
 - [Overview](#overview)
 - [Prerequisites](#prerequisites)
 - [Getting Started](#getting-started)
   - [(macOS Users only) upgrading GNU `make`](#macos-users-only-upgrading-gnu-make)
-  - [Dagster development: creating the local environment](#dagster-development-creating-the-local-environment)
+  - [Flowz development: creating the local environment](#flowz-development-creating-the-local-environment)
 - [Help](#help)
 - [Running the Test Harness](#running-the-test-harness)
 
 ## Overview
 Workflow management code repository templater for [Apache Airflow](https://airflow.apache.org) targeting data engineering compute.
 
-Fork Dagster into your preferred code repository and start building your workflows with minimal fuss.
+Fork Flowz into your preferred code repository and start building your workflows with minimal fuss.
 
 The goals here are:
 - Simple, basic entry point to Airflow DAG development and experimentation.
@@ -19,7 +19,7 @@ The goals here are:
 - Provide a localised, offline Airflow DAG development capability using the simple [Airflow Sequential Executor-based](https://airflow.apache.org/docs/apache-airflow/stable/executor/sequential.html) mode with pathways to production-ready containerised deployments.
 - Containerisation tooling that can be used as part of your deployment model.
 
-See [Dagster's documentation](https://loum.github.io/dagster/) for more information.
+See [Flowz documentation](https://loum.github.io/flowz/) for more information.
 
 ## Prerequisites
 - [GNU make](https://www.gnu.org/software/make/manual/make.html)
@@ -33,10 +33,10 @@ See [Dagster's documentation](https://loum.github.io/dagster/) for more informat
 ### (macOS Users only) upgrading GNU `make`
 Follow [these notes](https://loum.github.io/makester/macos/#upgrading-gnu-make-macos) to get [GNU make](https://www.gnu.org/software/make/manual/make.html).
 
-### Dagster development: creating the local environment
+### Flowz development: creating the local environment
 Get the code and change into the top level `git` project directory:
 ```
-git clone https://github.com/loum/dagster.git && cd dagster
+git clone https://github.com/loum/flowz.git && cd flowz
 ```
 
 > **_NOTE:_** Run all commands from the top-level directory of the `git` repository.
@@ -63,4 +63,4 @@ We use [pytest](https://docs.pytest.org/en/latest/). To run the tests:
 make tests
 ```
 
-[top](#dagster-workflow-management-primer)
+[top](#flowz-workflow-management-primer)

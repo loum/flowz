@@ -1,16 +1,15 @@
 ---
-version: "3.4"
 
 x-airflow-common: &airflow-common
-    AIRFLOW_HOME: ${DAGSTER_AIRFLOW_HOME:-/opt/airflow/airflow}
-    AIRFLOW_CUSTOM_ENV: ${DAGSTER_AIRFLOW_CUSTOM_ENV:-dev}
+    AIRFLOW_HOME: ${FLOWZ_AIRFLOW_HOME:-/opt/airflow/airflow}
+    AIRFLOW_CUSTOM_ENV: ${FLOWZ_AIRFLOW_CUSTOM_ENV:-dev}
     AIRFLOW_CUSTOM_CONFIG:
-        ${DAGSTER_CUSTOM_CONFIG:-/home/airflow/.local/lib/python3.12/site-packages/dagster/config}
+        ${FLOWZ_CUSTOM_CONFIG:-/home/airflow/.local/lib/python3.12/site-packages/flowz/config}
     AIRFLOW__CORE__EXECUTOR: CeleryExecutor
     AIRFLOW__CORE__DAGS_FOLDER:
-        ${AIRFLOW__CORE__DAGS_FOLDER:-/home/airflow/.local/lib/python3.12/site-packages/dagster/dags}
+        ${AIRFLOW__CORE__DAGS_FOLDER:-/home/airflow/.local/lib/python3.12/site-packages/flowz/dags}
     AIRFLOW__CORE__PLUGINS_FOLDER:
-        ${AIRFLOW__CORE__PLUGINS_FOLDER:-/home/airflow/.local/lib/python3.12/site-packages/dagster/plugins}
+        ${AIRFLOW__CORE__PLUGINS_FOLDER:-/home/airflow/.local/lib/python3.12/site-packages/flowz/plugins}
     AIRFLOW__CORE__LOAD_EXAMPLES: ${AIRFLOW__CORE__LOAD_EXAMPLES:-False}
     AIRFLOW__CORE__UNIT_TEST_MODE: ${AIRFLOW__CORE__UNIT_TEST_MODE:-False}
     AIRFLOW__CORE__STORE_SERIALIZED_DAGS: ${AIRFLOW__CORE__STORE_SERIALIZED_DAGS:-True}
@@ -79,7 +78,7 @@ services:
             retries: 2
 
     init-db:
-        image: loum/dagster:latest
+        image: loum/flowz:latest
         container_name: airflow-initdb
         depends_on:
             postgres:
@@ -95,7 +94,7 @@ services:
             retries: 2
 
     scheduler:
-        image: loum/dagster:latest
+        image: loum/flowz:latest
         container_name: airflow-scheduler
         hostname: scheduler
         depends_on:
@@ -111,7 +110,7 @@ services:
         command: scheduler
 
     webserver:
-        image: loum/dagster:latest
+        image: loum/flowz:latest
         container_name: airflow-webserver
         hostname: webserver
         depends_on:
@@ -127,7 +126,7 @@ services:
         command: webserver
 
     worker:
-        image: loum/dagster:latest
+        image: loum/flowz:latest
         container_name: airflow-worker
         hostname: worker
         extra_hosts:
@@ -139,8 +138,8 @@ services:
                 condition: service_started
         environment:
             <<: *airflow-common
-            DAGSTER_AIRFLOW_ADMIN_USER: ${DAGSTER_AIRFLOW_ADMIN_USER:-airflow}
-            DAGSTER_AIRFLOW_ADMIN_PASSWORD: ${DAGSTER_AIRFLOW_ADMIN_PASSWORD:-airflow}
+            FLOWZ_AIRFLOW_ADMIN_USER: ${FLOWZ_AIRFLOW_ADMIN_USER:-airflow}
+            FLOWZ_AIRFLOW_ADMIN_PASSWORD: ${FLOWZ_AIRFLOW_ADMIN_PASSWORD:-airflow}
         volumes:
             - airflow-worker-vol:/opt/airflow/data
             - airflow-logs-vol:/var/log/airflow
