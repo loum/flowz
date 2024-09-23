@@ -8,7 +8,7 @@
       
       
       
-        <link rel="canonical" href="https://loum.github.io/dagster/reference/dagster/primer/">
+        <link rel="canonical" href="https://loum.github.io/flowz/reference/flowz/primer/">
       
       
         <link rel="prev" href="../user/">
@@ -18,15 +18,15 @@
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.29">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.36">
     
     
       
-        <title>primer.py - Dagster</title>
+        <title>primer.py - Flowz</title>
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.76a95c52.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.06209087.min.css">
       
         
         <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
@@ -50,7 +50,7 @@
     
       <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
     
-    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -90,21 +90,21 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../.." title="Dagster" class="md-header__button md-logo" aria-label="Dagster" data-md-component="logo">
+    <a href="../../.." title="Flowz" class="md-header__button md-logo" aria-label="Flowz" data-md-component="logo">
       
   
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
       
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
     </label>
     <div class="md-header__title" data-md-component="header-title">
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            Dagster
+            Flowz
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -126,7 +126,7 @@
     <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
     
       <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
       </label>
     
   
@@ -136,7 +136,7 @@
     <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
     
       <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
       </label>
     
   
@@ -144,13 +144,13 @@
       
     
     
-      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
     
     
     
       <label class="md-header__button md-icon" for="__search">
         
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
       </label>
       <div class="md-search" data-md-component="search" role="dialog">
   <label class="md-search__overlay" for="__search"></label>
@@ -159,15 +159,15 @@
       <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
       <label class="md-search__icon md-icon" for="__search">
         
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
         
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
       </label>
       <nav class="md-search__options" aria-label="Search">
         
         <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
           
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
         </button>
       </nav>
       
@@ -343,13 +343,13 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="Dagster" class="md-nav__button md-logo" aria-label="Dagster" data-md-component="logo">
+    <a href="../../.." title="Flowz" class="md-nav__button md-logo" aria-label="Flowz" data-md-component="logo">
       
   
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
-    Dagster
+    Flowz
   </label>
   
   <ul class="md-nav__list" data-md-scrollfix>
@@ -561,7 +561,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../installation-modes/sequentialexecutor/dagster-conventions/" class="md-nav__link">
+      <a href="../../../installation-modes/sequentialexecutor/flowz-conventions/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -926,7 +926,7 @@
             
   
   <span class="md-ellipsis">
-    dagster
+    flowz
   </span>
   
 
@@ -936,7 +936,7 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_1_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_5_1">
             <span class="md-nav__icon md-icon"></span>
-            dagster
+            flowz
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -1014,7 +1014,7 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#dagster.primer" class="md-nav__link">
+  <a href="#flowz.primer" class="md-nav__link">
     <span class="md-ellipsis">
       primer
     </span>
@@ -1023,7 +1023,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#dagster.primer.Primer" class="md-nav__link">
+  <a href="#flowz.primer.Primer" class="md-nav__link">
     <span class="md-ellipsis">
       Primer
     </span>
@@ -1033,7 +1033,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#dagster.primer.Primer.airflow_env_variable" class="md-nav__link">
+  <a href="#flowz.primer.Primer.airflow_env_variable" class="md-nav__link">
     <span class="md-ellipsis">
       airflow_env_variable
     </span>
@@ -1042,7 +1042,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#dagster.primer.Primer.dag_id" class="md-nav__link">
+  <a href="#flowz.primer.Primer.dag_id" class="md-nav__link">
     <span class="md-ellipsis">
       dag_id
     </span>
@@ -1051,7 +1051,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#dagster.primer.Primer.dag_name" class="md-nav__link">
+  <a href="#flowz.primer.Primer.dag_name" class="md-nav__link">
     <span class="md-ellipsis">
       dag_name
     </span>
@@ -1060,7 +1060,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#dagster.primer.Primer.dag_properties" class="md-nav__link">
+  <a href="#flowz.primer.Primer.dag_properties" class="md-nav__link">
     <span class="md-ellipsis">
       dag_properties
     </span>
@@ -1069,7 +1069,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#dagster.primer.Primer.default_args" class="md-nav__link">
+  <a href="#flowz.primer.Primer.default_args" class="md-nav__link">
     <span class="md-ellipsis">
       default_args
     </span>
@@ -1078,7 +1078,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#dagster.primer.Primer.department" class="md-nav__link">
+  <a href="#flowz.primer.Primer.department" class="md-nav__link">
     <span class="md-ellipsis">
       department
     </span>
@@ -1087,7 +1087,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#dagster.primer.Primer.get_env" class="md-nav__link">
+  <a href="#flowz.primer.Primer.get_env" class="md-nav__link">
     <span class="md-ellipsis">
       get_env
     </span>
@@ -1096,7 +1096,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#dagster.primer.Primer.derive_start_date" class="md-nav__link">
+  <a href="#flowz.primer.Primer.derive_start_date" class="md-nav__link">
     <span class="md-ellipsis">
       derive_start_date
     </span>
@@ -1292,7 +1292,7 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#dagster.primer" class="md-nav__link">
+  <a href="#flowz.primer" class="md-nav__link">
     <span class="md-ellipsis">
       primer
     </span>
@@ -1301,7 +1301,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#dagster.primer.Primer" class="md-nav__link">
+  <a href="#flowz.primer.Primer" class="md-nav__link">
     <span class="md-ellipsis">
       Primer
     </span>
@@ -1311,7 +1311,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#dagster.primer.Primer.airflow_env_variable" class="md-nav__link">
+  <a href="#flowz.primer.Primer.airflow_env_variable" class="md-nav__link">
     <span class="md-ellipsis">
       airflow_env_variable
     </span>
@@ -1320,7 +1320,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#dagster.primer.Primer.dag_id" class="md-nav__link">
+  <a href="#flowz.primer.Primer.dag_id" class="md-nav__link">
     <span class="md-ellipsis">
       dag_id
     </span>
@@ -1329,7 +1329,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#dagster.primer.Primer.dag_name" class="md-nav__link">
+  <a href="#flowz.primer.Primer.dag_name" class="md-nav__link">
     <span class="md-ellipsis">
       dag_name
     </span>
@@ -1338,7 +1338,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#dagster.primer.Primer.dag_properties" class="md-nav__link">
+  <a href="#flowz.primer.Primer.dag_properties" class="md-nav__link">
     <span class="md-ellipsis">
       dag_properties
     </span>
@@ -1347,7 +1347,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#dagster.primer.Primer.default_args" class="md-nav__link">
+  <a href="#flowz.primer.Primer.default_args" class="md-nav__link">
     <span class="md-ellipsis">
       default_args
     </span>
@@ -1356,7 +1356,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#dagster.primer.Primer.department" class="md-nav__link">
+  <a href="#flowz.primer.Primer.department" class="md-nav__link">
     <span class="md-ellipsis">
       department
     </span>
@@ -1365,7 +1365,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#dagster.primer.Primer.get_env" class="md-nav__link">
+  <a href="#flowz.primer.Primer.get_env" class="md-nav__link">
     <span class="md-ellipsis">
       get_env
     </span>
@@ -1374,7 +1374,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#dagster.primer.Primer.derive_start_date" class="md-nav__link">
+  <a href="#flowz.primer.Primer.derive_start_date" class="md-nav__link">
     <span class="md-ellipsis">
       derive_start_date
     </span>
@@ -1409,10 +1409,10 @@
 
 
 
-<a id="dagster.primer"></a>
+<a id="flowz.primer"></a>
     <div class="doc doc-contents first">
 
-      <p>Primer provides consistent context for your program's workflows.</p>
+        <p>Primer provides consistent context for your program's workflows.</p>
 <ul>
 <li><code>dag_name</code> and <code>department</code> form the <code>dag_id</code> that presents in the Airflow dashboard.</li>
 <li><code>department</code> organisation/department/team delimiter to categorise DAG ID.</li>
@@ -1437,7 +1437,7 @@
 
 
 
-<h2 id="dagster.primer.Primer" class="doc doc-heading">
+<h2 id="flowz.primer.Primer" class="doc doc-heading">
             <code>Primer</code>
 
 
@@ -1447,10 +1447,10 @@
     <div class="doc doc-contents ">
 
 
-      <p>Common components that can get your DAGs running with minimal fuss.</p>
+        <p>Common components that can get your DAGs running with minimal fuss.</p>
 
               <details class="quote">
-                <summary>Source code in <code>dagster/primer.py</code></summary>
+                <summary>Source code in <code>flowz/primer.py</code></summary>
                 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-20"> 20</a></span>
 <span class="normal"><a href="#__codelineno-0-21"> 21</a></span>
 <span class="normal"><a href="#__codelineno-0-22"> 22</a></span>
@@ -1639,7 +1639,7 @@
 
 
 
-<h3 id="dagster.primer.Primer.airflow_env_variable" class="doc doc-heading">
+<h3 id="flowz.primer.Primer.airflow_env_variable" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">airflow_env_variable</span><span class="p">:</span> <span class="nb">str</span></code>
 
   <span class="doc doc-labels">
@@ -1651,7 +1651,7 @@
 
     <div class="doc doc-contents ">
 
-      <p><code>airflow_env_variable</code> getter.</p>
+        <p><code>airflow_env_variable</code> getter.</p>
     </div>
 
 </div>
@@ -1660,7 +1660,7 @@
 
 
 
-<h3 id="dagster.primer.Primer.dag_id" class="doc doc-heading">
+<h3 id="flowz.primer.Primer.dag_id" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">dag_id</span><span class="p">:</span> <span class="nb">str</span></code>
 
   <span class="doc doc-labels">
@@ -1672,7 +1672,7 @@
 
     <div class="doc doc-contents ">
 
-      <p><code>dag_id</code> getter.</p>
+        <p><code>dag_id</code> getter.</p>
     </div>
 
 </div>
@@ -1681,7 +1681,7 @@
 
 
 
-<h3 id="dagster.primer.Primer.dag_name" class="doc doc-heading">
+<h3 id="flowz.primer.Primer.dag_name" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">dag_name</span><span class="p">:</span> <span class="nb">str</span></code>
 
   <span class="doc doc-labels">
@@ -1693,7 +1693,7 @@
 
     <div class="doc doc-contents ">
 
-      <p><code>dag_name</code> getter.</p>
+        <p><code>dag_name</code> getter.</p>
     </div>
 
 </div>
@@ -1702,7 +1702,7 @@
 
 
 
-<h3 id="dagster.primer.Primer.dag_properties" class="doc doc-heading">
+<h3 id="flowz.primer.Primer.dag_properties" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">dag_properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span></code>
 
   <span class="doc doc-labels">
@@ -1714,7 +1714,7 @@
 
     <div class="doc doc-contents ">
 
-      <p>Provide sane DAG parameter defaults.</p>
+        <p>Provide sane DAG parameter defaults.</p>
     </div>
 
 </div>
@@ -1723,7 +1723,7 @@
 
 
 
-<h3 id="dagster.primer.Primer.default_args" class="doc doc-heading">
+<h3 id="flowz.primer.Primer.default_args" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">default_args</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span></code>
 
   <span class="doc doc-labels">
@@ -1735,7 +1735,7 @@
 
     <div class="doc doc-contents ">
 
-      <p>The DAG's Operator-specific default arguments.</p>
+        <p>The DAG's Operator-specific default arguments.</p>
     </div>
 
 </div>
@@ -1744,7 +1744,7 @@
 
 
 
-<h3 id="dagster.primer.Primer.department" class="doc doc-heading">
+<h3 id="flowz.primer.Primer.department" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">department</span><span class="p">:</span> <span class="nb">str</span></code>
 
   <span class="doc doc-labels">
@@ -1756,7 +1756,7 @@
 
     <div class="doc doc-contents ">
 
-      <p><code>department</code> getter.</p>
+        <p><code>department</code> getter.</p>
     </div>
 
 </div>
@@ -1765,7 +1765,7 @@
 
 
 
-<h3 id="dagster.primer.Primer.get_env" class="doc doc-heading">
+<h3 id="flowz.primer.Primer.get_env" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">get_env</span><span class="p">:</span> <span class="nb">str</span></code>
 
   <span class="doc doc-labels">
@@ -1777,7 +1777,7 @@
 
     <div class="doc doc-contents ">
 
-      <p>Return current environement name.</p>
+        <p>Return current environement name.</p>
     </div>
 
 </div>
@@ -1787,7 +1787,7 @@
 <div class="doc doc-object doc-function">
 
 
-<h3 id="dagster.primer.Primer.derive_start_date" class="doc doc-heading">
+<h3 id="flowz.primer.Primer.derive_start_date" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">derive_start_date</span><span class="p">(</span><span class="n">timezone</span><span class="o">=</span><span class="s1">&#39;Australia/Melbourne&#39;</span><span class="p">)</span></code>
 
   <span class="doc doc-labels">
@@ -1799,7 +1799,7 @@
 
     <div class="doc doc-contents ">
 
-      <p>Define the DAG start date.</p>
+        <p>Define the DAG start date.</p>
 <p>Supported date formats are <code>%Y-%m-%d</code>.</p>
 <p>If no date is identified in the <code>CONFIG</code> then date defaults
 to the first day of the current year.</p>
@@ -1857,7 +1857,7 @@ to the first day of the current year.</p>
     </table>
 
             <details class="quote">
-              <summary>Source code in <code>dagster/primer.py</code></summary>
+              <summary>Source code in <code>flowz/primer.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-81"> 81</a></span>
 <span class="normal"><a href="#__codelineno-0-82"> 82</a></span>
 <span class="normal"><a href="#__codelineno-0-83"> 83</a></span>
@@ -1956,7 +1956,7 @@ to the first day of the current year.</p>
         
           <button type="button" class="md-top md-icon" data-md-component="top" hidden>
   
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
   Back to top
 </button>
         
@@ -1974,7 +1974,7 @@ to the first day of the current year.</p>
           <a href="../user/" class="md-footer__link md-footer__link--prev" aria-label="Previous: user.py">
             <div class="md-footer__button md-icon">
               
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
             </div>
             <div class="md-footer__title">
               <span class="md-footer__direction">
@@ -1999,7 +1999,7 @@ to the first day of the current year.</p>
             </div>
             <div class="md-footer__button md-icon">
               
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
             </div>
           </a>
         
@@ -2028,10 +2028,10 @@ to the first day of the current year.</p>
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.footer", "navigation.tabs", "navigation.top", "header.autohide", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.footer", "navigation.tabs", "navigation.top", "header.autohide", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.56dfad97.min.js"></script>
       
     
   </body>

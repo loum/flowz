@@ -1,88 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-         <loc>https://loum.github.io/dagster/</loc>
-         <lastmod>2024-07-22</lastmod>
-         <changefreq>daily</changefreq>
+         <loc>https://loum.github.io/flowz/</loc>
+         <lastmod>2024-09-23</lastmod>
     </url>
     <url>
-         <loc>https://loum.github.io/dagster/getting-started/</loc>
-         <lastmod>2024-07-22</lastmod>
-         <changefreq>daily</changefreq>
+         <loc>https://loum.github.io/flowz/getting-started/</loc>
+         <lastmod>2024-09-23</lastmod>
     </url>
     <url>
-         <loc>https://loum.github.io/dagster/installation-modes/celeryexecutor/architecture/</loc>
-         <lastmod>2024-07-22</lastmod>
-         <changefreq>daily</changefreq>
+         <loc>https://loum.github.io/flowz/installation-modes/celeryexecutor/architecture/</loc>
+         <lastmod>2024-09-23</lastmod>
     </url>
     <url>
-         <loc>https://loum.github.io/dagster/installation-modes/celeryexecutor/build/</loc>
-         <lastmod>2024-07-22</lastmod>
-         <changefreq>daily</changefreq>
+         <loc>https://loum.github.io/flowz/installation-modes/celeryexecutor/build/</loc>
+         <lastmod>2024-09-23</lastmod>
     </url>
     <url>
-         <loc>https://loum.github.io/dagster/installation-modes/celeryexecutor/instance-runtime/</loc>
-         <lastmod>2024-07-22</lastmod>
-         <changefreq>daily</changefreq>
+         <loc>https://loum.github.io/flowz/installation-modes/celeryexecutor/instance-runtime/</loc>
+         <lastmod>2024-09-23</lastmod>
     </url>
     <url>
-         <loc>https://loum.github.io/dagster/installation-modes/sequentialexecutor/dag-template/</loc>
-         <lastmod>2024-07-22</lastmod>
-         <changefreq>daily</changefreq>
+         <loc>https://loum.github.io/flowz/installation-modes/sequentialexecutor/dag-template/</loc>
+         <lastmod>2024-09-23</lastmod>
     </url>
     <url>
-         <loc>https://loum.github.io/dagster/installation-modes/sequentialexecutor/dagster-conventions/</loc>
-         <lastmod>2024-07-22</lastmod>
-         <changefreq>daily</changefreq>
+         <loc>https://loum.github.io/flowz/installation-modes/sequentialexecutor/development-environment/</loc>
+         <lastmod>2024-09-23</lastmod>
     </url>
     <url>
-         <loc>https://loum.github.io/dagster/installation-modes/sequentialexecutor/development-environment/</loc>
-         <lastmod>2024-07-22</lastmod>
-         <changefreq>daily</changefreq>
+         <loc>https://loum.github.io/flowz/installation-modes/sequentialexecutor/flowz-conventions/</loc>
+         <lastmod>2024-09-23</lastmod>
     </url>
     <url>
-         <loc>https://loum.github.io/dagster/installation-modes/sequentialexecutor/instance-runtime/</loc>
-         <lastmod>2024-07-22</lastmod>
-         <changefreq>daily</changefreq>
+         <loc>https://loum.github.io/flowz/installation-modes/sequentialexecutor/instance-runtime/</loc>
+         <lastmod>2024-09-23</lastmod>
     </url>
     <url>
-         <loc>https://loum.github.io/dagster/installation-modes/sequentialexecutor/test-harness/</loc>
-         <lastmod>2024-07-22</lastmod>
-         <changefreq>daily</changefreq>
+         <loc>https://loum.github.io/flowz/installation-modes/sequentialexecutor/test-harness/</loc>
+         <lastmod>2024-09-23</lastmod>
     </url>
     <url>
-         <loc>https://loum.github.io/dagster/operations/bootstrap/auth/</loc>
-         <lastmod>2024-07-22</lastmod>
-         <changefreq>daily</changefreq>
+         <loc>https://loum.github.io/flowz/operations/bootstrap/auth/</loc>
+         <lastmod>2024-09-23</lastmod>
     </url>
     <url>
-         <loc>https://loum.github.io/dagster/reference/dagster/connection/</loc>
-         <lastmod>2024-07-22</lastmod>
-         <changefreq>daily</changefreq>
+         <loc>https://loum.github.io/flowz/reference/flowz/connection/</loc>
+         <lastmod>2024-09-23</lastmod>
     </url>
     <url>
-         <loc>https://loum.github.io/dagster/reference/dagster/primer/</loc>
-         <lastmod>2024-07-22</lastmod>
-         <changefreq>daily</changefreq>
+         <loc>https://loum.github.io/flowz/reference/flowz/primer/</loc>
+         <lastmod>2024-09-23</lastmod>
     </url>
     <url>
-         <loc>https://loum.github.io/dagster/reference/dagster/templater/</loc>
-         <lastmod>2024-07-22</lastmod>
-         <changefreq>daily</changefreq>
+         <loc>https://loum.github.io/flowz/reference/flowz/templater/</loc>
+         <lastmod>2024-09-23</lastmod>
     </url>
     <url>
-         <loc>https://loum.github.io/dagster/reference/dagster/user/</loc>
-         <lastmod>2024-07-22</lastmod>
-         <changefreq>daily</changefreq>
+         <loc>https://loum.github.io/flowz/reference/flowz/user/</loc>
+         <lastmod>2024-09-23</lastmod>
     </url>
     <url>
-         <loc>https://loum.github.io/dagster/reference/dagster/variable/</loc>
-         <lastmod>2024-07-22</lastmod>
-         <changefreq>daily</changefreq>
+         <loc>https://loum.github.io/flowz/reference/flowz/variable/</loc>
+         <lastmod>2024-09-23</lastmod>
     </url>
     <url>
-         <loc>https://loum.github.io/dagster/reference/dagster/dags/bootstrap/</loc>
-         <lastmod>2024-07-22</lastmod>
-         <changefreq>daily</changefreq>
+         <loc>https://loum.github.io/flowz/reference/flowz/dags/bootstrap/</loc>
+         <lastmod>2024-09-23</lastmod>
     </url>
 </urlset>
