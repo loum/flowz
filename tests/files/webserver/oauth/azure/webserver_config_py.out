@@ -9,7 +9,7 @@ from airflow.www.fab_security.manager import AUTH_OAUTH
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-FAB_SECURITY_MANAGER_CLASS = "dagster.security.WmSecurityManager"
+FAB_SECURITY_MANAGER_CLASS = "flowz.security.WmSecurityManager"
 
 # Flask-WTF flag for CSRF
 WTF_CSRF_ENABLED = True

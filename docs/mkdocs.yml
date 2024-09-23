@@ -1,6 +1,6 @@
 ---
-site_name: Dagster
-site_url: https://loum.github.io/dagster/
+site_name: Flowz
+site_url: https://loum.github.io/flowz/
 
 nav:
     - Home: index.md
@@ -11,7 +11,7 @@ nav:
             - DAG starter template: installation-modes/sequentialexecutor/dag-template.md
             - Integrating DAGs into the test harness: installation-modes/sequentialexecutor/test-harness.md
             - Airflow instance runtime: installation-modes/sequentialexecutor/instance-runtime.md
-            - DAG conventions: installation-modes/sequentialexecutor/dagster-conventions.md
+            - DAG conventions: installation-modes/sequentialexecutor/flowz-conventions.md
         - Celery Executor:
             - Architecture: installation-modes/celeryexecutor/architecture.md
             - Container image:
@@ -21,14 +21,14 @@ nav:
         - Bootstrap:
             - Airflow admin authentication: operations/bootstrap/auth.md
     - Reference:
-        - dagster:
-            - user.py: reference/dagster/user.md
-            - primer.py: reference/dagster/primer.md
-            - templater.py: reference/dagster/templater.md
-            - connection.py: reference/dagster/connection.md
-            - variable.py: reference/dagster/variable.md
+        - flowz:
+            - user.py: reference/flowz/user.md
+            - primer.py: reference/flowz/primer.md
+            - templater.py: reference/flowz/templater.md
+            - connection.py: reference/flowz/connection.md
+            - variable.py: reference/flowz/variable.md
             - dags:
-                - bootstrap.py: reference/dagster/dags/bootstrap.md
+                - bootstrap.py: reference/flowz/dags/bootstrap.md
 
 plugins:
     - search
@@ -71,4 +71,4 @@ theme:
         - content.code.copy
 
 watch:
-    - ../src/dagster
+    - ../src/flowz

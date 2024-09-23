@@ -20,7 +20,7 @@ export SQLALCHEMY_SILENCE_UBER_WARNING ?= 1
 
 # Add target here if needed by "airflow" SequentialExecutor runtime.
 
-# Dagster environment variables.
+# Flowz environment variables.
 $(eval $(shell echo export AIRFLOW_HOME=$(AIRFLOW_HOME)))
 $(eval $(shell echo export AIRFLOW_CUSTOM_ENV=$(AIRFLOW_CUSTOM_ENV)))
 
@@ -42,11 +42,11 @@ _delete-airflow:
 _link-webserver-config:
 	$(info ### Creating custom webserver-config at $(AIRFLOW_HOME)/webserver_config.py)
 	@$(shell which mkdir) -p $(AIRFLOW_HOME)
-	@dagster config dbauth --public-role admin > $(AIRFLOW_HOME)/webserver_config.py
+	@flowz config dbauth --public-role admin > $(AIRFLOW_HOME)/webserver_config.py
 
 _link-dags:
-	@$(shell which ln) -s $(PWD)/src/dagster/dags/ $(AIRFLOW_HOME)
-	@$(shell which ln) -s $(PWD)/src/dagster/plugins/ $(AIRFLOW_HOME)
+	@$(shell which ln) -s $(PWD)/src/flowz/dags/ $(AIRFLOW_HOME)
+	@$(shell which ln) -s $(PWD)/src/flowz/plugins/ $(AIRFLOW_HOME)
 
 _CMD ?= --help
 _airflow:
@@ -85,14 +85,14 @@ _check-dag-to-run:
 local-run-dag: _check-dag-to-run
 	$(shell which echo) "yes" |\
  $(MAKE) airflow\
- _CMD="dags backfill --subdir src/dagster/dags --reset-dagruns -s 2024-01-01 -e 2024-01-01 $(DAG_TO_RUN)"
+ _CMD="dags backfill --subdir src/flowz/dags --reset-dagruns -s 2024-01-01 -e 2024-01-01 $(DAG_TO_RUN)"
 
 # Force a re-run of the bootstrap DAG.
 #
 local-reset-bootstrap: AIRFLOW_CUSTOM_ENV := $(AIRFLOW_ENV)
 local-reset-bootstrap:
 	$(info ### Reset the BOOTSTRAP DAG)
-	@venv/bin/dagster reset bootstrap
+	@venv/bin/flowz reset bootstrap
 
 airflow-sequential-help:
 	@echo "(makefiles/airflow-sequential.mk)\n\

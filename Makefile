@@ -62,7 +62,7 @@ init: _venv-init
 #
 pristine: init-dev local-airflow-reset
 
-# Dagster test harness.
+# Flowz test harness.
 #
 TESTS_TO_RUN := $(if $(TESTS),$(TESTS),tests)
 PRIME_TEST_CONTEXT ?= true
@@ -76,7 +76,7 @@ endif
 tests: fixture-tests
 
 fixture-tests:
-	PROJECT_SOURCE_DIR=src/dagster\
+	PROJECT_SOURCE_DIR=src/flowz\
  AIRFLOW__DAGSESH__PRIME_TEST_CONTEXT=$(PRIME_TEST_CONTEXT)\
  PYSPARK_PYTHON=$(MAKESTER__PYTHON) $(MAKESTER__PYTHON) -m pytest\
  --override-ini log_cli=true\
@@ -86,7 +86,7 @@ fixture-tests:
  --pythonwarnings ignore\
  $(_COVERAGE)\
  --junitxml tests/junit.xml\
- -p tests.dagster.dataframes\
+ -p tests.flowz.dataframes\
  $(TESTS_TO_RUN)
 
 tests-pristine: py-vars vars init-dev tests

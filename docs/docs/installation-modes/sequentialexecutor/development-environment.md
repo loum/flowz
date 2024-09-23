@@ -1,7 +1,7 @@
 # Setup the development environment
 
 !!! note
-    At this point, it is assumed that you have already forked a copy of [Dagster](https://github.com/loum/dagster){target="blank"}.
+    At this point, it is assumed that you have already forked a copy of [Flowz](https://github.com/loum/flowz){target="blank"}.
 
 ## Prerequisites
 
@@ -18,10 +18,10 @@ Follow [these notes](https://loum.github.io/makester/macos/#upgrading-gnu-make-m
 
 ## Build the local virtual environment
 
-Get the code and change into the top level `git` project directory. The following  uses the `dagster` project
+Get the code and change into the top level `git` project directory. The following  uses the `flowz` project
 repository as an example:
 ``` sh
-git clone https://github.com/loum/dagster.git && cd dagster
+git clone https://github.com/loum/flowz.git && cd flowz
 ```
 
 !!! note
