@@ -2,70 +2,70 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://loum.github.io/flowz/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
     </url>
     <url>
          <loc>https://loum.github.io/flowz/getting-started/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
     </url>
     <url>
          <loc>https://loum.github.io/flowz/installation-modes/celeryexecutor/architecture/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
     </url>
     <url>
          <loc>https://loum.github.io/flowz/installation-modes/celeryexecutor/build/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
     </url>
     <url>
          <loc>https://loum.github.io/flowz/installation-modes/celeryexecutor/instance-runtime/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
     </url>
     <url>
          <loc>https://loum.github.io/flowz/installation-modes/sequentialexecutor/dag-template/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
     </url>
     <url>
          <loc>https://loum.github.io/flowz/installation-modes/sequentialexecutor/development-environment/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
     </url>
     <url>
          <loc>https://loum.github.io/flowz/installation-modes/sequentialexecutor/flowz-conventions/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
     </url>
     <url>
          <loc>https://loum.github.io/flowz/installation-modes/sequentialexecutor/instance-runtime/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
     </url>
     <url>
          <loc>https://loum.github.io/flowz/installation-modes/sequentialexecutor/test-harness/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
     </url>
     <url>
          <loc>https://loum.github.io/flowz/operations/bootstrap/auth/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
     </url>
     <url>
          <loc>https://loum.github.io/flowz/reference/flowz/connection/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
     </url>
     <url>
          <loc>https://loum.github.io/flowz/reference/flowz/primer/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
     </url>
     <url>
          <loc>https://loum.github.io/flowz/reference/flowz/templater/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
     </url>
     <url>
          <loc>https://loum.github.io/flowz/reference/flowz/user/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
     </url>
     <url>
          <loc>https://loum.github.io/flowz/reference/flowz/variable/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
     </url>
     <url>
          <loc>https://loum.github.io/flowz/reference/flowz/dags/bootstrap/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
     </url>
 </urlset>
