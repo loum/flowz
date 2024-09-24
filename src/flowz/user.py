@@ -5,7 +5,8 @@
 import os
 
 from dagsesh import lazy
-from logga import log
+
+from flowz.logging_config import log
 
 LAZY_AF_APP_BUILDER = lazy.Loader(
     "airflow.providers.fab.auth_manager.cli_commands.utils",

@@ -7,8 +7,9 @@ from typing import Iterator
 import re
 
 from dagsesh import lazy
-from logga import log
+
 from flowz.templater import build_from_template
+from flowz.logging_config import log
 
 LAZY_AF_CLI = lazy.Loader("airflow.cli", globals(), "airflow.cli")
 LAZY_AF_MODELS = lazy.Loader("airflow.models", globals(), "airflow.models")
