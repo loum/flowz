@@ -6,11 +6,11 @@ from pathlib import Path, PurePath
 import json
 
 from dagsesh import lazy
-from logga import log
 from sqlalchemy.orm import exc
 import filester
 
 from flowz.templater import build_from_template
+from flowz.logging_config import log
 
 log.propagate = True
 

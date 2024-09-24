@@ -9,11 +9,11 @@ from pathlib import Path
 from typing import ClassVar
 import os
 
-from logga import log
 from pyspark import SparkConf
 from pyspark.sql import DataFrame, SparkSession
 from pyspark.sql.types import StructType
 
+from flowz.logging_config import log
 import flowz
 
 

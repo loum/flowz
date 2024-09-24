@@ -8,10 +8,10 @@ import json
 import os
 
 from dagsesh import lazy
-from logga import log
 import filester
 
 from flowz.templater import build_from_template
+from flowz.logging_config import log
 
 log.propagate = True
 
