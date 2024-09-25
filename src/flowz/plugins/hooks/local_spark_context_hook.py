@@ -35,7 +35,7 @@ class LocalSparkContextHook(BaseHook):
         self,
         *args: str,
         conn_id: str = "local_spark_context_default",
-        **kwargs: str | None
+        **kwargs: str | None,
     ):
         super().__init__(*args, **kwargs)
         self.conn_id = conn_id
