@@ -1,3 +1,87 @@
 [build-system]
-requires = ["setuptools>=40.8.0", "wheel"]
-build-backend = "setuptools.build_meta:__legacy__"
+requires = [
+  "setuptools >= 40.9.0",
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "flowz"
+dynamic = ["version"]
+dependencies = [
+    "dagsesh",
+    "filester",
+    "flask-session<0.6.0",  # See https://github.com/apache/airflow/issues/36897
+    "pyspark==3.5.*",
+    "pytz",
+    "structlog",
+]
+requires-python = ">=3.12"
+authors = [
+  {name="Lou Markovski", email="lou.markovski@gmail.com"},
+]
+description = "Flowz workflow management"
+readme = "README.md"
+license = {file = "LICENSE.md"}
+keywords = ["Apache Airflow", "workflow management"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Environment :: MacOS X",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Build Tools",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: MacOS :: MacOS X",
+    "Programming Language :: Python :: 3",
+]
+
+[project.optional-dependencies]
+dev = [
+    "apache-airflow==2.9.*",
+    "mkdocstrings-python",
+    "pytest",
+    "pytest-cov",
+    "pytest-sugar",
+    "sqlalchemy2-stubs",
+    "types-pytz",
+    "twine",
+]
+
+[tool.setuptools.dynamic]
+version = {file = "src/flowz/VERSION"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[project.scripts]
+flowz = "flowz.__main__:app"
+
+[project.urls]
+Documentation = "https://loum.github.io/flowz/"
+Repository = "https://github.com/loum/flowz"
+Issues = "https://github.com/loum/flowz/issues"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+filterwarnings = [
+    "ignore::UserWarning",
+]
+addopts = "--cov src --exitfirst -vv"
+tmp_path_retention_policy = "all"
+tmp_path_retention_count = "1"
+
+[tool.coverage.report]
+skip_empty = true
+show_missing = true
+fail_under = 60
+
+[tool.coverage.run]
+source = ["src"]
+branch = true
+omit = [
+    "venv/*",
+    "src/flowz/__main__.py",
+    "tests/*"
+ ]

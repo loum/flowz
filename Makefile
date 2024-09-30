@@ -69,25 +69,17 @@ PRIME_TEST_CONTEXT ?= true
 quick-tests: PRIME_TEST_CONTEXT := false
 quick-tests: fixture-tests
 
+coverage:
 ifeq ($(TESTS_TO_RUN),tests)
-  _COVERAGE := --cov src --cov-config tests/.coveragerc
+	PROJECT_SOURCE_DIR=src/flowz AIRFLOW__DAGSESH__PRIME_TEST_CONTEXT=$(PRIME_TEST_CONTEXT)\
+ PYSPARK_PYTHON=$(MAKESTER__PYTHON) $(MAKESTER__PYTHON) -m coverage run -m pytest -p tests.flowz.dataframes $(TESTS_TO_RUN)
 endif
 
 tests: fixture-tests
 
 fixture-tests:
-	PROJECT_SOURCE_DIR=src/flowz\
- AIRFLOW__DAGSESH__PRIME_TEST_CONTEXT=$(PRIME_TEST_CONTEXT)\
- PYSPARK_PYTHON=$(MAKESTER__PYTHON) $(MAKESTER__PYTHON) -m pytest\
- --override-ini log_cli=true\
- --override-ini junit_family=xunit2\
- --log-cli-level=INFO -vv\
- --exitfirst\
- --pythonwarnings ignore\
- $(_COVERAGE)\
- --junitxml tests/junit.xml\
- -p tests.flowz.dataframes\
- $(TESTS_TO_RUN)
+	PROJECT_SOURCE_DIR=src/flowz AIRFLOW__DAGSESH__PRIME_TEST_CONTEXT=$(PRIME_TEST_CONTEXT)\
+ PYSPARK_PYTHON=$(MAKESTER__PYTHON) $(MAKESTER__PYTHON) -m coverage run -m pytest -p tests.flowz.dataframes $(TESTS_TO_RUN)
 
 tests-pristine: py-vars vars init-dev tests
 
